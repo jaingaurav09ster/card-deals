@@ -1,12 +1,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
-<title>${param.title}</title>
+<title></title>
 
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="/deals/resources/vendor/bootstrap/css/bootstrap.min.css"
+<link rel="stylesheet"
+	href="/deals/resources/vendor/bootstrap/css/bootstrap.min.css"
 	type="text/css">
 <!-- Optional theme -->
 
@@ -22,7 +24,8 @@
 <link href="/deals/resources/stylesheets/cards.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
-<link href="/deals/resources//vendor/font-awesome/css/font-awesome.min.css"
+<link
+	href="/deals/resources//vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
 	rel="stylesheet" type="text/css">

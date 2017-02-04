@@ -12,8 +12,8 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
+import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import com.portal.deals.converter.RoleToUserProfileConverter;
 
@@ -37,15 +37,22 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 	RoleToUserProfileConverter roleToUserProfileConverter;
 
 	/**
-	 * Configure ViewResolvers to deliver preferred view.
+	 * Configure TilesConfigurer.
+	 */
+	@Bean
+	public TilesConfigurer tilesConfigurer() {
+		TilesConfigurer tilesConfigurer = new TilesConfigurer();
+		tilesConfigurer.setDefinitions(new String[] { "/WEB-INF/views/**/tiles.xml" });
+		tilesConfigurer.setCheckRefresh(true);
+		return tilesConfigurer;
+	}
+
+	/**
+	 * Configure ViewResolvers to deliver preferred views.
 	 */
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
-
-		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setViewClass(JstlView.class);
-		viewResolver.setPrefix("/WEB-INF/views/");
-		viewResolver.setSuffix(".jsp");
+		TilesViewResolver viewResolver = new TilesViewResolver();
 		registry.viewResolver(viewResolver);
 	}
 
