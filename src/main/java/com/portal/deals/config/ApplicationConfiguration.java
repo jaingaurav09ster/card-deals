@@ -17,11 +17,22 @@ import org.springframework.web.servlet.view.JstlView;
 
 import com.portal.deals.converter.RoleToUserProfileConverter;
 
+/**
+ * This is a Spring configuration Class which defines the View Resolvers and
+ * other configurations that are used across the Project
+ * 
+ * @author Gaurav Jain
+ *
+ */
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.portal.deals")
-public class AppConfig extends WebMvcConfigurerAdapter {
+public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 
+	/**
+	 * This is a formatter to be used for converting String values to
+	 * UserProfile
+	 */
 	@Autowired
 	RoleToUserProfileConverter roleToUserProfileConverter;
 
@@ -39,8 +50,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	}
 
 	/**
-	 * Configure ResourceHandlers to serve static resources like CSS/ Java script
-	 * etc...
+	 * Configure ResourceHandlers to serve static resources like CSS / Java
+	 * script / images etc...
 	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
