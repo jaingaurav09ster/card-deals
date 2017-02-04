@@ -26,7 +26,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	RoleToUserProfileConverter roleToUserProfileConverter;
 
 	/**
-	 * Configure ViewResolvers to deliver preferred views.
+	 * Configure ViewResolvers to deliver preferred view.
 	 */
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
