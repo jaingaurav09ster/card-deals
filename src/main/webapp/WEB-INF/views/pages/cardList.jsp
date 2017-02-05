@@ -4,11 +4,10 @@
 <header>
 	<div class="container" style="text-align: left">
 		<div class="row col-md-10 col-md-offset-1 custyle">
+			<a href="<c:url value="/admin/card/showAddForm" />"
+				class="btn btn-primary btn-xs pull-right"><b>+</b> Add new Card</a>
 			<table class="table table-striped custab">
 				<thead>
-					<a href="/deals/admin/card/showAddForm"
-						class="btn btn-primary btn-xs pull-right"><b>+</b> Add new
-						Card</a>
 					<tr>
 						<th>ID</th>
 						<th>Card Title</th>
@@ -24,9 +23,9 @@
 						<td>${card.cardDesc}</td>
 						<td>${card.bankName}</td>
 						<td class="text-center"><a class='btn btn-info btn-xs'
-							href="/deals/admin/card/showUpdateForm/${card.cardId}"><span
+							href="<c:url value="/admin/card/showUpdateForm/${card.cardId}" />"><span
 								class="glyphicon glyphicon-edit"></span> Edit</a> <a
-							href="/deals/admin/card/deleteCard/${card.cardId}"
+							href="<c:url value="/admin/card/deleteCard/${card.cardId}" />"
 							class="btn btn-danger btn-xs"><span
 								class="glyphicon glyphicon-remove"></span> Del</a></td>
 					</tr>

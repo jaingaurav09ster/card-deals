@@ -11,7 +11,7 @@
 				<span class="sr-only">Toggle navigation</span> Menu <i
 					class="fa fa-bars"></i>
 			</button>
-			<a class="navbar-brand" href="#page-top">Card Deals</a>
+			<a class="navbar-brand" href="<c:url value="/home" />">Card Deals</a>
 		</div>
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse"
@@ -20,13 +20,17 @@
 				<li class="hidden"><a href="#page-top"></a></li>
 				<c:choose>
 					<c:when test="${pageContext.request.userPrincipal.name != null}">
-						<li class="page-scroll"><a href="<c:url value="/logout" />">
-								Welcome : ${pageContext.request.userPrincipal.name} | Logout</a></li>
+						<li class="page-scroll"><a href="#portfolio">Portfolio</a></li>
+						<li class="page-scroll"><a href="#about">About</a></li>
+						<li class="page-scroll"><a href="#contact">Contact</a></li>
+						<li class="page-scroll"><a href="<c:url value="/user/editProfile" />">My Profile</a></li>
+						<li class="page-scroll"><a href="<c:url value="/logout" />">Logout</a></li>
 					</c:when>
 					<c:otherwise>
 						<li class="page-scroll"><a href="#portfolio">Portfolio</a></li>
 						<li class="page-scroll"><a href="#about">About</a></li>
 						<li class="page-scroll"><a href="#contact">Contact</a></li>
+						<li class="page-scroll"><a href="<c:url value="/login" />">Login</a></li>
 					</c:otherwise>
 				</c:choose>
 			</ul>

@@ -33,10 +33,37 @@
 		<put-attribute name="body" value="/WEB-INF/views/pages/cardForm.jsp" />
 	</definition>
 
-	<!-- Add Card Page -->
+	<!-- Card List Page -->
 	<definition name="cardList" extends="base-definition">
 		<put-attribute name="title" value="Card List" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/cardList.jsp" />
+	</definition>
+
+	<!-- Access Denied Page -->
+	<definition name="accessDenied" extends="base-definition">
+		<put-attribute name="title" value="Access Denied" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/accessDenied.jsp" />
+	</definition>
+
+	<!-- User Registration Page -->
+	<definition name="registration" extends="base-definition">
+		<put-attribute name="title" value="User Registration" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/registration.jsp" />
+	</definition>
+	
+	<!-- User Registration Success Page -->
+	<definition name="registrationSuccess" extends="base-definition">
+		<put-attribute name="title" value="Registration Successfully" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/registrationSuccess.jsp" />
+	</definition>
+
+	<!-- User List Page -->
+	<definition name="usersList" extends="base-definition">
+		<put-attribute name="title" value="Users List" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/usersList.jsp" />
 	</definition>
 
 </tiles-definitions>

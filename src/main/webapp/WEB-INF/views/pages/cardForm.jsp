@@ -1,12 +1,20 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <header>
 	<div class="container">
 		<div class="row col-md-6 col-md-offset-3 custyle">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<div class="panel-title">Add Card</div>
+					<c:choose>
+						<c:when test="${edit}">
+							<div class="panel-title">Update Card</div>
+						</c:when>
+						<c:otherwise>
+							<div class="panel-title">Add Card</div>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<div style="padding-top: 30px" class="panel-body">
 					<c:if test="${not empty error}">
@@ -35,8 +43,16 @@
 							<span class="help-block"><p id="characterLeft"
 									class="help-block">You have reached the limit</p></span>
 						</div>
-						<button type="submit" id="submit" name="submit"
-							class="btn btn-primary pull-right">Add Card</button>
+						<c:choose>
+							<c:when test="${edit}">
+								<button type="submit" id="submit" name="submit"
+									class="btn btn-primary pull-right">Update Card</button>
+							</c:when>
+							<c:otherwise>
+								<button type="submit" id="submit" name="submit"
+									class="btn btn-primary pull-right">Add Card</button>
+							</c:otherwise>
+						</c:choose>
 					</form:form>
 				</div>
 			</div>

@@ -1,4 +1,4 @@
-package com.portal.deals.controller;
+package com.portal.deals.controller.admin;
 
 import java.util.List;
 import java.util.Locale;
@@ -25,9 +25,9 @@ import com.portal.deals.service.UserProfileService;
 import com.portal.deals.service.UserService;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/admin/user")
 @SessionAttributes("roles")
-public class UserController {
+public class AdminUserController {
 
 	@Autowired
 	UserService userService;
@@ -41,13 +41,13 @@ public class UserController {
 	/**
 	 * This method will list all existing users.
 	 */
-	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/list", "" }, method = RequestMethod.GET)
 	public String listUsers(ModelMap model) {
 
 		List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);
 		model.addAttribute("loggedinuser", getPrincipal());
-		return "userslist";
+		return "usersList";
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class UserController {
 				"User " + user.getFirstName() + " " + user.getLastName() + " registered successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
 		// return "success";
-		return "registrationsuccess";
+		return "redirect:/admin/user/list";
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.POST)
 	public String updateUser(@Valid User user, BindingResult result, ModelMap model, @PathVariable String ssoId) {
-
+		model.addAttribute("edit", true);
 		if (result.hasErrors()) {
 			return "registration";
 		}
@@ -138,7 +138,7 @@ public class UserController {
 		model.addAttribute("success",
 				"User " + user.getFirstName() + " " + user.getLastName() + " updated successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
-		return "registrationsuccess";
+		return "redirect:/admin/user/list";
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class UserController {
 	@RequestMapping(value = { "/delete-user-{ssoId}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable String ssoId) {
 		userService.deleteUserBySSO(ssoId);
-		return "redirect:/list";
+		return "redirect:/admin/user/list";
 	}
 
 	/**
