@@ -6,11 +6,15 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<head>
+<title><tiles:getAsString name="title" /></title>
 <tiles:insertAttribute name="head" />
+</head>
 
 <body id="page-top" class="index">
 	<tiles:insertAttribute name="navbar" />
 	<tiles:insertAttribute name="body" />
 	<tiles:insertAttribute name="footer" />
 </body>
+
 </html>

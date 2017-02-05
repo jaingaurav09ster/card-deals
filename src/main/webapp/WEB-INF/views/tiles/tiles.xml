@@ -4,8 +4,7 @@
 <tiles-definitions>
 
 	<!-- Base Definition -->
-	<definition name="base-definition"
-		template="/WEB-INF/views/tiles/layouts/layout.jsp">
+	<definition name="base-definition" template="/WEB-INF/views/tiles/layouts/layout.jsp">
 		<put-attribute name="title" value="" />
 		<put-attribute name="head"
 			value="/WEB-INF/views/tiles/template/head.jsp" />
@@ -33,7 +32,7 @@
 		<put-attribute name="title" value="Add Card" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/cardForm.jsp" />
 	</definition>
-	
+
 	<!-- Add Card Page -->
 	<definition name="cardList" extends="base-definition">
 		<put-attribute name="title" value="Card List" />
