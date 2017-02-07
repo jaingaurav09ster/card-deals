@@ -89,7 +89,7 @@ public class AdminCardController {
 	public String updateCard(@ModelAttribute("card") @Validated Card card, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
-			return "redirect:/admin/card/showUpdateForm/"+card.getCardId();
+			return "redirect:/admin/card/showUpdateForm/"+card.getId();
 		} else {
 			redirectAttributes.addFlashAttribute("css", "success");
 			redirectAttributes.addFlashAttribute("msg", "Card added successfully!");
