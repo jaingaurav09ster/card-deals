@@ -43,8 +43,8 @@ public class CardDetailsDAOImpl extends GenericDAOImpl<Card, Integer> implements
 
 	@Override
 	public List<Card> searchCard(String query) {
-		String namedQuery = "from Card c where c.cardTitle like '%" + query + "%' OR c.cardDesc like '%" + query
-				+ "%' OR c.bankName like '%" + query + "%'";
+		String namedQuery = "from Card c where c.title like '%" + query + "%' OR c.description like '%" + query
+				+ "%' OR c.bank.name like '%" + query + "%'";
 		List<Card> list = getCurrentSession().createQuery(namedQuery).list();
 		return (List<Card>) list;
 	}

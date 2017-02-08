@@ -38,7 +38,7 @@ public class AdminCardController {
 		binder.setValidator(cardValidator);
 	}
 
-	@RequestMapping(value = "/showAddForm")
+	@RequestMapping(value = "/newCard")
 	public ModelAndView createCard(HttpServletResponse response) throws IOException {
 		ModelAndView model = new ModelAndView("cardForm");
 		model.addObject("card", new Card());
@@ -53,7 +53,7 @@ public class AdminCardController {
 		return model;
 	}
 
-	@RequestMapping(value = "/addCard", method = RequestMethod.POST)
+	@RequestMapping(value = "/newCard", method = RequestMethod.POST)
 	public String addCard(@ModelAttribute("card") @Validated Card card, BindingResult result, Model model,
 			final RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
@@ -66,7 +66,7 @@ public class AdminCardController {
 		}
 	}
 
-	@RequestMapping(value = "/showUpdateForm/{id}")
+	@RequestMapping(value = "/updateCard/{id}")
 	public ModelAndView updateCardForm(@PathVariable("id") int id) throws IOException {
 		ModelAndView model = new ModelAndView("cardForm");
 		Card card = cardServiceManager.getCardById(id);

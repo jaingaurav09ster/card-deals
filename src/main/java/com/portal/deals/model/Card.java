@@ -19,7 +19,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CARD")
-public class Card implements java.io.Serializable {
+public class Card extends AbstractEntity {
 
 	private static final long serialVersionUID = -7420477606415096968L;
 
@@ -32,7 +32,7 @@ public class Card implements java.io.Serializable {
 	private String title;
 
 	@Column(name = "CARD_DESC", nullable = false)
-	private String cardDesc;
+	private String description;
 
 	@Column(name = "LAUNCH_DATE", nullable = true)
 	private Date launchDate;
@@ -103,21 +103,6 @@ public class Card implements java.io.Serializable {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	/**
-	 * @return the cardDesc
-	 */
-	public String getCardDesc() {
-		return cardDesc;
-	}
-
-	/**
-	 * @param cardDesc
-	 *            the cardDesc to set
-	 */
-	public void setCardDesc(String cardDesc) {
-		this.cardDesc = cardDesc;
 	}
 
 	/**
@@ -313,6 +298,20 @@ public class Card implements java.io.Serializable {
 	 */
 	public void setDocuments(Set<Document> documents) {
 		this.documents = documents;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

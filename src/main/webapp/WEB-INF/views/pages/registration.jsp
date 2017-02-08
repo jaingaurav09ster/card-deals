@@ -22,7 +22,7 @@
 					</c:if>
 
 					<form:form method="POST" modelAttribute="user"
-						class="form-horizontal text-left">
+						class="form-horizontal">
 						<form:input type="hidden" path="id" id="id" />
 
 						<div class="row">

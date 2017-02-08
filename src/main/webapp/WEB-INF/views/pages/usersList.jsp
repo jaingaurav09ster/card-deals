@@ -19,7 +19,7 @@
 						<th>Lastname</th>
 						<th>Email</th>
 						<th>SSO ID</th>
-						<sec:authorize access="hasRole('ADMIN') or hasRole('DBA')">
+						<sec:authorize access="hasRole('ADMIN')">
 							<th class="text-center">Action</th>
 						</sec:authorize>
 					</tr>
@@ -32,7 +32,7 @@
 							<td>${user.email}</td>
 							<td>${user.ssoId}</td>
 							<td class="text-center"><sec:authorize
-									access="hasRole('ADMIN') or hasRole('DBA')">
+									access="hasRole('ADMIN')">
 									<a class="btn btn-info btn-xs"
 										href="<c:url value='/admin/user/edit-user-${user.ssoId}' />"><span
 										class="glyphicon glyphicon-edit"></span> Edit</a>

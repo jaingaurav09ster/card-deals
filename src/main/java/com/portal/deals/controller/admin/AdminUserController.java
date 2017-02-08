@@ -41,7 +41,7 @@ public class AdminUserController {
 	/**
 	 * This method will list all existing users.
 	 */
-	@RequestMapping(value = { "/", "/list", "" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/listUsers", "" }, method = RequestMethod.GET)
 	public String listUsers(ModelMap model) {
 
 		List<User> users = userService.findAllUsers();
@@ -53,7 +53,7 @@ public class AdminUserController {
 	/**
 	 * This method will provide the medium to add a new user.
 	 */
-	@RequestMapping(value = { "/newuser" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/newUser" }, method = RequestMethod.GET)
 	public String newUser(ModelMap model) {
 		User user = new User();
 		model.addAttribute("user", user);
@@ -66,7 +66,7 @@ public class AdminUserController {
 	 * This method will be called on form submission, handling POST request for
 	 * saving user in database. It also validates the user input
 	 */
-	@RequestMapping(value = { "/newuser" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/newUser" }, method = RequestMethod.POST)
 	public String saveUser(@Valid User user, BindingResult result, ModelMap model) {
 
 		if (result.hasErrors()) {
@@ -102,7 +102,7 @@ public class AdminUserController {
 	/**
 	 * This method will provide the medium to update an existing user.
 	 */
-	@RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/updateUser/{Id}" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable String ssoId, ModelMap model) {
 		User user = userService.findBySSO(ssoId);
 		model.addAttribute("user", user);
@@ -115,7 +115,7 @@ public class AdminUserController {
 	 * This method will be called on form submission, handling POST request for
 	 * updating user in database. It also validates the user input
 	 */
-	@RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/updateUser/{Id}" }, method = RequestMethod.POST)
 	public String updateUser(@Valid User user, BindingResult result, ModelMap model, @PathVariable String ssoId) {
 		model.addAttribute("edit", true);
 		if (result.hasErrors()) {
@@ -144,7 +144,7 @@ public class AdminUserController {
 	/**
 	 * This method will delete an user by it's SSOID value.
 	 */
-	@RequestMapping(value = { "/delete-user-{ssoId}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/deleteUser/{Id}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable String ssoId) {
 		userService.deleteUserBySSO(ssoId);
 		return "redirect:/admin/user/list";

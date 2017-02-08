@@ -25,21 +25,21 @@
 					</c:if>
 					<form:form method="post" modelAttribute="card" action="addCard">
 						<div class="form-group">
-							<form:input path="cardTitle" type="text" class="form-control"
-								id="cardTitle" placeholder="Card Title" required="true" />
+							<form:input path="title" type="text" class="form-control"
+								id="title" placeholder="Card Title" required="true" />
 							<!-- bind to user.name-->
-							<form:errors path="cardTitle" />
+							<form:errors path="title" />
 						</div>
 						<div class="form-group">
-							<form:input path="bankName" type="text" class="form-control"
+							<form:input path="bank.name" type="text" class="form-control"
 								id="bankName" placeholder="Bank Name" required="true" />
 							<!-- bind to user.name-->
-							<form:errors path="bankName" />
+							<form:errors path="bank.name" />
 						</div>
 						<div class="form-group">
-							<form:textarea path="cardDesc" class="form-control" id="cardDesc"
+							<form:textarea path="description" class="form-control" id="cardDesc"
 								placeholder="Card Description" maxlength="140" rows="7" />
-							<form:errors path="cardDesc" class="control-label" />
+							<form:errors path="description" class="control-label" />
 							<span class="help-block"><p id="characterLeft"
 									class="help-block">You have reached the limit</p></span>
 						</div>
