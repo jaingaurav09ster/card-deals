@@ -10,7 +10,7 @@
 		<div class="row col-md-5 col-md-offset-3 custyle">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<div class="panel-title">Create Account</div>
+					<div class="panel-title">Edit Profile</div>
 				</div>
 				<div class="panel-body">
 					<c:if test="${not empty error}">
@@ -20,7 +20,7 @@
 						<div id="login-alert" class="alert alert-danger col-sm-12">${msg}</div>
 					</c:if>
 					<form:form method="POST" modelAttribute="user"
-						id="registrationForm">
+						id="editProfileForm">
 						<form:input type="hidden" path="id" id="id" />
 						<div>
 							<div class="form-group firstName">
@@ -53,7 +53,8 @@
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-envelope"></i></span>
 								<form:input type="text" path="email" id="email"
-									class="form-control" placeholder="E-Mail Address" />
+									class="form-control" placeholder="E-Mail Address" disabled="true"/>
+									<form:hidden path="email" />
 							</div>
 							<div class="has-error">
 								<form:errors path="email" class="help-inline" />
@@ -83,8 +84,8 @@
 							</div>
 						</div>
 						<div class="form-group button-group">
-							<a href="<c:url value='/login' />" class="btn btn-primary btn-sm">Cancel</a>
-							<input type="submit" value="Register"
+							<a href="<c:url value='/' />" class="btn btn-primary btn-sm">Cancel</a>
+							<input type="submit" value="Update"
 								class="btn btn-primary btn-sm" />
 						</div>
 					</form:form>

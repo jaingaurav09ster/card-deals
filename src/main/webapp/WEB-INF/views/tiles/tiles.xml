@@ -17,25 +17,25 @@
 
 	<!-- Home Page -->
 	<definition name="home" extends="base-definition">
-		<put-attribute name="title" value="Welcome" />
+		<put-attribute name="title" value="Welcome to Card Deals" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
 	</definition>
 
 	<!-- Login Page -->
 	<definition name="login" extends="base-definition">
-		<put-attribute name="title" value="Login" />
+		<put-attribute name="title" value="Login to your account" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/login.jsp" />
 	</definition>
 
 	<!-- Add Card Page -->
 	<definition name="cardForm" extends="base-definition">
-		<put-attribute name="title" value="Add Card" />
+		<put-attribute name="title" value="Add a new Card" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/cardForm.jsp" />
 	</definition>
 
 	<!-- Card List Page -->
 	<definition name="cardList" extends="base-definition">
-		<put-attribute name="title" value="Card List" />
+		<put-attribute name="title" value="List of Cards" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/cardList.jsp" />
 	</definition>
 
@@ -48,22 +48,36 @@
 
 	<!-- User Registration Page -->
 	<definition name="registration" extends="base-definition">
-		<put-attribute name="title" value="User Registration" />
+		<put-attribute name="title" value="Create Account" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/registration.jsp" />
 	</definition>
 	
 	<!-- User Registration Success Page -->
 	<definition name="registrationSuccess" extends="base-definition">
-		<put-attribute name="title" value="Registration Successfully" />
+		<put-attribute name="title" value="Account Created/Updated Successfully" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/registrationSuccess.jsp" />
 	</definition>
 
 	<!-- User List Page -->
 	<definition name="usersList" extends="base-definition">
-		<put-attribute name="title" value="Users List" />
+		<put-attribute name="title" value="List of Users" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/usersList.jsp" />
 	</definition>
-
+	
+	<!-- User Add Page -->
+	<definition name="userForm" extends="base-definition">
+		<put-attribute name="title" value="Add a new User" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/userForm.jsp" />
+	</definition>
+	
+		<!-- User Registration Page -->
+	<definition name="editProfile" extends="base-definition">
+		<put-attribute name="title" value="Edit Profile" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/editProfile.jsp" />
+	</definition>
+	
 </tiles-definitions>

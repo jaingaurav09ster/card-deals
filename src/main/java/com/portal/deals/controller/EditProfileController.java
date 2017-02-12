@@ -2,6 +2,7 @@ package com.portal.deals.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +36,19 @@ public class EditProfileController {
 	@Autowired
 	MessageSource messageSource;
 
+	private static final String USER_SESSION = "userSession";
+
 	/**
 	 * This method will provide the medium to update an existing user.
 	 */
 	@RequestMapping(value = { "/editProfile" }, method = RequestMethod.GET)
-	public String editUser(ModelMap model) {
-		User user = userService.findBySSO(getPrincipal());
+	public String editUser(ModelMap model, HttpServletRequest request) {
+		User user = userService.findByEmail(getPrincipal());
+		request.getSession().setAttribute(USER_SESSION, user);
 		model.addAttribute("user", user);
 		model.addAttribute("edit", true);
 		model.addAttribute("loggedinuser", getPrincipal());
-		return "registration";
+		return "editProfile";
 	}
 
 	/**
@@ -52,28 +56,17 @@ public class EditProfileController {
 	 * updating user in database. It also validates the user input
 	 */
 	@RequestMapping(value = { "/editProfile" }, method = RequestMethod.POST)
-	public String updateUser(@Valid User user, BindingResult result, ModelMap model) {
+	public String updateUser(@Valid User user, BindingResult result, ModelMap model, HttpServletRequest request) {
 		model.addAttribute("edit", true);
 		if (result.hasErrors()) {
-			return "registration";
+			return "editProfile";
 		}
-
-		if (!user.getSsoId().equalsIgnoreCase(getPrincipal())) {
-			return "registration";
-		}
-
-		/*
-		 * //Uncomment below 'if block' if you WANT TO ALLOW UPDATING SSO_ID in
-		 * UI which is a unique key to a User.
-		 * if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
-		 * FieldError ssoError =new
-		 * FieldError("user","ssoId",messageSource.getMessage(
-		 * "non.unique.ssoId", new String[]{user.getSsoId()},
-		 * Locale.getDefault())); result.addError(ssoError); return
-		 * "registration"; }
-		 */
-
-		userService.updateUser(user);
+		User userFromSession = (User) request.getSession().getAttribute(USER_SESSION);
+		userFromSession.setFirstName(user.getFirstName());
+		userFromSession.setLastName(user.getLastName());
+		userFromSession.setPassword(user.getPassword());
+		userFromSession.setEmail(user.getEmail());
+		userService.updateUser(userFromSession);
 
 		model.addAttribute("success",
 				"User " + user.getFirstName() + " " + user.getLastName() + " updated successfully");

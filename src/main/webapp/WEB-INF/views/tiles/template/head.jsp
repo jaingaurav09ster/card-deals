@@ -20,6 +20,10 @@
 <!-- Theme CSS -->
 <link href="/deals/resources/stylesheets/typeahead.css" rel="stylesheet">
 
+<link rel="stylesheet"
+	href="/deals/resources/vendor/nProgress/css/nprogress.css"
+	type="text/css">
+
 <link href="/deals/resources/stylesheets/cards.css" rel="stylesheet">
 
 <!-- Custom Fonts -->

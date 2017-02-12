@@ -30,14 +30,14 @@
 							<td>${user.firstName}</td>
 							<td>${user.lastName}</td>
 							<td>${user.email}</td>
-							<td>${user.ssoId}</td>
+							<td>${user.email}</td>
 							<td class="text-center"><sec:authorize
 									access="hasRole('ADMIN')">
 									<a class="btn btn-info btn-xs"
-										href="<c:url value='/admin/user/edit-user-${user.ssoId}' />"><span
+										href="<c:url value='/admin/user/updateUser/${user.email}' />"><span
 										class="glyphicon glyphicon-edit"></span> Edit</a>
 								</sec:authorize> <sec:authorize access="hasRole('ADMIN')">
-									<a href="<c:url value='/admin/user/delete-user-${user.ssoId}' />"
+									<a href="<c:url value='/admin/user/deleteUser/${user.email}' />"
 										class="btn btn-danger btn-xs"><span
 										class="glyphicon glyphicon-remove"></span> Del</a>
 								</sec:authorize></td>

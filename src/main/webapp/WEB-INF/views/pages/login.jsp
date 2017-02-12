@@ -24,7 +24,7 @@
 							<div style="margin-bottom: 25px" class="input-group">
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-user"></i></span> <input
-									id="login-username" class="form-control" name="ssoId" value=""
+									id="login-username" class="form-control" name="email" value=""
 									placeholder="Username" type="text">
 							</div>
 							<div style="margin-bottom: 5px" class="input-group">
@@ -51,7 +51,7 @@
 								<div class="col-md-12 control">
 									<div
 										style="border-top: 1px solid #888; padding-top: 15px; font-size: 85%">
-										Don't have an account! &nbsp;<a href="<c:url value='/user/register' />"> Sign Up Here </a>
+										Don't have an account! &nbsp;<a href="<c:url value='/register' />"> Sign Up Here </a>
 									</div>
 								</div>
 							</div>

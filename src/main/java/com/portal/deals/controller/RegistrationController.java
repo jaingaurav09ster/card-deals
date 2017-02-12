@@ -59,24 +59,13 @@ public class RegistrationController {
 			return "registration";
 		}
 
-		user.getUserProfiles().clear();
-		UserProfile userProfile = new UserProfile();
-		userProfile.setType("USER");
-		user.getUserProfiles().add(userProfile);
-		/*
-		 * Preferred way to achieve uniqueness of field [sso] should be
-		 * implementing custom @Unique annotation and applying it on field [sso]
-		 * of Model class [User].
-		 * 
-		 * Below mentioned peace of code [if block] is to demonstrate that you
-		 * can fill custom errors outside the validation framework as well while
-		 * still using internationalized messages.
-		 * 
-		 */
-		if (!userService.isUserSSOUnique(user.getId(), user.getSsoId())) {
-			FieldError ssoError = new FieldError("user", "ssoId", messageSource.getMessage("non.unique.ssoId",
-					new String[] { user.getSsoId() }, Locale.getDefault()));
-			result.addError(ssoError);
+		UserProfile profile = userProfileService.findByType("USER");
+		user.getUserProfiles().add(profile);
+
+		if (!userService.isUserUnique(user.getId(), user.getEmail())) {
+			FieldError error = new FieldError("user", "email", messageSource.getMessage("non.unique.email",
+					new String[] { user.getEmail() }, Locale.getDefault()));
+			result.addError(error);
 			return "registration";
 		}
 

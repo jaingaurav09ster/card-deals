@@ -12,8 +12,11 @@
 				<div class="panel-heading">
 					<div class="panel-title">Completed</div>
 				</div>
-				<div style="padding-top: 30px; padding-left: 40px"
+				<div style="padding-top: 50px; padding-left: 40px"
 					class="panel-body">${success}</div>
+				<div style="padding-bottom: 30px;padding-top: 30px;">
+					<a href="<c:url value='/' />" class="btn btn-primary btn-sm">Continue</a>
+				</div>
 			</div>
 		</div>
 	</div>

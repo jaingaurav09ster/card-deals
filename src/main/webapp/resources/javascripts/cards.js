@@ -1,5 +1,3 @@
-// Freelancer Theme JavaScript
-
 (function($) {
 	"use strict"; // Start of use strict
 
@@ -16,11 +14,6 @@
 	$('body').scrollspy({
 		target : '.navbar-fixed-top',
 		offset : 51
-	});
-
-	// Closes the Responsive Menu on Menu Item Click
-	$('.navbar-collapse ul li a').click(function() {
-		$('.navbar-toggle:visible').click();
 	});
 
 	// Offset for Main Navigation
@@ -59,21 +52,100 @@
 		source : cards,
 		limit : 10
 	});
-	
-	 $('#characterLeft').text('140 characters left');
-	    $('#message').keydown(function () {
-	        var max = 140;
-	        var len = $(this).val().length;
-	        if (len >= max) {
-	            $('#characterLeft').text('You have reached the limit');
-	            $('#characterLeft').addClass('red');
-	            $('#btnSubmit').addClass('disabled');            
-	        } 
-	        else {
-	            var ch = max - len;
-	            $('#characterLeft').text(ch + ' characters left');
-	            $('#btnSubmit').removeClass('disabled');
-	            $('#characterLeft').removeClass('red');            
-	        }
-	    });  
+
+	$('#characterLeft').text('140 characters left');
+	$('#message').keydown(function() {
+		var max = 140;
+		var len = $(this).val().length;
+		if (len >= max) {
+			$('#characterLeft').text('You have reached the limit');
+			$('#characterLeft').addClass('red');
+			$('#btnSubmit').addClass('disabled');
+		} else {
+			var ch = max - len;
+			$('#characterLeft').text(ch + ' characters left');
+			$('#btnSubmit').removeClass('disabled');
+			$('#characterLeft').removeClass('red');
+		}
+	});
+
+	$('#registrationForm, #editProfileForm')
+			.bootstrapValidator(
+					{
+						feedbackIcons : {
+							valid : 'glyphicon glyphicon-ok',
+							invalid : 'glyphicon glyphicon-remove',
+							validating : 'glyphicon glyphicon-refresh'
+						},
+						fields : {
+							firstName : {
+								validators : {
+									stringLength : {
+										min : 2,
+									},
+									notEmpty : {
+										message : 'Please supply your first name'
+									}
+								}
+							},
+							lastName : {
+								validators : {
+									stringLength : {
+										min : 2,
+									},
+									notEmpty : {
+										message : 'Please supply your last name'
+									}
+								}
+							},
+							email : {
+								validators : {
+									notEmpty : {
+										message : 'Please supply your email address'
+									},
+									emailAddress : {
+										message : 'Please supply a valid email address'
+									}
+								}
+							},
+							password : {
+								validators : {
+									notEmpty : {
+										message : 'Please supply your email address'
+									},
+									stringLength : {
+										min : 4,
+										message : 'Password should be atleast 4 digits'
+									}
+								}
+							},
+							mobile : {
+								validators : {
+									notEmpty : {
+										message : 'Please supply your phone number'
+									},
+									phone : {
+										country : 'US',
+										message : 'Please supply a vaild phone number with area code'
+									}
+								}
+							}
+						}
+					}).on('submit', function(e) {
+				
+			});
+
+	NProgress.configure({
+		showSpinner : false
+	});
+	NProgress.start();
+	NProgress.set(0.4);
+	// Increment
+	var interval = setInterval(function() {
+		NProgress.inc();
+	}, 1000);
+	$(document).ready(function() {
+		NProgress.done();
+		clearInterval(interval);
+	});
 })(jQuery); // End of use strict

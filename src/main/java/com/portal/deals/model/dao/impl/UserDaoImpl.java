@@ -14,27 +14,25 @@ import com.portal.deals.model.User;
 import com.portal.deals.model.dao.AbstractDao;
 import com.portal.deals.model.dao.UserDao;
 
-
-
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
 	static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
-	
+
 	public User findById(int id) {
 		User user = getByKey(id);
-		if(user!=null){
+		if (user != null) {
 			Hibernate.initialize(user.getUserProfiles());
 		}
 		return user;
 	}
 
-	public User findBySSO(String sso) {
-		logger.info("SSO : {}", sso);
+	public User findByEmail(String email) {
+		logger.info("email : {}", email);
 		Criteria crit = createEntityCriteria();
-		crit.add(Restrictions.eq("ssoId", sso));
-		User user = (User)crit.uniqueResult();
-		if(user!=null){
+		crit.add(Restrictions.eq("email", email));
+		User user = (User) crit.uniqueResult();
+		if (user != null) {
 			Hibernate.initialize(user.getUserProfiles());
 		}
 		return user;
@@ -43,15 +41,18 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers() {
 		Criteria criteria = createEntityCriteria().addOrder(Order.asc("firstName"));
-		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);// To avoid
+																		// duplicates.
 		List<User> users = (List<User>) criteria.list();
-		
-		// No need to fetch userProfiles since we are not showing them on list page. Let them lazy load. 
-		// Uncomment below lines for eagerly fetching of userProfiles if you want.
+
+		// No need to fetch userProfiles since we are not showing them on list
+		// page. Let them lazy load.
+		// Uncomment below lines for eagerly fetching of userProfiles if you
+		// want.
 		/*
-		for(User user : users){
-			Hibernate.initialize(user.getUserProfiles());
-		}*/
+		 * for(User user : users){ Hibernate.initialize(user.getUserProfiles());
+		 * }
+		 */
 		return users;
 	}
 
@@ -59,10 +60,10 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		persist(user);
 	}
 
-	public void deleteBySSO(String sso) {
+	public void deleteByEmail(String email) {
 		Criteria crit = createEntityCriteria();
-		crit.add(Restrictions.eq("ssoId", sso));
-		User user = (User)crit.uniqueResult();
+		crit.add(Restrictions.eq("email", email));
+		User user = (User) crit.uniqueResult();
 		delete(user);
 	}
 
