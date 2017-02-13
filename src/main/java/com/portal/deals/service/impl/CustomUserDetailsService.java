@@ -1,4 +1,4 @@
-package com.portal.deals.service;
+package com.portal.deals.service.impl;
  
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.portal.deals.model.User;
 import com.portal.deals.model.UserProfile;
+import com.portal.deals.service.UserService;
  
  
 @Service("customUserDetailsService")
@@ -36,7 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService{
             throw new UsernameNotFoundException("Username not found");
         }
             return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), 
-                 true, true, true, true, getGrantedAuthorities(user));
+                 user.isEnabled(), true, true, true, getGrantedAuthorities(user));
     }
  
      

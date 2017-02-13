@@ -1,9 +1,9 @@
 package com.portal.deals.model;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
@@ -21,12 +22,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "APP_USER")
-public class User implements Serializable {
+public class User extends AbstractEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
 	private Integer id;
 
 	@NotEmpty
@@ -47,14 +49,28 @@ public class User implements Serializable {
 	private String email;
 
 	@NotEmpty
-	@Pattern(regexp="(^$|[0-9]{10})")
+	@Pattern(regexp = "(^$|[0-9]{10})")
 	@Column(name = "MOBILE", nullable = false)
 	private String mobile;
+
+	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	private VerificationToken token;
+
+	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	private PasswordResetToken passwordResettoken;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "APP_USER_USER_PROFILE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "USER_PROFILE_ID") })
 	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+
+	@Column(name = "ENABLED")
+	private boolean enabled;
+
+	public User() {
+		super();
+		this.enabled = false;
+	}
 
 	/**
 	 * @return the id
@@ -196,6 +212,51 @@ public class User implements Serializable {
 	public String toString() {
 		return "User [id=" + id + ", mobile=" + mobile + ", password=" + password + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", email=" + email + "]";
+	}
+
+	/**
+	 * @return the enabled
+	 */
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	/**
+	 * @param enabled
+	 *            the enabled to set
+	 */
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	/**
+	 * @return the token
+	 */
+	public VerificationToken getToken() {
+		return token;
+	}
+
+	/**
+	 * @param token
+	 *            the token to set
+	 */
+	public void setToken(VerificationToken token) {
+		this.token = token;
+	}
+
+	/**
+	 * @return the passwordResettoken
+	 */
+	public PasswordResetToken getPasswordResettoken() {
+		return passwordResettoken;
+	}
+
+	/**
+	 * @param passwordResettoken
+	 *            the passwordResettoken to set
+	 */
+	public void setPasswordResettoken(PasswordResetToken passwordResettoken) {
+		this.passwordResettoken = passwordResettoken;
 	}
 
 }

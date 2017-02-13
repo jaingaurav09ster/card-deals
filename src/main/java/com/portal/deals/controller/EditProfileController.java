@@ -1,6 +1,6 @@
 package com.portal.deals.controller;
 
-import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -12,20 +12,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.portal.deals.model.User;
-import com.portal.deals.model.UserProfile;
 import com.portal.deals.service.UserProfileService;
 import com.portal.deals.service.UserService;
 
 @Controller
 @RequestMapping("/user")
-@SessionAttributes("roles")
 public class EditProfileController {
+
+	/** Message shown to user */
+	private static final String MESSAGE = "message";
 
 	@Autowired
 	UserService userService;
@@ -36,17 +35,13 @@ public class EditProfileController {
 	@Autowired
 	MessageSource messageSource;
 
-	private static final String USER_SESSION = "userSession";
-
 	/**
 	 * This method will provide the medium to update an existing user.
 	 */
 	@RequestMapping(value = { "/editProfile" }, method = RequestMethod.GET)
 	public String editUser(ModelMap model, HttpServletRequest request) {
 		User user = userService.findByEmail(getPrincipal());
-		request.getSession().setAttribute(USER_SESSION, user);
 		model.addAttribute("user", user);
-		model.addAttribute("edit", true);
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "editProfile";
 	}
@@ -61,16 +56,18 @@ public class EditProfileController {
 		if (result.hasErrors()) {
 			return "editProfile";
 		}
-		User userFromSession = (User) request.getSession().getAttribute(USER_SESSION);
+		User userFromSession = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userFromSession.setFirstName(user.getFirstName());
 		userFromSession.setLastName(user.getLastName());
 		userFromSession.setPassword(user.getPassword());
-		userFromSession.setEmail(user.getEmail());
+		userFromSession.setMobile(user.getMobile());
 		userService.updateUser(userFromSession);
 
 		model.addAttribute("success",
 				"User " + user.getFirstName() + " " + user.getLastName() + " updated successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
+		String messageValue = messageSource.getMessage("auth.message.account.updated", null, Locale.getDefault());
+		model.addAttribute(MESSAGE, messageValue);
 		return "registrationSuccess";
 	}
 
@@ -87,14 +84,6 @@ public class EditProfileController {
 			userName = principal.toString();
 		}
 		return userName;
-	}
-
-	/**
-	 * This method will provide UserProfile list to views
-	 */
-	@ModelAttribute("roles")
-	public List<UserProfile> initializeProfiles() {
-		return userProfileService.findAll();
 	}
 
 }

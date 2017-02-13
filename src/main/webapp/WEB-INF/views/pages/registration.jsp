@@ -14,10 +14,10 @@
 				</div>
 				<div class="panel-body">
 					<c:if test="${not empty error}">
-						<div id="login-alert" class="alert alert-danger col-sm-12">${error}</div>
+						<div class="alert alert-danger col-sm-12">${error}</div>
 					</c:if>
 					<c:if test="${not empty msg}">
-						<div id="login-alert" class="alert alert-danger col-sm-12">${msg}</div>
+						<div class="alert alert-danger col-sm-12">${msg}</div>
 					</c:if>
 					<form:form method="POST" modelAttribute="user"
 						id="registrationForm">

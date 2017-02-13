@@ -15,7 +15,7 @@
 								username and password.</div>
 						</c:if>
 						<c:if test="${param.logout != null}">
-							<div id="login-alert" class="alert alert-danger col-sm-12">You
+							<div id="login-alert" class="alert alert-success col-sm-12">You
 								have been logged out successfully.</div>
 						</c:if>
 						<c:url var="loginUrl" value="/login" />

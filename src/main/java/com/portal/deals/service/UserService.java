@@ -15,6 +15,10 @@ public interface UserService {
 	
 	void updateUser(User user);
 	
+	void updateUserByAdmin(User user);
+	
+	void activateDeactivateUser(User user);
+	
 	void deleteUserByEmail(String email);
 
 	List<User> findAllUsers(); 

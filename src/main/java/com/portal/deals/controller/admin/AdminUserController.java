@@ -85,7 +85,6 @@ public class AdminUserController {
 		model.addAttribute("success",
 				"User " + user.getFirstName() + " " + user.getLastName() + " registered successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
-		// return "success";
 		return "redirect:/admin/user/listUsers";
 	}
 
@@ -112,7 +111,7 @@ public class AdminUserController {
 			return "userForm";
 		}
 
-		userService.updateUser(user);
+		userService.updateUserByAdmin(user);
 
 		model.addAttribute("success",
 				"User " + user.getFirstName() + " " + user.getLastName() + " updated successfully");

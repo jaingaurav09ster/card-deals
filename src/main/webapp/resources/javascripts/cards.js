@@ -69,7 +69,7 @@
 		}
 	});
 
-	$('#registrationForm, #editProfileForm')
+	$('#registrationForm, #editProfileForm', '#forgotPasswordForm')
 			.bootstrapValidator(
 					{
 						feedbackIcons : {

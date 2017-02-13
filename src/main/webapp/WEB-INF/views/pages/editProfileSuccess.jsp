@@ -7,7 +7,7 @@
 		<div class="row col-md-6 col-md-offset-3 custyle">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<div class="panel-title">Account Created</div>
+					<div class="panel-title">Account Updated</div>
 				</div>
 				<div style="padding-top: 50px; padding-left: 40px"
 					class="panel-body">${message}</div>
