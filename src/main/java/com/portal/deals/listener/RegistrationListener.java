@@ -1,8 +1,5 @@
 package com.portal.deals.listener;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -17,6 +14,7 @@ import com.portal.deals.model.User;
 import com.portal.deals.model.VerificationToken;
 import com.portal.deals.service.MailService;
 import com.portal.deals.service.TokenService;
+import com.portal.deals.util.Utils;
 
 @Component
 public class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
@@ -35,13 +33,6 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 		this.confirmRegistration(event);
 	}
 
-	public Date getExpiryDate() {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Timestamp(cal.getTime().getTime()));
-		cal.add(Calendar.MINUTE, EXPIRATION);
-		return new Date(cal.getTime().getTime());
-	}
-
 	private static final int EXPIRATION = 60 * 24;
 
 	private void confirmRegistration(OnRegistrationCompleteEvent event) {
@@ -53,7 +44,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 		} else {
 			verificationToken = user.getToken();
 		}
-		verificationToken.setExpiryDate(getExpiryDate());
+		verificationToken.setExpiryDate(Utils.getExpiryDate(EXPIRATION));
 		verificationToken.setToken(token);
 		verificationToken.setUser(user);
 		service.createVerificationToken(verificationToken);

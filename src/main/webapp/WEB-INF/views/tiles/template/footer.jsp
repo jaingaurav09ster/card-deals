@@ -6,13 +6,13 @@
 		<div class="container">
 			<div class="row">
 				<div class="footer-col col-md-4">
-					<h3>Location</h3>
+					<h4>Location</h4>
 					<p>
-						3481 Melrose Place <br>Beverly Hills, CA 90210
+						New Village <br>Gurgaon, IN 122001
 					</p>
 				</div>
 				<div class="footer-col col-md-4">
-					<h3>Around the Web</h3>
+					<h4>Around the Web</h4>
 					<ul class="list-inline">
 						<li><a href="#" class="btn-social btn-outline"><i
 								class="fa fa-fw fa-facebook"></i></a></li>
@@ -27,11 +27,8 @@
 					</ul>
 				</div>
 				<div class="footer-col col-md-4">
-					<h3>About Freelancer</h3>
-					<p>
-						Freelance is a free to use, open source Bootstrap theme created by
-						<a href="http://startbootstrap.com">Start Bootstrap</a>.
-					</p>
+					<h4>About CARD DEALS</h4>
+					<p>This is a portal for every deal available on your cards</p>
 				</div>
 			</div>
 		</div>
@@ -39,7 +36,7 @@
 	<div class="footer-below">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-12">Copyright &copy; Your Website 2016</div>
+				<div class="col-lg-12">Copyright &copy; CARD DEALS 2016</div>
 			</div>
 		</div>
 	</div>

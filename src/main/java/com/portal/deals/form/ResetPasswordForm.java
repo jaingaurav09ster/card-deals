@@ -1,8 +1,16 @@
 package com.portal.deals.form;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class ResetPasswordForm {
 
+	@NotEmpty
+	@Length(min = 4)
 	private String newPassword;
+	
+	@Length(min = 4)
+	@NotEmpty
 	private String matchPassword;
 
 	/**

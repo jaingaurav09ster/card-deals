@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.portal.deals.event.OnRegistrationCompleteEvent;
+import com.portal.deals.exception.BaseException;
+import com.portal.deals.exception.GenericException;
 import com.portal.deals.model.User;
 import com.portal.deals.model.UserProfile;
 import com.portal.deals.model.VerificationToken;
@@ -38,6 +40,7 @@ import com.portal.deals.service.UserService;
 @Controller
 public class RegistrationController {
 
+	/** Initializing the Logger */
 	private static final Logger LOG = LoggerFactory.getLogger(RegistrationController.class);
 
 	/** The JSP name for registration form */
@@ -99,10 +102,17 @@ public class RegistrationController {
 	@RequestMapping(value = { "/register" }, method = RequestMethod.GET)
 	public String register(ModelMap model) {
 		LOG.info("Going to render registeration page ");
-
-		/** Adding the command object for Spring form */
-		User user = new User();
-		model.addAttribute("user", user);
+		try {
+			/** Adding the command object for Spring form */
+			User user = new User();
+			model.addAttribute("user", user);
+		} catch (Exception ex) {
+			LOG.error("Exception occured while loading registration Page", ex);
+			if (ex instanceof BaseException) {
+				BaseException baseException = (BaseException) ex;
+				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
+			}
+		}
 		return REGISTRATION_JSP;
 	}
 
@@ -124,44 +134,53 @@ public class RegistrationController {
 	public String registerUser(@Valid User user, BindingResult result, ModelMap model, HttpServletRequest request) {
 		LOG.info("Going to submit registeration page ");
 
-		/** Render the registration page with errors, in case of any */
-		if (result.hasErrors()) {
-			return REGISTRATION_JSP;
-		}
-
-		/**
-		 * Get roles from DB, in this case the USER role. Add the default role
-		 * "USER" to the user getting registered
-		 */
-		UserProfile profile = userProfileService.findByType("USER");
-		user.getUserProfiles().add(profile);
-
-		/**
-		 * Check if the user is unique, uniqueness is derived from the user's
-		 * email
-		 */
-		if (!userService.isUserUnique(user.getId(), user.getEmail())) {
-			/**
-			 * User is not unique, so render the registration page with error
-			 */
-			FieldError error = new FieldError("user", "email", messageSource.getMessage("non.unique.email",
-					new String[] { user.getEmail() }, Locale.getDefault()));
-			result.addError(error);
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("User is not unique, reloading the registration page with errors");
+		try {
+			/** Render the registration page with errors, in case of any */
+			if (result.hasErrors()) {
+				return REGISTRATION_JSP;
 			}
-			return REGISTRATION_JSP;
-		}
-		/**
-		 * Call User service, that will call underlying DAO layer to save User
-		 * to Database.
-		 */
-		userService.saveUser(user);
 
-		/** Generate validation token and send out email to User */
-		generateToken(user, request);
-		String messageValue = messageSource.getMessage("auth.message.account.created", null, Locale.getDefault());
-		model.addAttribute(MESSAGE, messageValue);
+			/**
+			 * Get roles from DB, in this case the USER role. Add the default
+			 * role "USER" to the user getting registered
+			 */
+			UserProfile profile = userProfileService.findByType("USER");
+			user.getUserProfiles().add(profile);
+
+			/**
+			 * Check if the user is unique, uniqueness is derived from the
+			 * user's email
+			 */
+			if (!userService.isUserUnique(user.getId(), user.getEmail())) {
+				/**
+				 * User is not unique, so render the registration page with
+				 * error
+				 */
+				FieldError error = new FieldError("user", "email", messageSource.getMessage("non.unique.email",
+						new String[] { user.getEmail() }, Locale.getDefault()));
+				result.addError(error);
+				if (LOG.isDebugEnabled()) {
+					LOG.debug("User is not unique, reloading the registration page with errors");
+				}
+				return REGISTRATION_JSP;
+			}
+			/**
+			 * Call User service, that will call underlying DAO layer to save
+			 * User to Database.
+			 */
+			userService.saveUser(user);
+
+			/** Generate validation token and send out email to User */
+			generateToken(user, request);
+			String messageValue = messageSource.getMessage("auth.message.account.created", null, Locale.getDefault());
+			model.addAttribute(MESSAGE, messageValue);
+		} catch (Exception ex) {
+			LOG.error("Exception occured while registering the User", ex);
+			if (ex instanceof BaseException) {
+				BaseException baseException = (BaseException) ex;
+				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
+			}
+		}
 		return REGISTRATION_SUCCESS_JSP;
 	}
 
@@ -197,50 +216,59 @@ public class RegistrationController {
 	public String confirmRegistration(HttpServletRequest request, Model model, @RequestParam("token") String token) {
 		LOG.info("Validating the registration token");
 
-		/** Get the verification token object from Database */
-		VerificationToken verificationToken = tokenService.getVerificationToken(token);
-		if (verificationToken == null) {
+		try {
+			/** Get the verification token object from Database */
+			VerificationToken verificationToken = tokenService.getVerificationToken(token);
+			if (verificationToken == null) {
+				/**
+				 * If the verification token not found in the Database, token is
+				 * considered invalid
+				 */
+				String message = messageSource.getMessage("auth.message.invalidToken", null, Locale.getDefault());
+				model.addAttribute(MESSAGE, message);
+				model.addAttribute(TOKEN_STATE, "invalid");
+				return UNVALIDATED_USER_JSP;
+			}
+
+			User user = verificationToken.getUser();
+			Calendar cal = Calendar.getInstance();
+			/** Check the expire duration for the token */
+			if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+				/**
+				 * If the verification token is expired, set the message and
+				 * redirect user
+				 */
+				String messageValue = messageSource.getMessage("auth.message.expired", null, Locale.getDefault());
+				model.addAttribute(MESSAGE, messageValue);
+				model.addAttribute(TOKEN_STATE, "expired");
+				model.addAttribute("email", user.getEmail());
+				return UNVALIDATED_USER_JSP;
+			}
+
+			if (user.isEnabled()) {
+				String messageValue = messageSource.getMessage("auth.message.already.validated", null,
+						Locale.getDefault());
+				model.addAttribute(MESSAGE, messageValue);
+				return VERIFICATION_SUCCESS_JSP;
+			}
 			/**
-			 * If the verification token not found in the Database, token is
-			 * considered invalid
+			 * Token is valid, so activating the User
 			 */
-			String message = messageSource.getMessage("auth.message.invalidToken", null, Locale.getDefault());
-			model.addAttribute(MESSAGE, message);
-			model.addAttribute(TOKEN_STATE, "invalid");
-			return UNVALIDATED_USER_JSP;
-		}
+			user.setEnabled(true);
 
-		User user = verificationToken.getUser();
-		Calendar cal = Calendar.getInstance();
-		/** Check the expire duration for the token */
-		if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
 			/**
-			 * If the verification token is expired, set the message and
-			 * redirect user
+			 * Updating the user activation status in the database
 			 */
-			String messageValue = messageSource.getMessage("auth.message.expired", null, Locale.getDefault());
+			userService.activateDeactivateUser(user);
+			String messageValue = messageSource.getMessage("auth.message.validated", null, Locale.getDefault());
 			model.addAttribute(MESSAGE, messageValue);
-			model.addAttribute(TOKEN_STATE, "expired");
-			model.addAttribute("email", user.getEmail());
-			return UNVALIDATED_USER_JSP;
+		} catch (Exception ex) {
+			LOG.error("Exception occured while validating the token", ex);
+			if (ex instanceof BaseException) {
+				BaseException baseException = (BaseException) ex;
+				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
+			}
 		}
-
-		if (user.isEnabled()) {
-			String messageValue = messageSource.getMessage("auth.message.already.validated", null, Locale.getDefault());
-			model.addAttribute(MESSAGE, messageValue);
-			return VERIFICATION_SUCCESS_JSP;
-		}
-		/**
-		 * Token is valid, so activating the User
-		 */
-		user.setEnabled(true);
-
-		/**
-		 * Updating the user activation status in the database
-		 */
-		userService.activateDeactivateUser(user);
-		String messageValue = messageSource.getMessage("auth.message.validated", null, Locale.getDefault());
-		model.addAttribute(MESSAGE, messageValue);
 		return VERIFICATION_SUCCESS_JSP;
 	}
 
@@ -256,17 +284,25 @@ public class RegistrationController {
 	public String regenerateToken(HttpServletRequest request, Model model, @RequestParam("email") String email) {
 		LOG.info("Regenerating the token");
 
-		if (StringUtils.isEmpty(email)) {
-			String message = messageSource.getMessage("auth.message.invalidToken", null, Locale.getDefault());
-			model.addAttribute(MESSAGE, message);
-			return UNVALIDATED_USER_JSP;
-		}
-		User user = userService.findByEmail(email);
-		/** Generate validation token and send out email to User */
-		generateToken(user, request);
+		try {
+			if (StringUtils.isEmpty(email)) {
+				String message = messageSource.getMessage("auth.message.invalidToken", null, Locale.getDefault());
+				model.addAttribute(MESSAGE, message);
+				return UNVALIDATED_USER_JSP;
+			}
+			User user = userService.findByEmail(email);
+			/** Generate validation token and send out email to User */
+			generateToken(user, request);
 
-		String message = messageSource.getMessage("auth.message.regenerate.token", null, Locale.getDefault());
-		model.addAttribute(MESSAGE, message);
+			String message = messageSource.getMessage("auth.message.regenerate.token", null, Locale.getDefault());
+			model.addAttribute(MESSAGE, message);
+		} catch (Exception ex) {
+			LOG.error("Exception occured while regenerating the token", ex);
+			if (ex instanceof BaseException) {
+				BaseException baseException = (BaseException) ex;
+				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
+			}
+		}
 		return VERIFICATION_SUCCESS_JSP;
 	}
 

@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <header>
-	<div class="container">
+	<div class="container form-container">
 		<div class="row col-md-5 col-md-offset-3 custyle">
 			<div class="panel panel-default">
 				<div class="panel-heading">

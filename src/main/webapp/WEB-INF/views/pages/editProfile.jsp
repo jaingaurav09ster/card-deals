@@ -3,10 +3,8 @@
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
 <header>
-	<div class="container registration">
+	<div class="container form-container">
 		<div class="row col-md-5 col-md-offset-3 custyle">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -19,8 +17,7 @@
 					<c:if test="${not empty msg}">
 						<div id="login-alert" class="alert alert-danger col-sm-12">${msg}</div>
 					</c:if>
-					<form:form method="POST" modelAttribute="user"
-						id="editProfileForm">
+					<form:form method="POST" modelAttribute="user" id="editProfileForm">
 						<form:input type="hidden" path="id" id="id" />
 						<div>
 							<div class="form-group firstName">
@@ -53,8 +50,9 @@
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-envelope"></i></span>
 								<form:input type="text" path="email" id="email"
-									class="form-control" placeholder="E-Mail Address" disabled="true"/>
-									<form:hidden path="email" />
+									class="form-control" placeholder="E-Mail Address"
+									disabled="true" />
+								<form:hidden path="email" />
 							</div>
 							<div class="has-error">
 								<form:errors path="email" class="help-inline" />

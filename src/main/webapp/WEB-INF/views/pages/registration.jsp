@@ -6,7 +6,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <header>
-	<div class="container registration">
+	<div class="container form-container">
 		<div class="row col-md-5 col-md-offset-3 custyle">
 			<div class="panel panel-default">
 				<div class="panel-heading">

@@ -41,22 +41,34 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 	RoleToUserProfileConverter roleToUserProfileConverter;
 
 	/**
-	 * Configure TilesConfigurer.
+	 * This is Apache Tiles Configure Bean, that will be used to handle the
+	 * layouts.
 	 */
 	@Bean
 	public TilesConfigurer tilesConfigurer() {
 		TilesConfigurer tilesConfigurer = new TilesConfigurer();
+		/**
+		 * Path of the tiles.xml file, where all the pages has to be configured
+		 */
 		tilesConfigurer.setDefinitions(new String[] { "/WEB-INF/views/**/tiles.xml" });
 		tilesConfigurer.setCheckRefresh(true);
 		return tilesConfigurer;
 	}
 
+	/**
+	 * This is mail sender bean, used to send out email.
+	 * 
+	 * @return
+	 */
 	@Bean
 	public JavaMailSender getMailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		/** Using GMAIL SMTP configuration. */
 		mailSender.setHost("smtp.gmail.com");
 		mailSender.setPort(587);
+		/**
+		 * User name and password for the account that will send out the email.
+		 */
 		mailSender.setUsername("card.deals.portal@gmail.com");
 		mailSender.setPassword("gauravjain");
 
@@ -81,7 +93,7 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 
 	/**
 	 * Configure ResourceHandlers to serve static resources like CSS / Java
-	 * script / images etc...
+	 * script / images etc.
 	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -90,7 +102,7 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 
 	/**
 	 * Configure Converter to be used. In our example, we need a converter to
-	 * convert string values[Roles] to UserProfiles in newUser.jsp
+	 * convert string values[Roles] to UserProfiles
 	 */
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
@@ -111,8 +123,6 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 	/**
 	 * Optional. It's only required when handling '.' in @PathVariables which
 	 * otherwise ignore everything after last '.' in @PathVaidables argument.
-	 * It's a known bug in Spring [https://jira.spring.io/browse/SPR-6164],
-	 * still present in Spring 4.1.7. This is a workaround for this issue.
 	 */
 	@Override
 	public void configurePathMatch(PathMatchConfigurer matcher) {

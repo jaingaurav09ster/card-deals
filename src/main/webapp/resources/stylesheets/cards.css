@@ -9,7 +9,7 @@ body {
 }
 
 p {
-	font-size: 20px;
+	font-size: 15px;
 }
 
 p.small {
@@ -143,9 +143,18 @@ header .intro-text .skills {
 	color: white;
 }
 
+.navbar-custom .navbar-nav .dropdown-menu li a {
+	color: #2c3e50;
+}
+
+.dropdown-menu {
+	min-width: 200px;
+	text-transform: none;
+}
+
 .navbar-custom .navbar-nav li a:hover {
 	color: #2c3e50;
-	background-color: #eee;
+	background-color: #18BC9C;
 	outline: none;
 }
 
@@ -223,11 +232,6 @@ section.success {
 	}
 }
 
-#portfolio .portfolio-item {
-	margin: 0 0 15px;
-	right: 0;
-}
-
 #portfolio .portfolio-item .portfolio-link {
 	display: block;
 	position: relative;
@@ -273,12 +277,6 @@ section.success {
 
 #portfolio * {
 	z-index: 2;
-}
-
-@media ( min-width : 767px) {
-	#portfolio .portfolio-item {
-		margin: 0 0 30px;
-	}
 }
 
 .floating-label-form-group {
@@ -333,6 +331,12 @@ section.success {
 
 
 
+
+
+
+
+
+
 :not
 
 
@@ -341,7 +345,13 @@ section.success {
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -358,7 +368,13 @@ section.success {
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -383,7 +399,16 @@ padding-left
 
 
 
+
+
+
+
+
+
 :
+
+
+
 
 
 
@@ -399,8 +424,17 @@ padding-left
 
 
 
+
+
+
 14
 px
+
+
+
+
+
+
 
 
 
@@ -431,6 +465,12 @@ border-left
 
 
 
+
+
+
+
+
+
 :
 
 
@@ -439,7 +479,13 @@ border-left
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -456,7 +502,13 @@ px
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -472,6 +524,9 @@ solid
 
 
 
+
+
+
  
 
 
@@ -480,7 +535,16 @@ solid
 
 
 
+
+
+
 #eeeeee
+
+
+
+
+
+
 
 
 
@@ -514,17 +578,9 @@ footer {
 	color: white;
 }
 
-footer h3 {
-	margin-bottom: 30px;
-}
-
 footer .footer-above {
 	padding-top: 10px;
 	background-color: #2C3E50;
-}
-
-footer .footer-col {
-	margin-bottom: 10px;
 }
 
 footer .footer-below {
@@ -538,7 +594,6 @@ footer .footer-below {
 	border: solid 2px white;
 	background: transparent;
 	transition: all 0.3s ease-in-out;
-	margin-top: 15px;
 }
 
 .btn-outline:hover, .btn-outline:focus, .btn-outline:active,
@@ -618,13 +673,13 @@ footer .footer-below {
 
 .btn-social {
 	display: inline-block;
-	height: 50px;
-	width: 50px;
+	height: 25px;
+	width: 25px;
 	border: 2px solid white;
 	border-radius: 100%;
 	text-align: center;
-	font-size: 20px;
-	line-height: 45px;
+	font-size: 12px;
+	line-height: 22px;
 }
 
 .btn:focus, .btn:active, .btn.active {
@@ -886,24 +941,15 @@ footer .footer-below {
 	}
 }
 
-#loginform .input-group-addon {
+.input-group-addon {
 	border-radius: 0px;
 }
 
-#registrationForm .input-group-addon, #editProfileForm .input-group-addon
-	{
+.form-control {
 	border-radius: 0px;
 }
 
-#loginform .form-control {
-	border-radius: 0px;
-}
-
-#registrationForm .form-control, #editProfileForm .form-control {
-	border-radius: 0px;
-}
-
-.registration .panel-body {
+.form-container .panel-body {
 	padding-top: 30px;
 	text-align: left;
 }
@@ -928,18 +974,18 @@ footer .footer-below {
 }
 
 .dropdown-menu {
-	background-color: #2c3e50;
+	background-color: white;
 	font-size: 13px;
 }
 
-
 .dropdown-menu li:hover .sub-menu {
-    visibility: visible;
+	visibility: visible;
 }
 
 .dropdown:hover .dropdown-menu {
-    display: block;
+	display: block;
 }
-.firstName .help-block, .lastName .help-block{
-	margin-bottom:0px;
+
+.firstName .help-block, .lastName .help-block {
+	margin-bottom: 0px;
 }

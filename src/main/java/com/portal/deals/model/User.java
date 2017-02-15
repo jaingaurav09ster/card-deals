@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -32,6 +33,7 @@ public class User extends AbstractEntity {
 	private Integer id;
 
 	@NotEmpty
+	@Length(min = 4)
 	@Column(name = "PASSWORD", nullable = false)
 	private String password;
 

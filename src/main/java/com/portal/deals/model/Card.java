@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name = "CARD")
 public class Card extends AbstractEntity {
@@ -28,6 +30,7 @@ public class Card extends AbstractEntity {
 	@Column(name = "ID")
 	private Integer Id;
 
+	@NotEmpty
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
@@ -37,6 +40,7 @@ public class Card extends AbstractEntity {
 	@Column(name = "LAUNCH_DATE", nullable = true)
 	private Date launchDate;
 
+	@NotEmpty
 	@Column(name = "IMAGE", nullable = true)
 	private String image;
 

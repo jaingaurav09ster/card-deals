@@ -13,7 +13,9 @@
 
 <body id="page-top" class="index">
 	<tiles:insertAttribute name="navbar" />
-	<tiles:insertAttribute name="body" />
+	<div style="min-height: 475px;">
+		<tiles:insertAttribute name="body" />
+	</div>
 	<tiles:insertAttribute name="footer" />
 </body>
 

@@ -69,7 +69,7 @@
 		}
 	});
 
-	$('#registrationForm, #editProfileForm', '#forgotPasswordForm')
+	$('#registrationForm, #editProfileForm')
 			.bootstrapValidator(
 					{
 						feedbackIcons : {
@@ -111,7 +111,7 @@
 							password : {
 								validators : {
 									notEmpty : {
-										message : 'Please supply your email address'
+										message : 'Please supply your password'
 									},
 									stringLength : {
 										min : 4,
@@ -132,8 +132,86 @@
 							}
 						}
 					}).on('submit', function(e) {
-				
+
 			});
+
+	$('#forgotPasswordForm').bootstrapValidator({
+		feedbackIcons : {
+			valid : 'glyphicon glyphicon-ok',
+			invalid : 'glyphicon glyphicon-remove',
+			validating : 'glyphicon glyphicon-refresh'
+		},
+		fields : {
+			email : {
+				validators : {
+					notEmpty : {
+						message : 'Please supply your email address'
+					},
+					emailAddress : {
+						message : 'Please supply a valid email address'
+					}
+				}
+			}
+		}
+	}).on('submit', function(e) {
+	});
+	$('#resetPasswordForm').bootstrapValidator({
+		feedbackIcons : {
+			valid : 'glyphicon glyphicon-ok',
+			invalid : 'glyphicon glyphicon-remove',
+			validating : 'glyphicon glyphicon-refresh'
+		},
+		fields : {
+			newPassword : {
+				validators : {
+					notEmpty : {
+						message : 'Please supply the password'
+					},
+					stringLength : {
+						min : 4,
+						message : 'Password should be atleast 4 digits'
+					}
+				}
+			},
+			matchPassword : {
+				validators : {
+					notEmpty : {
+						message : 'Please re-enter your password'
+					},
+					stringLength : {
+						min : 4,
+						message : 'Password should be atleast 4 digits'
+					}
+				}
+			}
+		}
+	}).on('submit', function(e) {
+	});
+
+	$('#loginform').bootstrapValidator({
+		feedbackIcons : {
+			valid : 'glyphicon glyphicon-ok',
+			invalid : 'glyphicon glyphicon-remove',
+			validating : 'glyphicon glyphicon-refresh'
+		},
+		fields : {
+			email : {
+				validators : {
+					notEmpty : {
+						message : 'Please supply your email address'
+					}
+				}
+			},
+			password : {
+				validators : {
+					notEmpty : {
+						message : 'Please supply your password'
+					}
+				}
+			}
+		}
+	}).on('submit', function(e) {
+	});
 
 	NProgress.configure({
 		showSpinner : false

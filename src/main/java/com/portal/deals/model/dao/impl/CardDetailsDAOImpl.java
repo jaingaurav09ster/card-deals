@@ -15,6 +15,7 @@ import com.portal.deals.model.dao.CardDetailsDAO;
  * @author Gaurav Jain
  *
  */
+@SuppressWarnings("unchecked")
 @Transactional
 @Repository("cardDetailsDAO")
 public class CardDetailsDAOImpl extends GenericDAOImpl<Card, Integer> implements CardDetailsDAO {
@@ -51,7 +52,7 @@ public class CardDetailsDAOImpl extends GenericDAOImpl<Card, Integer> implements
 
 	@Override
 	public List<Card> listAllCards() {
-		List list = this.loadAll();
+		List<Card> list = this.loadAll();
 		return (List<Card>) list;
 	}
 
