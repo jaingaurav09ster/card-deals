@@ -69,7 +69,7 @@
 		}
 	});
 
-	$('#registrationForm, #editProfileForm')
+	$('#registrationForm, #editProfileForm, #userForm')
 			.bootstrapValidator(
 					{
 						feedbackIcons : {
@@ -84,7 +84,7 @@
 										min : 2,
 									},
 									notEmpty : {
-										message : 'Please supply your first name'
+										message : 'Please enter first name'
 									}
 								}
 							},
@@ -94,14 +94,14 @@
 										min : 2,
 									},
 									notEmpty : {
-										message : 'Please supply your last name'
+										message : 'Please enter last name'
 									}
 								}
 							},
 							email : {
 								validators : {
 									notEmpty : {
-										message : 'Please supply your email address'
+										message : 'Please enter email address'
 									},
 									emailAddress : {
 										message : 'Please supply a valid email address'
@@ -111,7 +111,7 @@
 							password : {
 								validators : {
 									notEmpty : {
-										message : 'Please supply your password'
+										message : 'Please enter password'
 									},
 									stringLength : {
 										min : 4,
@@ -122,7 +122,7 @@
 							mobile : {
 								validators : {
 									notEmpty : {
-										message : 'Please supply your phone number'
+										message : 'Please enter phone number'
 									},
 									phone : {
 										country : 'US',
@@ -145,7 +145,7 @@
 			email : {
 				validators : {
 					notEmpty : {
-						message : 'Please supply your email address'
+						message : 'Please enter email address'
 					},
 					emailAddress : {
 						message : 'Please supply a valid email address'
@@ -176,7 +176,7 @@
 			matchPassword : {
 				validators : {
 					notEmpty : {
-						message : 'Please re-enter your password'
+						message : 'Please re-enter password'
 					},
 					stringLength : {
 						min : 4,
@@ -198,14 +198,14 @@
 			email : {
 				validators : {
 					notEmpty : {
-						message : 'Please supply your email address'
+						message : 'Please enter email address'
 					}
 				}
 			},
 			password : {
 				validators : {
 					notEmpty : {
-						message : 'Please supply your password'
+						message : 'Please enter password'
 					}
 				}
 			}

@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!-- Menu Navigation -->
 <nav id="mainNav"
 	class="navbar navbar-default navbar-fixed-top navbar-custom">
@@ -20,7 +22,17 @@
 				<li class="hidden"><a href="#page-top"></a></li>
 				<c:choose>
 					<c:when test="${pageContext.request.userPrincipal.name != null}">
-						<li><a href="<c:url value="/" />">Portfolio</a></li>
+						<sec:authorize access="hasRole('ADMIN')">
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+								data-toggle="dropdown">Administration<b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="<c:url value="/admin/user/listUsers" />">Manage
+											Users</a></li>
+									<li class="divider"></li>
+									<li><a href="<c:url value="/admin/card/listCards" />">Manage
+											Cards</a></li>
+								</ul></li>
+						</sec:authorize>
 						<li><a href="<c:url value="/" />">About</a></li>
 						<li><a href="<c:url value="/" />">Contact</a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -35,7 +47,6 @@
 							</ul></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="<c:url value="/" />">Portfolio</a></li>
 						<li><a href="<c:url value="/" />">About</a></li>
 						<li><a href="<c:url value="/" />">Contact</a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"

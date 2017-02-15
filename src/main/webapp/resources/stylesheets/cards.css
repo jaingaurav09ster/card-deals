@@ -337,6 +337,8 @@ section.success {
 
 
 
+
+
 :not
 
 
@@ -348,7 +350,9 @@ section.success {
 
 
 
+
  
+
 
 
 
@@ -371,7 +375,9 @@ section.success {
 
 
 
+
  
+
 
 
 
@@ -405,7 +411,10 @@ padding-left
 
 
 
+
+
 :
+
 
 
 
@@ -427,8 +436,11 @@ padding-left
 
 
 
+
 14
 px
+
+
 
 
 
@@ -471,6 +483,8 @@ border-left
 
 
 
+
+
 :
 
 
@@ -482,7 +496,9 @@ border-left
 
 
 
+
  
+
 
 
 
@@ -505,7 +521,9 @@ px
 
 
 
+
  
+
 
 
 
@@ -527,6 +545,7 @@ solid
 
 
 
+
  
 
 
@@ -538,7 +557,10 @@ solid
 
 
 
+
 #eeeeee
+
+
 
 
 
@@ -988,4 +1010,20 @@ footer .footer-below {
 
 .firstName .help-block, .lastName .help-block {
 	margin-bottom: 0px;
+}
+
+.header-min {
+	min-height: 500px;
+}
+
+.table-striped > tbody > tr:nth-of-type(2n+1) {
+    background-color: #ffff;
+}
+
+.table-striped > tbody > tr:nth-of-type(2n) {
+    background-color: #f9f9f9;
+}
+
+.table-striped > thead > tr {
+    background-color: #e8e8e8;
 }

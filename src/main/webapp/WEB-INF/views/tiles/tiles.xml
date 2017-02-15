@@ -68,14 +68,14 @@
 	</definition>
 
 	<!-- User List Page -->
-	<definition name="usersList" extends="base-definition">
+	<definition name="userList" extends="base-definition">
 		<put-attribute name="title" value="List of Users" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/usersList.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/userList.jsp" />
 	</definition>
 
 	<!-- User Add Page -->
 	<definition name="userForm" extends="base-definition">
-		<put-attribute name="title" value="Add a new User" />
+		<put-attribute name="title" value="Add/Update User" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/userForm.jsp" />
 	</definition>
 
