@@ -5,10 +5,10 @@ import java.util.Locale;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,112 +19,235 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.portal.deals.controller.RegistrationController;
+import com.portal.deals.exception.BaseException;
+import com.portal.deals.exception.GenericException;
 import com.portal.deals.model.User;
 import com.portal.deals.model.UserProfile;
 import com.portal.deals.service.UserProfileService;
 import com.portal.deals.service.UserService;
 
+/**
+ * This is the controller class for User management, it will handle CRUD
+ * functionality on USER entity. Only ADMIN will have access to this controller
+ * 
+ * @author Gaurav Jain
+ *
+ */
 @Controller
 @RequestMapping("/admin/user")
 @SessionAttributes("roles")
 public class AdminUserController {
 
+	/** Initializing the Logger */
+	private static final Logger LOG = LoggerFactory.getLogger(RegistrationController.class);
+
+	/** The JSP name for add new user page */
+	private static final String USER_FORM_JSP = "userForm";
+
+	/** The JSP name for user list page */
+	private static final String USER_LIST_JSP = "userList";
+
+	/**
+	 * Service class for communicating with DAO layer for USER specific DB
+	 * operations
+	 */
 	@Autowired
 	UserService userService;
 
+	/**
+	 * Service class for communicating with DAO layer for USER Profile specific
+	 * DB operations
+	 */
 	@Autowired
 	UserProfileService userProfileService;
 
+	/** Getting resource bundle for reading messages from properties file */
 	@Autowired
 	MessageSource messageSource;
 
 	/**
 	 * This method will list all existing users.
+	 * 
+	 * @param model
+	 *            The model to carry data
+	 * @return The view JSP
 	 */
 	@RequestMapping(value = { "/", "/listUsers", "" }, method = RequestMethod.GET)
 	public String listUsers(ModelMap model) {
-
-		List<User> users = userService.findAllUsers();
-		model.addAttribute("users", users);
-		model.addAttribute("loggedinuser", getPrincipal());
-		return "usersList";
+		LOG.info("Loading User list page");
+		try {
+			/** Get the user list from database */
+			List<User> users = userService.findAllUsers();
+			model.addAttribute("users", users);
+		} catch (Exception ex) {
+			LOG.error("Exception occured while loading user list Page", ex);
+			if (ex instanceof BaseException) {
+				BaseException baseException = (BaseException) ex;
+				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
+			}
+		}
+		return USER_LIST_JSP;
 	}
 
 	/**
-	 * This method will provide the medium to add a new user.
+	 * This method will render add new user page.
+	 * 
+	 * @param model
+	 *            The model to carry data
+	 * @return The view JSP
 	 */
 	@RequestMapping(value = { "/newUser" }, method = RequestMethod.GET)
 	public String newUser(ModelMap model) {
-		User user = new User();
-		model.addAttribute("user", user);
-		model.addAttribute("edit", false);
-		model.addAttribute("loggedinuser", getPrincipal());
-		return "userForm";
+		LOG.info("Loading add new user page");
+		try {
+
+			/** Adding blank model attribute to be used on form */
+			User user = new User();
+			model.addAttribute("user", user);
+		} catch (Exception ex) {
+			LOG.error("Exception occured while loading add new user Page", ex);
+			if (ex instanceof BaseException) {
+				BaseException baseException = (BaseException) ex;
+				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
+			}
+		}
+		return USER_FORM_JSP;
 	}
 
 	/**
 	 * This method will be called on form submission, handling POST request for
 	 * saving user in database. It also validates the user input
+	 * 
+	 * @param user
+	 *            The USER details added on add card form
+	 * @param result
+	 *            The binding result, from validation etc.
+	 * @param model
+	 *            The model to carry data
+	 * @return The view JSP
 	 */
 	@RequestMapping(value = { "/newUser" }, method = RequestMethod.POST)
-	public String saveUser(@Valid User user, BindingResult result, ModelMap model) {
+	public String newUser(@Valid User user, BindingResult result, ModelMap model) {
+		LOG.info("Submitting the user details to database");
 
-		if (result.hasErrors()) {
-			return "userForm";
+		try {
+			/** Reload the form JSP, in case of any validation errors */
+			if (result.hasErrors()) {
+				return USER_FORM_JSP;
+			}
+
+			/** Checking if the email id entered is unique */
+			if (!userService.isUserUnique(user.getId(), user.getEmail())) {
+				FieldError error = new FieldError("user", "email", messageSource.getMessage("non.unique.email",
+						new String[] { user.getEmail() }, Locale.getDefault()));
+				result.addError(error);
+				return USER_FORM_JSP;
+			}
+
+			/** Saving the user in the database */
+			userService.saveUser(user);
+		} catch (Exception ex) {
+			LOG.error("Exception occured while saving the user to database", ex);
+			if (ex instanceof BaseException) {
+				BaseException baseException = (BaseException) ex;
+				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
+			}
 		}
-
-		if (!userService.isUserUnique(user.getId(), user.getEmail())) {
-			FieldError error = new FieldError("user", "email", messageSource.getMessage("non.unique.email",
-					new String[] { user.getEmail() }, Locale.getDefault()));
-			result.addError(error);
-			return "userForm";
-		}
-
-		userService.saveUser(user);
-
-		model.addAttribute("success",
-				"User " + user.getFirstName() + " " + user.getLastName() + " registered successfully");
-		model.addAttribute("loggedinuser", getPrincipal());
 		return "redirect:/admin/user/listUsers";
 	}
 
 	/**
-	 * This method will provide the medium to update an existing user.
+	 * This method will provide the medium to update an existing user, it will
+	 * render the update user page with populated details
+	 * 
+	 * @param id
+	 *            Id of the User, that has to be updated
+	 * @param model
+	 *            The model to carry data
+	 * @return The view JSP
 	 */
 	@RequestMapping(value = { "/updateUser/{id}" }, method = RequestMethod.GET)
 	public String editUser(@PathVariable String id, ModelMap model) {
-		User user = userService.findByEmail(id);
-		model.addAttribute("user", user);
-		model.addAttribute("edit", true);
-		model.addAttribute("loggedinuser", getPrincipal());
-		return "userForm";
+		LOG.info("Loading the update user page");
+		try {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("The User id to be updated [" + id + "]");
+			}
+			/** Get the user to be updated from database */
+			User user = userService.findByEmail(id);
+			model.addAttribute("user", user);
+
+			/** Identifier for Edit user flow */
+			model.addAttribute("edit", true);
+		} catch (Exception ex) {
+			LOG.error("Exception occured while loading the update user page", ex);
+			if (ex instanceof BaseException) {
+				BaseException baseException = (BaseException) ex;
+				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
+			}
+		}
+		return USER_FORM_JSP;
 	}
 
 	/**
-	 * This method will be called on form submission, handling POST request for
-	 * updating user in database. It also validates the user input
+	 * This method will update the user data in the database
+	 * 
+	 * @param card
+	 *            The CARD details added on add card form
+	 * @param result
+	 *            The binding result, from validation etc.
+	 * @param model
+	 *            The model to carry data
+	 * @return The view JSP
 	 */
-	@RequestMapping(value = { "/updateUser/{id}" }, method = RequestMethod.POST)
-	public String updateUser(@Valid User user, BindingResult result, ModelMap model, @PathVariable String id) {
-		model.addAttribute("edit", true);
-		if (result.hasErrors()) {
-			return "userForm";
+	@RequestMapping(value = { "/updateUser" }, method = RequestMethod.POST)
+	public String updateUser(@Valid User user, BindingResult result, ModelMap model) {
+		LOG.info("Updating the user profile in database");
+		try {
+			/** Edit user flow identifier */
+			model.addAttribute("edit", true);
+			/** Reload the User update form in case of any error */
+			if (result.hasErrors()) {
+				return USER_FORM_JSP;
+			}
+			/** Update the user in database */
+			userService.updateUserByAdmin(user);
+		} catch (Exception ex) {
+			LOG.error("Exception occured while updating the user", ex);
+			if (ex instanceof BaseException) {
+				BaseException baseException = (BaseException) ex;
+				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
+			}
 		}
-
-		userService.updateUserByAdmin(user);
-
-		model.addAttribute("success",
-				"User " + user.getFirstName() + " " + user.getLastName() + " updated successfully");
-		model.addAttribute("loggedinuser", getPrincipal());
 		return "redirect:/admin/user/listUsers";
 	}
 
 	/**
-	 * This method will delete an user by it's Email ID value.
+	 * This method will delete the user from the database, based on the id
+	 * passed
+	 * 
+	 * @param id
+	 *            The id of the card that has to be deleted
+	 * @return the redirect value
 	 */
+
 	@RequestMapping(value = { "/deleteUser/{id}" }, method = RequestMethod.GET)
 	public String deleteUser(@PathVariable String id) {
-		userService.deleteUserByEmail(id);
+		LOG.info("Deleting the user from database");
+		try {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("The User id to be deleted [" + id + "]");
+			}
+			/** Delete the user from database */
+			userService.deleteUserByEmail(id);
+		} catch (Exception ex) {
+			LOG.error("Exception occured while deleting the user", ex);
+			if (ex instanceof BaseException) {
+				BaseException baseException = (BaseException) ex;
+				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
+			}
+		}
 		return "redirect:/admin/user/listUsers";
 	}
 
@@ -135,20 +258,4 @@ public class AdminUserController {
 	public List<UserProfile> initializeProfiles() {
 		return userProfileService.findAll();
 	}
-
-	/**
-	 * This method returns the principal[user-name] of logged-in user.
-	 */
-	private String getPrincipal() {
-		String userName = null;
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-		if (principal instanceof UserDetails) {
-			userName = ((UserDetails) principal).getUsername();
-		} else {
-			userName = principal.toString();
-		}
-		return userName;
-	}
-
 }
