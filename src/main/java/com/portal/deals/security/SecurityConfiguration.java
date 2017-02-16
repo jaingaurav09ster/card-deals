@@ -17,23 +17,42 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+/**
+ * This is the Security configuration class, here the access and authorization
+ * will be configured, that will be used by Spring security
+ * 
+ * @author Gaurav Jain
+ *
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	/** Custom User details service that extends @see UserDetailsService */
 	@Autowired
 	@Qualifier("customUserDetailsService")
 	UserDetailsService userDetailsService;
 
+	/** The token repository for persistent sessions */
 	@Autowired
 	PersistentTokenRepository tokenRepository;
 
+	/**
+	 * Configuring global security
+	 * 
+	 * @param auth
+	 * @throws Exception
+	 */
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
 		auth.authenticationProvider(authenticationProvider());
 	}
 
+	/**
+	 * This is the overridden method, that will configure the authorization
+	 * based on USER's role.
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/admin/**").access("hasRole('ADMIN')").antMatchers("/savePassword*")
@@ -44,11 +63,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
 	}
 
+	/**
+	 * Configuring Password encoder bean to encode password
+	 * 
+	 * @return PasswordEncoder
+	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
+	/**
+	 * Configuring Authentication provider, used by spring security for
+	 * authentication.
+	 * 
+	 * @return DaoAuthenticationProvider
+	 */
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -57,6 +87,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return authenticationProvider;
 	}
 
+	/**
+	 * Configuring bean to get remember me persistent service
+	 * 
+	 * @return PersistentTokenBasedRememberMeServices
+	 */
 	@Bean
 	public PersistentTokenBasedRememberMeServices getPersistentTokenBasedRememberMeServices() {
 		PersistentTokenBasedRememberMeServices tokenBasedservice = new PersistentTokenBasedRememberMeServices(
@@ -64,6 +99,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return tokenBasedservice;
 	}
 
+	/**
+	 * Configuring bean to get AuthenticationTrustResolver
+	 * 
+	 * @return AuthenticationTrustResolver
+	 */
 	@Bean
 	public AuthenticationTrustResolver getAuthenticationTrustResolver() {
 		return new AuthenticationTrustResolverImpl();

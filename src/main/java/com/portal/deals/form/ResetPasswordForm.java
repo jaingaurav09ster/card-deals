@@ -3,12 +3,23 @@ package com.portal.deals.form;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+/**
+ * This is reset Password form used to get the new password input from the User.
+ * 
+ * @author Gaurav Jain
+ *
+ */
 public class ResetPasswordForm {
 
+	/**
+	 * New password entered by user, should not be empty and length should be at
+	 * least four characters
+	 */
 	@NotEmpty
 	@Length(min = 4)
 	private String newPassword;
-	
+
+	/** Confirm password field */
 	@Length(min = 4)
 	@NotEmpty
 	private String matchPassword;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.portal.deals.model.Card;
-import com.portal.deals.service.CardServiceManager;
+import com.portal.deals.service.CardManagerService;
 
 /**
  * This is the controller class for doing CARD search
@@ -32,7 +32,7 @@ public class SearchCardController {
 	 * operations
 	 */
 	@Autowired
-	private CardServiceManager cardServiceManager;
+	private CardManagerService cardServiceManager;
 
 	/**
 	 * This method will search for cards in the database based on Query string

@@ -11,24 +11,32 @@ import com.portal.deals.service.UserProfileService;
 
 /**
  * A converter class used in views to map id's to actual userProfile objects.
+ *
+ * @author Gaurav Jain
+ *
  */
-@Component
-public class RoleToUserProfileConverter implements Converter<Object, UserProfile>{
 
-	static final Logger logger = LoggerFactory.getLogger(RoleToUserProfileConverter.class);
-	
+@Component
+public class RoleToUserProfileConverter implements Converter<Object, UserProfile> {
+
+	/** Initializing the Logger */
+	private static final Logger LOG = LoggerFactory.getLogger(RoleToUserProfileConverter.class);
+
+	/**
+	 * Service class for communicating with DAO layer for getting USER Profiles
+	 */
 	@Autowired
 	UserProfileService userProfileService;
 
 	/**
-	 * Gets UserProfile by Id
+	 * This method will get the UserProfile by Id
+	 * 
 	 * @see org.springframework.core.convert.converter.Converter#convert(java.lang.Object)
 	 */
 	public UserProfile convert(Object element) {
-		Integer id = Integer.parseInt((String)element);
-		UserProfile profile= userProfileService.findById(id);
-		logger.info("Profile : {}",profile);
+		Integer id = Integer.parseInt((String) element);
+		UserProfile profile = userProfileService.findById(id);
+		LOG.info("Profile : {}", profile);
 		return profile;
 	}
-	
 }

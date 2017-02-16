@@ -13,77 +13,72 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * The Class GenericDAOImpl.
- * 
- * @param <T>
- *            the generic type
- * @param <ID>
- *            the generic type
- */
 @SuppressWarnings("unchecked")
-public abstract class GenericDAOImpl<T, ID extends Serializable> {
+public abstract class AbstractDao<PK extends Serializable, T> {
 
-	/** The entity class. */
-	private Class<T> entityClass;
+	private final Class<T> persistentClass;
 
-	/** The session factory. */
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	/**
-	 * Instantiates a new generic dao impl.
-	 */
-	public GenericDAOImpl() {
-		entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	public AbstractDao() {
+		this.persistentClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
+				.getActualTypeArguments()[1];
 	}
-
-	/**
-	 * Gets the current session.
-	 * 
-	 * @return the current session
-	 */
-	protected final Session getCurrentSession() {
+	
+	protected Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
 
-	public List<T> loadAll() {
-		return getCurrentSession().createQuery("from " + entityClass.getName()).list();
+	public T getByKey(PK key) {
+		return (T) getSession().get(persistentClass, key);
+	}
+
+	public void persist(T entity) {
+		getSession().persist(entity);
+	}
+
+	public void saveOrUpdate(T entity) {
+		getSession().saveOrUpdate(entity);
+	}
+
+	public void update(T entity) {
+		getSession().update(entity);
 	}
 
 	public void delete(T entity) {
-		getCurrentSession().delete(entity);
+		getSession().delete(entity);
 	}
 
-	public void deleteById(ID id) {
+	public List<T> loadAll() {
+		return getSession().createQuery("from " + persistentClass.getName()).list();
+	}
+
+	public void deleteById(PK id) {
 		T entity = get(id);
 		delete(entity);
 	}
 
 	public void save(T domain) {
-		getCurrentSession().saveOrUpdate(domain);
+		getSession().saveOrUpdate(domain);
 	}
 
-	public void update(T domain) {
-		getCurrentSession().merge(domain);
+	public T get(PK id) {
+		return (T) getSession().get(persistentClass, id);
 	}
 
-	public T get(ID id) {
-		return (T) getCurrentSession().get(entityClass, id);
-	}
-
-	public T load(ID id) {
-		return (T) getCurrentSession().load(entityClass, id);
+	public T load(PK id) {
+		return (T) getSession().load(persistentClass, id);
 	}
 
 	public List<T> findAllByProperty(String propName, Object propValue) {
-		Criteria criteria = getCurrentSession().createCriteria(entityClass);
+		Criteria criteria = getSession().createCriteria(persistentClass);
 		criteria.add(Restrictions.eq(propName, propValue));
 		return getEntitiesByCriteria(criteria);
 	}
 
 	public List<T> findAllByProperties(Map<String, Object> propMap) {
-		Criteria criteria = getCurrentSession().createCriteria(entityClass);
+		Criteria criteria = getSession().createCriteria(persistentClass);
 		for (Map.Entry<String, Object> entry : propMap.entrySet()) {
 			criteria.add(Restrictions.eq(entry.getKey(), entry.getValue()));
 		}
@@ -91,20 +86,20 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> {
 	}
 
 	public List<T> findAllByPropertyValues(String propName, Collection<Object> propValues) {
-		Criteria criteria = getCurrentSession().createCriteria(entityClass);
+		Criteria criteria = getSession().createCriteria(persistentClass);
 		criteria.add(Restrictions.in(propName, propValues));
 		return getEntitiesByCriteria(criteria);
 	}
 
 	public List<T> findAllByRange(String propName, Object start, Object end) {
-		Criteria criteria = getCurrentSession().createCriteria(entityClass);
+		Criteria criteria = getSession().createCriteria(persistentClass);
 		criteria.add(Restrictions.ge(propName, start));
 		criteria.add(Restrictions.le(propName, end));
 		return getEntitiesByCriteria(criteria);
 	}
 
 	public List<T> findAllByChildProperty(String childEntityName, String propName, Object value) {
-		Criteria criteria = getCurrentSession().createCriteria(entityClass);
+		Criteria criteria = getSession().createCriteria(persistentClass);
 		criteria.createAlias(childEntityName, "child");
 		criteria.add(Restrictions.eq("child." + propName, value));
 		criteria.setFetchMode(childEntityName, FetchMode.JOIN);
@@ -112,7 +107,7 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> {
 	}
 
 	public List<T> findAllByChildProperties(String childEntityName, Map<String, Object> propMap) {
-		Criteria criteria = getCurrentSession().createCriteria(entityClass);
+		Criteria criteria = getSession().createCriteria(persistentClass);
 		criteria.createAlias(childEntityName, "child");
 		for (Map.Entry<String, Object> propEntry : propMap.entrySet()) {
 			criteria.add(Restrictions.eq("child." + propEntry.getKey(), propEntry.getValue()));
@@ -123,7 +118,7 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> {
 
 	public List<T> findAllByParentChildProperties(String childEntityName, Map<String, Object> parentPropMap,
 			Map<String, Object> childPropMap) {
-		Criteria criteria = getCurrentSession().createCriteria(entityClass);
+		Criteria criteria = getSession().createCriteria(persistentClass);
 		criteria.createAlias(childEntityName, "child");
 		for (Map.Entry<String, Object> propEntry : childPropMap.entrySet()) {
 			criteria.add(Restrictions.eq("child." + propEntry.getKey(), propEntry.getValue()));
@@ -144,6 +139,10 @@ public abstract class GenericDAOImpl<T, ID extends Serializable> {
 	 */
 	protected List<T> getEntitiesByCriteria(Criteria criteria) {
 		return criteria.list();
+	}
+
+	protected Criteria createEntityCriteria() {
+		return getSession().createCriteria(persistentClass);
 	}
 
 }

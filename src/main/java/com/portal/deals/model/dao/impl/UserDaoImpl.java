@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.portal.deals.model.User;
-import com.portal.deals.model.dao.AbstractDao;
 import com.portal.deals.model.dao.UserDao;
 
 @Repository("userDao")

@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.portal.deals.model.VerificationToken;
-import com.portal.deals.model.dao.AbstractDao;
 import com.portal.deals.model.dao.TokenDao;
 
 @Repository("tokenDao")

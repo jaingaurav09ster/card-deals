@@ -8,7 +8,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.portal.deals.model.UserProfile;
-import com.portal.deals.model.dao.AbstractDao;
 import com.portal.deals.model.dao.UserProfileDao;
 
 

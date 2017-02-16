@@ -7,10 +7,18 @@ import java.util.Calendar;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * This is the Utility class that will contain static Utility methods
+ * 
+ * @author Gaurav Jain
+ *
+ */
 public class Utils {
 
 	/**
 	 * This method returns the principal[user-name] of logged-in user.
+	 * 
+	 * @return The User name
 	 */
 	public static String getPrincipal() {
 		String userName = null;
@@ -24,6 +32,14 @@ public class Utils {
 		return userName;
 	}
 
+	/**
+	 * This method will calculate the expire date, by adding expire duration to
+	 * current date
+	 * 
+	 * @param expiryDuration
+	 *            The Expire duration
+	 * @return The Expired Date
+	 */
 	public static Date getExpiryDate(int expiryDuration) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Timestamp(cal.getTime().getTime()));

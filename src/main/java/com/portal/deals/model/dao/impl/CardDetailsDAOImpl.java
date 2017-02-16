@@ -18,7 +18,7 @@ import com.portal.deals.model.dao.CardDetailsDAO;
 @SuppressWarnings("unchecked")
 @Transactional
 @Repository("cardDetailsDAO")
-public class CardDetailsDAOImpl extends GenericDAOImpl<Card, Integer> implements CardDetailsDAO {
+public class CardDetailsDAOImpl extends AbstractDao<Integer, Card> implements CardDetailsDAO {
 
 	/**
 	 * This method will save the Card in the DB, it will call underlying
@@ -46,7 +46,7 @@ public class CardDetailsDAOImpl extends GenericDAOImpl<Card, Integer> implements
 	public List<Card> searchCard(String query) {
 		String namedQuery = "from Card c where c.title like '%" + query + "%' OR c.description like '%" + query
 				+ "%' OR c.bank.name like '%" + query + "%'";
-		List<Card> list = getCurrentSession().createQuery(namedQuery).list();
+		List<Card> list = getSession().createQuery(namedQuery).list();
 		return (List<Card>) list;
 	}
 

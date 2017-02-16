@@ -18,7 +18,7 @@ import com.portal.deals.controller.RegistrationController;
 import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.GenericException;
 import com.portal.deals.model.Card;
-import com.portal.deals.service.CardServiceManager;
+import com.portal.deals.service.CardManagerService;
 
 /**
  * This is the controller class for card CRUD operation. Only ADMIN will have
@@ -39,7 +39,7 @@ public class AdminCardController {
 	 * CARD entity
 	 */
 	@Autowired
-	private CardServiceManager cardServiceManager;
+	private CardManagerService cardServiceManager;
 
 	/** The JSP name for add new card page */
 	private static final String CARD_FORM_JSP = "cardForm";
