@@ -23,8 +23,8 @@ import com.portal.deals.controller.RegistrationController;
 import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.GenericException;
 import com.portal.deals.model.User;
-import com.portal.deals.model.UserProfile;
-import com.portal.deals.service.UserProfileService;
+import com.portal.deals.model.UserRole;
+import com.portal.deals.service.UserRoleService;
 import com.portal.deals.service.UserService;
 
 /**
@@ -60,7 +60,7 @@ public class AdminUserController {
 	 * DB operations
 	 */
 	@Autowired
-	UserProfileService userProfileService;
+	UserRoleService userRoleService;
 
 	/** Getting resource bundle for reading messages from properties file */
 	@Autowired
@@ -255,7 +255,7 @@ public class AdminUserController {
 	 * This method will provide UserProfile list to views
 	 */
 	@ModelAttribute("roles")
-	public List<UserProfile> initializeProfiles() {
-		return userProfileService.findAll();
+	public List<UserRole> initializeProfiles() {
+		return userRoleService.findAll();
 	}
 }

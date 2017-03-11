@@ -21,20 +21,24 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	@Override
 	public User findById(int id) {
 		return dao.findById(id);
 	}
 
+	@Override
 	public User findByEmail(String email) {
 		User user = dao.findByEmail(email);
 		return user;
 	}
 
+	@Override
 	public void saveUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		dao.save(user);
 	}
 
+	@Override
 	public void updateUser(User user) {
 		User entity = dao.findById(user.getId());
 		if (entity != null) {
@@ -47,6 +51,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
 	public void updateUserByAdmin(User user) {
 		User entity = dao.findById(user.getId());
 		if (entity != null) {
@@ -57,10 +62,11 @@ public class UserServiceImpl implements UserService {
 			entity.setFirstName(user.getFirstName());
 			entity.setMobile(user.getMobile());
 			entity.setLastName(user.getLastName());
-			entity.setUserProfiles(user.getUserProfiles());
+			entity.setUserRoles(user.getUserRoles());
 		}
 	}
 
+	@Override
 	public void activateDeactivateUser(User user) {
 		User entity = dao.findById(user.getId());
 		if (entity != null) {
@@ -68,14 +74,17 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
 	public void deleteUserByEmail(String email) {
 		dao.deleteByEmail(email);
 	}
 
+	@Override
 	public List<User> findAllUsers() {
 		return dao.findAllUsers();
 	}
 
+	@Override
 	public boolean isUserUnique(Integer id, String email) {
 		User user = findByEmail(email);
 		return (user == null || ((id != null) && (user.getId() == id)));

@@ -25,10 +25,10 @@ import com.portal.deals.event.OnRegistrationCompleteEvent;
 import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.GenericException;
 import com.portal.deals.model.User;
-import com.portal.deals.model.UserProfile;
+import com.portal.deals.model.UserRole;
 import com.portal.deals.model.VerificationToken;
 import com.portal.deals.service.TokenService;
-import com.portal.deals.service.UserProfileService;
+import com.portal.deals.service.UserRoleService;
 import com.portal.deals.service.UserService;
 
 /**
@@ -79,7 +79,7 @@ public class RegistrationController {
 	 * Service class for communicating with DAO layer for getting USER Profiles
 	 */
 	@Autowired
-	UserProfileService userProfileService;
+	UserRoleService userRoleService;
 
 	/** Getting resource bundle for reading messages from properties file */
 	@Autowired
@@ -144,8 +144,8 @@ public class RegistrationController {
 			 * Get roles from DB, in this case the USER role. Add the default
 			 * role "USER" to the user getting registered
 			 */
-			UserProfile profile = userProfileService.findByType("USER");
-			user.getUserProfiles().add(profile);
+			UserRole role = userRoleService.findByType("USER");
+			user.getUserRoles().add(role);
 
 			/**
 			 * Check if the user is unique, uniqueness is derived from the

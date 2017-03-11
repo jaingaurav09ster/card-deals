@@ -9,7 +9,8 @@ import com.portal.deals.model.Card;
 import com.portal.deals.model.dao.CardDetailsDAO;
 
 /**
- * This class will access the Database and it contains CRUD operations for
+ * This class provides implementation to <code>CardDetailsDAO</code> interface.
+ * It will access the Database and it will perform CRUD operations on
  * CARD_DETAILS table, this class will be accessible through CardServiceManager
  * 
  * @author Gaurav Jain
@@ -20,16 +21,9 @@ import com.portal.deals.model.dao.CardDetailsDAO;
 @Repository("cardDetailsDAO")
 public class CardDetailsDAOImpl extends AbstractDao<Integer, Card> implements CardDetailsDAO {
 
-	/**
-	 * This method will save the Card in the DB, it will call underlying
-	 * function from GenericDAO
-	 * 
-	 * @param card
-	 *            The Object entity for Card
-	 */
 	@Override
 	public void saveCard(Card card) {
-		this.save(card);
+		this.persist(card);
 	}
 
 	@Override
@@ -65,5 +59,4 @@ public class CardDetailsDAOImpl extends AbstractDao<Integer, Card> implements Ca
 	public void deleteCardById(Integer id) {
 		this.deleteById(id);
 	}
-
 }

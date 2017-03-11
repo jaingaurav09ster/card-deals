@@ -104,12 +104,12 @@
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-list"></i></span>
-								<form:select path="userProfiles" items="${roles}"
+								<form:select path="userRoles" items="${roles}"
 									multiple="true" itemValue="id" itemLabel="type"
 									class="form-control" />
 							</div>
 							<div class="has-error">
-								<form:errors path="userProfiles" class="help-inline" />
+								<form:errors path="userRoles" class="help-inline" />
 							</div>
 						</div>
 						<div class="form-group button-group">

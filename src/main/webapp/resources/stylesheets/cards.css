@@ -72,7 +72,6 @@ hr.star-primary:after {
 header {
 	text-align: center;
 	color: #2c3e50;
-	background-color: #f4fffd;
 }
 
 header .container {
@@ -1026,4 +1025,9 @@ footer .footer-below {
 
 .table-striped > thead > tr {
     background-color: #e8e8e8;
+}
+
+.mainContent{
+	min-height: 475px;
+	background-color: #f4fffd;
 }

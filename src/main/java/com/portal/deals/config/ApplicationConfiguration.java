@@ -102,7 +102,7 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 
 	/**
 	 * Configure Converter to be used. In our example, we need a converter to
-	 * convert string values[Roles] to UserProfiles
+	 * convert string values[Roles] to UserRoles
 	 */
 	@Override
 	public void addFormatters(FormatterRegistry registry) {

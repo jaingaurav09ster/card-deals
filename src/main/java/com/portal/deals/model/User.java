@@ -22,7 +22,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "APP_USER")
+@Table(name = "USER")
 public class User extends AbstractEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -62,9 +62,9 @@ public class User extends AbstractEntity {
 	private PasswordResetToken passwordResettoken;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "APP_USER_USER_PROFILE", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
-			@JoinColumn(name = "USER_PROFILE_ID") })
-	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+	@JoinTable(name = "USER_ROLE_MAP", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "USER_ROLE_ID") })
+	private Set<UserRole> userRoles = new HashSet<UserRole>();
 
 	@Column(name = "ENABLED")
 	private boolean enabled;
@@ -164,21 +164,6 @@ public class User extends AbstractEntity {
 		this.mobile = mobile;
 	}
 
-	/**
-	 * @return the userProfiles
-	 */
-	public Set<UserProfile> getUserProfiles() {
-		return userProfiles;
-	}
-
-	/**
-	 * @param userProfiles
-	 *            the userProfiles to set
-	 */
-	public void setUserProfiles(Set<UserProfile> userProfiles) {
-		this.userProfiles = userProfiles;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -259,6 +244,21 @@ public class User extends AbstractEntity {
 	 */
 	public void setPasswordResettoken(PasswordResetToken passwordResettoken) {
 		this.passwordResettoken = passwordResettoken;
+	}
+
+	/**
+	 * @return the userRoles
+	 */
+	public Set<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	/**
+	 * @param userRoles
+	 *            the userRoles to set
+	 */
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.userRoles = userRoles;
 	}
 
 }

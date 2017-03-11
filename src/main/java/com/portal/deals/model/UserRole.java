@@ -10,8 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "USER_PROFILE")
-public class UserProfile implements Serializable {
+@Table(name = "USER_ROLE")
+public class UserRole implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -53,9 +53,9 @@ public class UserProfile implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof UserProfile))
+		if (!(obj instanceof UserRole))
 			return false;
-		UserProfile other = (UserProfile) obj;
+		UserRole other = (UserRole) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

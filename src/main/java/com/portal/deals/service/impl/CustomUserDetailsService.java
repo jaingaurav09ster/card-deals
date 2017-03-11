@@ -1,5 +1,5 @@
 package com.portal.deals.service.impl;
- 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,41 +15,39 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.portal.deals.model.User;
-import com.portal.deals.model.UserProfile;
+import com.portal.deals.model.UserRole;
 import com.portal.deals.service.UserService;
- 
- 
+
 @Service("customUserDetailsService")
-public class CustomUserDetailsService implements UserDetailsService{
- 
-    static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
-     
-    @Autowired
-    private UserService userService;
-     
-    @Transactional(readOnly=true)
-    public UserDetails loadUserByUsername(String email)
-            throws UsernameNotFoundException {
-        User user = userService.findByEmail(email);
-        logger.info("User : {}", user);
-        if(user==null){
-            logger.info("User not found");
-            throw new UsernameNotFoundException("Username not found");
-        }
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), 
-                 user.isEnabled(), true, true, true, getGrantedAuthorities(user));
-    }
- 
-     
-    private List<GrantedAuthority> getGrantedAuthorities(User user){
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-          
-        for(UserProfile userProfile : user.getUserProfiles()){
-            logger.info("UserProfile : {}", userProfile);
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+userProfile.getType()));
-        }
-        logger.info("authorities : {}", authorities);
-        return authorities;
-    }
-     
+public class CustomUserDetailsService implements UserDetailsService {
+
+	static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
+
+	@Autowired
+	private UserService userService;
+
+	@Transactional(readOnly = true)
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = userService.findByEmail(email);
+		logger.info("User : {}", user);
+		if (user == null) {
+			logger.info("User not found");
+			throw new UsernameNotFoundException("Username not found");
+		}
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+				user.isEnabled(), true, true, true, getGrantedAuthorities(user));
+	}
+
+	private List<GrantedAuthority> getGrantedAuthorities(User user) {
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+
+		for (UserRole userRole : user.getUserRoles()) {
+			logger.info("UserRoles : {}", userRole);
+			authorities.add(new SimpleGrantedAuthority("ROLE_" + userRole.getType()));
+		}
+		logger.info("authorities : {}", authorities);
+		return authorities;
+	}
+
 }
