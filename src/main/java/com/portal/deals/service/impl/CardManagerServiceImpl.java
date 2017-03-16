@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.portal.deals.model.Card;
 import com.portal.deals.model.dao.CardDetailsDAO;
 import com.portal.deals.service.CardManagerService;
 
 @Service("cardServiceManager")
+@Transactional
 public class CardManagerServiceImpl implements CardManagerService {
 
 	@Autowired
@@ -42,7 +44,14 @@ public class CardManagerServiceImpl implements CardManagerService {
 
 	@Override
 	public void updateCard(Card card) {
-		cardDao.updateCard(card);
+		Card entity = cardDao.getCardById(card.getId());
+		if (entity != null) {
+			entity.setTitle(card.getTitle());
+			entity.setDescription(card.getDescription());
+			entity.setLaunchDate(card.getLaunchDate());
+			entity.setImage(card.getImage());
+			entity.setRank(card.getRank());
+		}
 	}
 
 	@Override

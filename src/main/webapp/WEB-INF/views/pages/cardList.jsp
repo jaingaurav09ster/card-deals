@@ -4,7 +4,7 @@
 <header>
 	<div class="container" style="text-align: left">
 		<div class="row col-md-10 col-md-offset-1 custyle">
-			<a href="<c:url value="/admin/card/showAddForm" />"
+			<a href="<c:url value="/admin/card/newCard" />"
 				class="btn btn-primary btn-xs pull-right"><b>+</b> Add new Card</a>
 			<table class="table table-striped custab">
 				<thead>
@@ -18,14 +18,14 @@
 				</thead>
 				<c:forEach items="${cards}" var="card">
 					<tr>
-						<td>${card.cardId}</td>
-						<td>${card.cardTitle}</td>
-						<td>${card.cardDesc}</td>
-						<td>${card.bankName}</td>
+						<td>${card.id}</td>
+						<td>${card.title}</td>
+						<td>${card.description}</td>
+						<td>${card.bank.name}</td>
 						<td class="text-center"><a class='btn btn-info btn-xs'
-							href="<c:url value="/admin/card/showUpdateForm/${card.cardId}" />"><span
+							href="<c:url value="/admin/card/updateCard/${card.id}" />"><span
 								class="glyphicon glyphicon-edit"></span> Edit</a> <a
-							href="<c:url value="/admin/card/deleteCard/${card.cardId}" />"
+							href="<c:url value="/admin/card/deleteCard/${card.id}" />"
 							class="btn btn-danger btn-xs"><span
 								class="glyphicon glyphicon-remove"></span> Del</a></td>
 					</tr>

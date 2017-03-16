@@ -29,7 +29,7 @@
 
 	<!-- Add Card Page -->
 	<definition name="cardForm" extends="base-definition">
-		<put-attribute name="title" value="Add a new Card" />
+		<put-attribute name="title" value="Add/Update Card" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/cardForm.jsp" />
 	</definition>
 
