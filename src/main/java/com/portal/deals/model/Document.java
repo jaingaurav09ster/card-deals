@@ -19,8 +19,8 @@ public class Document implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "ID")
-	private Integer Id;
+	@Column(name = "DOCUMENT_ID")
+	private Integer id;
 
 	@Column(name = "NAME", nullable = false)
 	private String name;
@@ -29,23 +29,8 @@ public class Document implements java.io.Serializable {
 	private String description;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "CARD_ID", referencedColumnName = "ID", nullable = false)
+	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = false)
 	private Card card;
-
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return Id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(Integer id) {
-		Id = id;
-	}
 
 	/**
 	 * @return the name
@@ -90,5 +75,19 @@ public class Document implements java.io.Serializable {
 	 */
 	public void setCard(Card card) {
 		this.card = card;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }

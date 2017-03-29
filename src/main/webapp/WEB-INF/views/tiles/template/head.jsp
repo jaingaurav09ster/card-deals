@@ -36,3 +36,15 @@
 	href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic"
 	rel="stylesheet" type="text/css">
 <link rel="icon" type="image/png" href="/deals/resources/images/favicon.ico">
+
+<!-- jQuery -->
+<script src="/deals/resources/vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/deals/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="/deals/resources/vendor/jquery/jquery.easing.min.js"></script>
+<script src="/deals/resources/vendor/bootstrap/js/bootstrapValidator.js"></script>
+<script src="/deals/resources/javascripts/typeahead.bundle.js"></script>
+ 	

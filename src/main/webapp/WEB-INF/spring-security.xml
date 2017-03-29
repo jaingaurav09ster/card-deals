@@ -7,7 +7,7 @@
 
 	<http auto-config="true">
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_USER')" />
-		<form-login login-page="/login" default-target-url="/admin/card/listCards"
+		<form-login login-page="/login" default-target-url="/admin/listCards"
 			authentication-failure-url="/login?error" username-parameter="username"
 			password-parameter="password" />
 		<logout logout-success-url="/login?logout" />

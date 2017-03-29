@@ -2,14 +2,17 @@ package com.portal.deals.model;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "BANK")
@@ -19,33 +22,18 @@ public class Bank implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "ID")
-	private Integer Id;
+	@Column(name = "BANK_ID")
+	private Integer id;
 
+	@NotEmpty
 	@Column(name = "NAME", nullable = false)
 	private String name;
 
 	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "CARD_ID", referencedColumnName = "ID", nullable = false)
-    private Card card;
-
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return Id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(Integer id) {
-		Id = id;
-	}
+	@OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
+	private Set<Card> cardSet;
 
 	/**
 	 * @return the name
@@ -78,17 +66,31 @@ public class Bank implements java.io.Serializable {
 	}
 
 	/**
-	 * @return the card
+	 * @return the cardSet
 	 */
-	public Card getCard() {
-		return card;
+	public Set<Card> getCardSet() {
+		return cardSet;
 	}
 
 	/**
-	 * @param card the card to set
+	 * @param cardSet the cardSet to set
 	 */
-	public void setCard(Card card) {
-		this.card = card;
+	public void setCardSet(Set<Card> cardSet) {
+		this.cardSet = cardSet;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }

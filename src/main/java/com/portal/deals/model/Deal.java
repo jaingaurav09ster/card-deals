@@ -3,6 +3,7 @@ package com.portal.deals.model;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.sql.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +11,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "DEAL")
@@ -21,17 +26,14 @@ public class Deal implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "ID")
-	private Integer Id;
+	@Column(name = "DEAL_ID")
+	private Integer id;
 
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
 	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
-
-	@Column(name = "CATEGORY", nullable = false)
-	private Category category;
 
 	@Column(name = "RANK", nullable = false)
 	private Integer rank;
@@ -42,28 +44,16 @@ public class Deal implements java.io.Serializable {
 	@Column(name = "END_DATE", nullable = false)
 	private Date endDate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CATEGORY_ID")
-	private Category dealCategory;
-
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "DEAL_CATEGORY_MAP", joinColumns = { @JoinColumn(name = "DEAL_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "CATEGORY_ID") })
+	private Set<Category> categories;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "CARD_ID", referencedColumnName = "ID", nullable = false)
+	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = false)
 	private Card card;
 
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return Id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(Integer id) {
-		Id = id;
-	}
 
 	/**
 	 * @return the title
@@ -93,21 +83,6 @@ public class Deal implements java.io.Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	/**
-	 * @return the category
-	 */
-	public Category getCategory() {
-		return category;
-	}
-
-	/**
-	 * @param category
-	 *            the category to set
-	 */
-	public void setCategory(Category category) {
-		this.category = category;
 	}
 
 	/**
@@ -156,21 +131,6 @@ public class Deal implements java.io.Serializable {
 	}
 
 	/**
-	 * @return the dealCategory
-	 */
-	public Category getDealCategory() {
-		return dealCategory;
-	}
-
-	/**
-	 * @param dealCategory
-	 *            the dealCategory to set
-	 */
-	public void setDealCategory(Category dealCategory) {
-		this.dealCategory = dealCategory;
-	}
-
-	/**
 	 * @return the card
 	 */
 	public Card getCard() {
@@ -183,6 +143,34 @@ public class Deal implements java.io.Serializable {
 	 */
 	public void setCard(Card card) {
 		this.card = card;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the categories
+	 */
+	public Set<Category> getCategories() {
+		return categories;
+	}
+
+	/**
+	 * @param categories the categories to set
+	 */
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
 	}
 
 }

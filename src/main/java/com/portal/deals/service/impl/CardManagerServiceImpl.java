@@ -50,6 +50,7 @@ public class CardManagerServiceImpl implements CardManagerService {
 			entity.setDescription(card.getDescription());
 			entity.setLaunchDate(card.getLaunchDate());
 			entity.setImage(card.getImage());
+			entity.setImagePath(card.getImagePath());
 			entity.setRank(card.getRank());
 		}
 	}

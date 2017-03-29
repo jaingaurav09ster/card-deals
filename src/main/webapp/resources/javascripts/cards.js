@@ -1,43 +1,6 @@
 (function($) {
 	"use strict"; // Start of use strict
 
-	// jQuery for page scrolling feature - requires jQuery Easing plugin
-	$('.page-scroll a').bind('click', function(event) {
-		var $anchor = $(this);
-		$('html, body').stop().animate({
-			scrollTop : ($($anchor.attr('href')).offset().top - 50)
-		}, 1250, 'easeInOutExpo');
-		event.preventDefault();
-	});
-
-	// Highlight the top nav as scrolling occurs
-	$('body').scrollspy({
-		target : '.navbar-fixed-top',
-		offset : 51
-	});
-
-	// Offset for Main Navigation
-	$('#mainNav').affix({
-		offset : {
-			top : 100
-		}
-	})
-
-	// Floating label headings for the contact form
-	$(function() {
-		$("body").on(
-				"input propertychange",
-				".floating-label-form-group",
-				function(e) {
-					$(this).toggleClass("floating-label-form-group-with-value",
-							!!$(e.target).val());
-				}).on("focus", ".floating-label-form-group", function() {
-			$(this).addClass("floating-label-form-group-with-focus");
-		}).on("blur", ".floating-label-form-group", function() {
-			$(this).removeClass("floating-label-form-group-with-focus");
-		});
-	});
-
 	var cards = new Bloodhound({
 		datumTokenizer : Bloodhound.tokenizers.whitespace,
 		queryTokenizer : Bloodhound.tokenizers.whitespace,
@@ -48,7 +11,7 @@
 	});
 	$('.typeahead').typeahead(null, {
 		name : 'cards',
-		display : 'cardTitle',
+		display : 'title',
 		source : cards,
 		limit : 10
 	});
@@ -226,4 +189,79 @@
 		NProgress.done();
 		clearInterval(interval);
 	});
+	
+	$(document).on('click', '#close-preview', function(){ 
+	    $('.image-preview').popover('hide');
+	    // Hover befor close the preview
+	    $('.image-preview').hover(
+	        function () {
+	           $('.image-preview').popover('show');
+	        }, 
+	         function () {
+	           $('.image-preview').popover('hide');
+	        }
+	    );    
+	});
+
+	$(function() {
+	    // Create the close button
+	    var closebtn = $('<button/>', {
+	        type:"button",
+	        text: 'x',
+	        id: 'close-preview',
+	        style: 'font-size: initial;',
+	    });
+	    closebtn.attr("class","close pull-right");
+	    // Set the popover default content
+	    $('.image-preview').popover({
+	        trigger:'manual',
+	        html:true,
+	        title: "<strong>Preview</strong>"+$(closebtn)[0].outerHTML,
+	        content: "There's no image",
+	        placement:'bottom'
+	    });
+	    // Clear event
+	    $('.image-preview-clear').click(function(){
+	        $('.image-preview').attr("data-content","").popover('hide');
+	        $('.image-preview-filename').val("");
+	        $('.image-preview-clear').hide();
+	        $('.image-preview-input input:file').val("");
+	        $(".image-preview-input-title").text("Browse"); 
+	    }); 
+	    // Create the preview image
+	    $(".image-preview-input input:file").change(function (){     
+	        var img = $('<img/>', {
+	            id: 'dynamic',
+	            width:250,
+	            height:200
+	        });      
+	        var file = this.files[0];
+	        var reader = new FileReader();
+	        // Set preview image into the popover data-content
+	        reader.onload = function (e) {
+	            $(".image-preview-input-title").text("Change");
+	            $(".image-preview-clear").show();
+	            $(".image-preview-filename").val(file.name);            
+	            img.attr('src', e.target.result);
+	            $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
+	        }        
+	        reader.readAsDataURL(file);
+	    });  
+	});
+	
+	$(function(){
+
+	    $('#slide-submenu').on('click',function() {			        
+	        $(this).closest('.list-group').fadeOut('slide',function(){
+	        	$('.mini-submenu').fadeIn();	
+	        });
+	        
+	      });
+
+		$('.mini-submenu').on('click',function(){		
+	        $(this).next('.list-group').toggle('slide');
+	        $('.mini-submenu').hide();
+		})
+	})
+	
 })(jQuery); // End of use strict

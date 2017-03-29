@@ -41,18 +41,5 @@
 		</div>
 	</div>
 </footer>
-
-<!-- jQuery -->
-<script src="/deals/resources/vendor/jquery/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/deals/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-<!-- Plugin JavaScript -->
-<script src="/deals/resources/vendor/jquery/jquery.easing.min.js"></script>
-
-<script src="/deals/resources/vendor/bootstrap/js/bootstrapValidator.js"></script>
-<script src="/deals/resources/javascripts/typeahead.bundle.js"></script>
 <script src="/deals/resources/vendor/nProgress/js/nprogress.js"></script>
-<!-- Theme JavaScript -->
 <script src="/deals/resources/javascripts/cards.js"></script>

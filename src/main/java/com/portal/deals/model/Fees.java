@@ -21,8 +21,8 @@ public class Fees implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "ID")
-	private Integer Id;
+	@Column(name = "FEES_ID")
+	private Integer id;
 
 	@Column(name = "APR", nullable = false)
 	private BigDecimal apr;
@@ -34,23 +34,8 @@ public class Fees implements java.io.Serializable {
 	private BigDecimal onwards;
 	
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "CARD_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = false)
     private Card card;
-
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return Id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(Integer id) {
-		Id = id;
-	}
 
 	/**
 	 * @return the apr
@@ -109,6 +94,20 @@ public class Fees implements java.io.Serializable {
 	 */
 	public void setCard(Card card) {
 		this.card = card;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }

@@ -35,7 +35,7 @@ import com.portal.deals.service.UserService;
  *
  */
 @Controller
-@RequestMapping("/admin/user")
+@RequestMapping("/admin")
 @SessionAttributes("roles")
 public class AdminUserController {
 
@@ -154,7 +154,7 @@ public class AdminUserController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/user/listUsers";
+		return "redirect:/admin/listUsers";
 	}
 
 	/**
@@ -220,7 +220,7 @@ public class AdminUserController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/user/listUsers";
+		return "redirect:/admin/listUsers";
 	}
 
 	/**
@@ -248,7 +248,7 @@ public class AdminUserController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/user/listUsers";
+		return "redirect:/admin/listUsers";
 	}
 
 	/**

@@ -4,7 +4,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <!-- Menu Navigation -->
 <nav id="mainNav"
-	class="navbar navbar-default navbar-fixed-top navbar-custom">
+	class="navbar navbar-default navbar-custom">
 	<div class="container">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
@@ -20,21 +20,31 @@
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-right">
 				<li class="hidden"><a href="#page-top"></a></li>
+				<li><a href="<c:url value="/" />">About</a></li>
+				<li><a href="<c:url value="/" />">Contact</a></li>
 				<c:choose>
 					<c:when test="${pageContext.request.userPrincipal.name != null}">
 						<sec:authorize access="hasRole('ADMIN')">
 							<li class="dropdown"><a href="#" class="dropdown-toggle"
 								data-toggle="dropdown">Administration<b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="<c:url value="/admin/user/listUsers" />">Manage
+									<li><a href="<c:url value="/admin/listUsers" />">Manage
 											Users</a></li>
 									<li class="divider"></li>
-									<li><a href="<c:url value="/admin/card/listCards" />">Manage
+									<li><a href="<c:url value="/admin/listCards" />">Manage
 											Cards</a></li>
+									<li class="divider"></li>
+									<li class="nav-header">Manage Master Data</li>
+									<li><a href="<c:url value="/admin/listBanks" />">Manage
+											Banks</a></li>
+									<li><a href="<c:url value="/admin/listCategories" />">Manage
+											Categories</a></li>
+									<li><a href="<c:url value="/admin/listCardCategories" />">Manage
+											Card Categories</a></li>
+									<li><a href="<c:url value="/admin/listCardTypes" />">Manage
+											Card Types</a></li>
 								</ul></li>
 						</sec:authorize>
-						<li><a href="<c:url value="/" />">About</a></li>
-						<li><a href="<c:url value="/" />">Contact</a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i><b
 								class="caret"></b></a>
@@ -47,8 +57,6 @@
 							</ul></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="<c:url value="/" />">About</a></li>
-						<li><a href="<c:url value="/" />">Contact</a></li>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i><b
 								class="caret"></b></a>

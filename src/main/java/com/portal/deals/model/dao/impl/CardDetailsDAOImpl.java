@@ -38,8 +38,7 @@ public class CardDetailsDAOImpl extends AbstractDao<Integer, Card> implements Ca
 
 	@Override
 	public List<Card> searchCard(String query) {
-		String namedQuery = "from Card c where c.title like '%" + query + "%' OR c.description like '%" + query
-				+ "%' OR c.bank.name like '%" + query + "%'";
+		String namedQuery = "from Card c where c.title like '%" + query + "%'";
 		List<Card> list = getSession().createQuery(namedQuery).list();
 		return (List<Card>) list;
 	}

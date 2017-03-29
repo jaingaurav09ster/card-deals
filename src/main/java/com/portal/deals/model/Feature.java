@@ -2,14 +2,20 @@ package com.portal.deals.model;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "FEATURE")
@@ -19,8 +25,8 @@ public class Feature implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "ID")
-	private Integer Id;
+	@Column(name = "FEATURE_ID")
+	private Integer id;
 
 	@Column(name = "TITLE", nullable = false)
 	private String title;
@@ -28,34 +34,19 @@ public class Feature implements java.io.Serializable {
 	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
 
-	@Column(name = "CATEGORY", nullable = false)
-	private Category category;
-
 	@Column(name = "RANK", nullable = false)
 	private Integer rank;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CATEGORY_ID")
-	private Category featureCategory;
-
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "FEATURE_CATEGORY_MAP", joinColumns = { @JoinColumn(name = "FEATURE_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "CATEGORY_ID") })
+	private Set<Category> categories;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "CARD_ID", referencedColumnName = "ID", nullable = false)
+	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = false)
 	private Card card;
 
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return Id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(Integer id) {
-		Id = id;
-	}
 
 	/**
 	 * @return the title
@@ -88,21 +79,6 @@ public class Feature implements java.io.Serializable {
 	}
 
 	/**
-	 * @return the category
-	 */
-	public Category getCategory() {
-		return category;
-	}
-
-	/**
-	 * @param category
-	 *            the category to set
-	 */
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	/**
 	 * @return the rank
 	 */
 	public Integer getRank() {
@@ -118,21 +94,6 @@ public class Feature implements java.io.Serializable {
 	}
 
 	/**
-	 * @return the featureCategory
-	 */
-	public Category getFeatureCategory() {
-		return featureCategory;
-	}
-
-	/**
-	 * @param featureCategory
-	 *            the featureCategory to set
-	 */
-	public void setFeatureCategory(Category featureCategory) {
-		this.featureCategory = featureCategory;
-	}
-
-	/**
 	 * @return the card
 	 */
 	public Card getCard() {
@@ -145,6 +106,34 @@ public class Feature implements java.io.Serializable {
 	 */
 	public void setCard(Card card) {
 		this.card = card;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the categories
+	 */
+	public Set<Category> getCategories() {
+		return categories;
+	}
+
+	/**
+	 * @param categories the categories to set
+	 */
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
 	}
 
 }

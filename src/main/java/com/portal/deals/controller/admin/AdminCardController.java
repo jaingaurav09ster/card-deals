@@ -1,24 +1,44 @@
 package com.portal.deals.controller.admin;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.portal.deals.controller.RegistrationController;
 import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.GenericException;
+import com.portal.deals.model.Bank;
 import com.portal.deals.model.Card;
+import com.portal.deals.model.CardCategory;
+import com.portal.deals.model.CardType;
+import com.portal.deals.model.Category;
+import com.portal.deals.service.BankService;
+import com.portal.deals.service.CardCategoryService;
 import com.portal.deals.service.CardManagerService;
+import com.portal.deals.service.CardTypeService;
+import com.portal.deals.service.CategoryService;
 
 /**
  * This is the controller class for card CRUD operation. Only ADMIN will have
@@ -28,11 +48,11 @@ import com.portal.deals.service.CardManagerService;
  *
  */
 @Controller
-@RequestMapping(value = "/admin/card")
+@RequestMapping(value = "/admin")
 public class AdminCardController {
 
 	/** Initializing the Logger */
-	private static final Logger LOG = LoggerFactory.getLogger(RegistrationController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AdminCardController.class);
 
 	/**
 	 * Service class for communicating with DAO layer for CRUD operation for
@@ -41,11 +61,42 @@ public class AdminCardController {
 	@Autowired
 	private CardManagerService cardServiceManager;
 
+	/**
+	 * Service class for communicating with DAO layer for CRUD operation for
+	 * CARD entity
+	 */
+	@Autowired
+	private CardCategoryService cardCategoryService;
+
+	/**
+	 * Service class for communicating with DAO layer for CRUD operation for
+	 * CARD entity
+	 */
+	@Autowired
+	private CardTypeService cardTypeService;
+
+	/**
+	 * Service class for communicating with DAO layer for CRUD operation for
+	 * CARD entity
+	 */
+	@Autowired
+	private CategoryService categoryService;
+
+	/**
+	 * Service class for communicating with DAO layer for CRUD operation for
+	 * CARD entity
+	 */
+	@Autowired
+	private BankService bankService;
+
 	/** The JSP name for add new card page */
 	private static final String CARD_FORM_JSP = "cardForm";
 
 	/** The JSP name for card list page */
 	private static final String CARD_LIST_JSP = "cardList";
+
+	/** Path where image will be uploaded */
+	private static String UPLOAD_LOCATION = "/resources/upload";
 
 	/**
 	 * This method will render the add new card page
@@ -82,7 +133,7 @@ public class AdminCardController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/newCard", method = RequestMethod.POST)
-	public String addCard(@Valid Card card, BindingResult result, ModelMap model) {
+	public String addCard(@Valid Card card, BindingResult result, ModelMap model, HttpServletRequest request) {
 		LOG.info("Saving the card to the database");
 
 		try {
@@ -94,6 +145,9 @@ public class AdminCardController {
 				return CARD_FORM_JSP;
 			}
 
+			/** Upload the File */
+			uploadImage(card, request);
+
 			/** Save the card in the database */
 			cardServiceManager.saveCard(card);
 		} catch (Exception ex) {
@@ -103,7 +157,7 @@ public class AdminCardController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/card/listCards";
+		return "redirect:/admin/listCards";
 	}
 
 	/**
@@ -179,13 +233,16 @@ public class AdminCardController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/updateCard", method = RequestMethod.POST)
-	public String updateCard(@Valid Card card, BindingResult result, ModelMap model) {
+	public String updateCard(@Valid Card card, BindingResult result, ModelMap model, HttpServletRequest request) {
 		LOG.info("Updating the card details");
 		try {
 			/** Reload the update card page in case of any error */
 			if (result.hasErrors()) {
-				return "redirect:/admin/card/showUpdateForm/" + card.getId();
+				return "redirect:/admin/updateCard/" + card.getId();
 			}
+
+			/** Upload the File */
+			uploadImage(card, request);
 
 			/** Updating the Card in the database */
 			cardServiceManager.updateCard(card);
@@ -196,7 +253,27 @@ public class AdminCardController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/card/listCards";
+		return "redirect:/admin/listCards";
+	}
+
+	/**
+	 * This method will upload the image
+	 * 
+	 * @param card
+	 * @param request
+	 * @throws IOException
+	 */
+	private void uploadImage(Card card, HttpServletRequest request) throws IOException {
+		if (card.getImage() != null) {
+			MultipartFile multipartFile = card.getImage();
+			if (!StringUtils.isEmpty(multipartFile.getOriginalFilename())) {
+				ServletContext context = request.getServletContext();
+				String contextPath = context.getRealPath(UPLOAD_LOCATION);
+				FileCopyUtils.copy(multipartFile.getBytes(),
+						new File(contextPath + File.separator + multipartFile.getOriginalFilename()));
+				card.setImagePath(multipartFile.getOriginalFilename());
+			}
+		}
 	}
 
 	/**
@@ -223,6 +300,46 @@ public class AdminCardController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/card/listCards";
+		return "redirect:/admin/listCards";
 	}
+
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+	}
+
+	/**
+	 * This method will provide Card Type list to views
+	 */
+	@ModelAttribute("cardTypes")
+	public List<CardType> initializeCardTypes() {
+		return cardTypeService.listAllCardTypes();
+	}
+
+	/**
+	 * This method will provide Bank list to views
+	 */
+	@ModelAttribute("banks")
+	public List<Bank> initializeBanks() {
+		return bankService.listAllBanks();
+	}
+
+	/**
+	 * This method will provide Card Category list to views
+	 */
+	@ModelAttribute("cardCategories")
+	public List<CardCategory> initializeCardCategories() {
+		return cardCategoryService.listAllCardCategories();
+	}
+
+	/**
+	 * This method will provide Category list to views
+	 */
+	@ModelAttribute("categories")
+	public List<Category> initializeCategories() {
+		return categoryService.listAllCategories();
+	}
+
 }

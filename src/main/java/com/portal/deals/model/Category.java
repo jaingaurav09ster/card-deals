@@ -2,15 +2,13 @@ package com.portal.deals.model;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "CATEGORY")
@@ -20,41 +18,15 @@ public class Category implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "ID")
-	private Integer Id;
+	@Column(name = "CATEGORY_ID")
+	private Integer id;
 
+	@NotEmpty
 	@Column(name = "NAME", nullable = false)
 	private String name;
 
 	@Column(name = "DESCRIPTION", nullable = true)
 	private String description;
-
-	@OneToMany(mappedBy = "rewardCategory", fetch = FetchType.LAZY)
-	private Set<Reward> rewardSet;
-
-	@OneToMany(mappedBy = "perkCategory", fetch = FetchType.LAZY)
-	private Set<JoiningPerk> perkSet;
-
-	@OneToMany(mappedBy = "featureCategory", fetch = FetchType.LAZY)
-	private Set<Feature> featureSet;
-
-	@OneToMany(mappedBy = "dealCategory", fetch = FetchType.LAZY)
-	private Set<Deal> dealSet;
-
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return Id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(Integer id) {
-		Id = id;
-	}
 
 	/**
 	 * @return the name
@@ -87,59 +59,18 @@ public class Category implements java.io.Serializable {
 	}
 
 	/**
-	 * @return the rewardSet
+	 * @return the id
 	 */
-	public Set<Reward> getRewardSet() {
-		return rewardSet;
+	public Integer getId() {
+		return id;
 	}
 
 	/**
-	 * @param rewardSet the rewardSet to set
+	 * @param id
+	 *            the id to set
 	 */
-	public void setRewardSet(Set<Reward> rewardSet) {
-		this.rewardSet = rewardSet;
-	}
-
-	/**
-	 * @return the perkSet
-	 */
-	public Set<JoiningPerk> getPerkSet() {
-		return perkSet;
-	}
-
-	/**
-	 * @param perkSet the perkSet to set
-	 */
-	public void setPerkSet(Set<JoiningPerk> perkSet) {
-		this.perkSet = perkSet;
-	}
-
-	/**
-	 * @return the featureSet
-	 */
-	public Set<Feature> getFeatureSet() {
-		return featureSet;
-	}
-
-	/**
-	 * @param featureSet the featureSet to set
-	 */
-	public void setFeatureSet(Set<Feature> featureSet) {
-		this.featureSet = featureSet;
-	}
-
-	/**
-	 * @return the dealSet
-	 */
-	public Set<Deal> getDealSet() {
-		return dealSet;
-	}
-
-	/**
-	 * @param dealSet the dealSet to set
-	 */
-	public void setDealSet(Set<Deal> dealSet) {
-		this.dealSet = dealSet;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 }

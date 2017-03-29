@@ -12,12 +12,19 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "CARD")
@@ -27,8 +34,8 @@ public class Card extends AbstractEntity {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "ID")
-	private Integer Id;
+	@Column(name = "CARD_ID")
+	private Integer id;
 
 	@NotEmpty
 	@Column(name = "TITLE", nullable = false)
@@ -37,12 +44,17 @@ public class Card extends AbstractEntity {
 	@Column(name = "CARD_DESC", nullable = false)
 	private String description;
 
+	@NotNull
 	@Column(name = "LAUNCH_DATE", nullable = true)
 	private Date launchDate;
 
+	@NotNull
+	@Transient
+	private MultipartFile image;
+
 	@NotEmpty
 	@Column(name = "IMAGE", nullable = true)
-	private String image;
+	private String imagePath;
 
 	@Column(name = "RANK", nullable = true)
 	private String rank;
@@ -52,47 +64,47 @@ public class Card extends AbstractEntity {
 	private CardCategory cardCategory;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CARD_TYPE")
+	@JoinColumn(name = "CARD_TYPE_ID")
 	private CardType cardType;
 
-	@OneToOne(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "BANK_ID")
 	private Bank bank;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	private Set<JoiningPerk> joiningPerks;
 
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "CARD_CATEGORY_MAP", joinColumns = { @JoinColumn(name = "CARD_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "CATEGORY_ID") })
+	private Set<Category> categories;
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	private Set<Feature> features;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	private Set<Reward> rewards;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	private Set<Deal> deals;
 
+	@JsonIgnore
 	@OneToOne(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	private Fees fees;
 
+	@JsonIgnore
 	@OneToOne(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	private Rating rating;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	private Set<Document> documents;
-
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return Id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(Integer id) {
-		Id = id;
-	}
 
 	/**
 	 * @return the title
@@ -122,21 +134,6 @@ public class Card extends AbstractEntity {
 	 */
 	public void setLaunchDate(Date launchDate) {
 		this.launchDate = launchDate;
-	}
-
-	/**
-	 * @return the image
-	 */
-	public String getImage() {
-		return image;
-	}
-
-	/**
-	 * @param image
-	 *            the image to set
-	 */
-	public void setImage(String image) {
-		this.image = image;
 	}
 
 	/**
@@ -312,10 +309,69 @@ public class Card extends AbstractEntity {
 	}
 
 	/**
-	 * @param description the description to set
+	 * @param description
+	 *            the description to set
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
+	/**
+	 * @return the image
+	 */
+	public MultipartFile getImage() {
+		return image;
+	}
+
+	/**
+	 * @param image
+	 *            the image to set
+	 */
+	public void setImage(MultipartFile image) {
+		this.image = image;
+	}
+
+	/**
+	 * @return the imagePath
+	 */
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	/**
+	 * @param imagePath
+	 *            the imagePath to set
+	 */
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+	/**
+	 * @return the categories
+	 */
+	public Set<Category> getCategories() {
+		return categories;
+	}
+
+	/**
+	 * @param categories
+	 *            the categories to set
+	 */
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
 }

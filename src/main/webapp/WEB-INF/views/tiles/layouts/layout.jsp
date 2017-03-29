@@ -11,12 +11,14 @@
 <tiles:insertAttribute name="head" />
 </head>
 
-<body id="page-top" class="index">
-	<tiles:insertAttribute name="navbar" />
-	<div class="mainContent">
-		<tiles:insertAttribute name="body" />
+<body>
+	<div class="container-full">
+		<tiles:insertAttribute name="navbar" />
+		<div class="container mainContent">
+			<tiles:insertAttribute name="body" />
+		</div>
+		<tiles:insertAttribute name="footer" />
 	</div>
-	<tiles:insertAttribute name="footer" />
 </body>
 
 </html>
