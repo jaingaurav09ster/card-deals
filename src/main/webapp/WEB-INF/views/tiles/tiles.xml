@@ -25,6 +25,17 @@
 		<put-attribute name="footer"
 			value="/WEB-INF/views/tiles/template/footer.jsp" />
 	</definition>
+	
+		<definition name="two-column" template="/WEB-INF/views/tiles/layouts/twoColumnLayout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="head"
+			value="/WEB-INF/views/tiles/template/head.jsp" />
+		<put-attribute name="navbar"
+			value="/WEB-INF/views/tiles/template/navbar.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/tiles/template/footer.jsp" />
+	</definition>
 
 	<!-- Home Page -->
 	<definition name="home" extends="full-page">
@@ -79,13 +90,13 @@
 	</definition>
 
 	<!-- User List Page -->
-	<definition name="userList" extends="base-definition">
+	<definition name="userList" extends="two-column">
 		<put-attribute name="title" value="List of Users" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/userList.jsp" />
 	</definition>
 
 	<!-- User Add Page -->
-	<definition name="userForm" extends="base-definition">
+	<definition name="userForm" extends="two-column">
 		<put-attribute name="title" value="Add/Update User" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/userForm.jsp" />
 	</definition>
@@ -149,49 +160,49 @@
 	</definition>
 
 	<!-- Add Card Type Page -->
-	<definition name="cardTypeForm" extends="base-definition">
+	<definition name="cardTypeForm" extends="two-column">
 		<put-attribute name="title" value="Add/Update Card Type" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/cardTypeForm.jsp" />
 	</definition>
 
 	<!-- Card Type List Page -->
-	<definition name="cardTypeList" extends="base-definition">
+	<definition name="cardTypeList" extends="two-column">
 		<put-attribute name="title" value="List of Card Types" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/cardTypeList.jsp" />
 	</definition>
 
 	<!-- Add Category Page -->
-	<definition name="categoryForm" extends="base-definition">
+	<definition name="categoryForm" extends="two-column">
 		<put-attribute name="title" value="Add/Update Category" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/categoryForm.jsp" />
 	</definition>
 
 	<!-- Category List Page -->
-	<definition name="categoryList" extends="base-definition">
+	<definition name="categoryList" extends="two-column">
 		<put-attribute name="title" value="List of Categories" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/categoryList.jsp" />
 	</definition>
 
 	<!-- Add Bank Page -->
-	<definition name="bankForm" extends="base-definition">
+	<definition name="bankForm" extends="two-column">
 		<put-attribute name="title" value="Add/Update Bank" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/bankForm.jsp" />
 	</definition>
 
 	<!-- Bank List Page -->
-	<definition name="bankList" extends="base-definition">
+	<definition name="bankList" extends="two-column">
 		<put-attribute name="title" value="List of Banks" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/bankList.jsp" />
 	</definition>
 
 	<!-- Add Card Page -->
-	<definition name="cardCategoryForm" extends="base-definition">
+	<definition name="cardCategoryForm" extends="two-column">
 		<put-attribute name="title" value="Add/Update Card Category" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/cardCategoryForm.jsp" />
 	</definition>
 
 	<!-- Card List Page -->
-	<definition name="cardCategoryList" extends="base-definition">
+	<definition name="cardCategoryList" extends="two-column">
 		<put-attribute name="title" value="List of Card Categories" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/cardCategoryList.jsp" />
 	</definition>

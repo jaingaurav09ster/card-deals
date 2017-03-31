@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.GenericException;
+import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.CardType;
 import com.portal.deals.service.CardTypeService;
 
@@ -44,8 +45,14 @@ public class CardTypeController {
 	/** The JSP name for add new card type page */
 	private static final String CARD_TYPE_FORM_JSP = "cardTypeForm";
 
+	/** The update card type page */
+	private static final String UPDATE_CARD_TYPE_FORM_JSP = "updateCardTypeForm";
+
 	/** The JSP name for card type list page */
 	private static final String CARD_TYPE_LIST_JSP = "cardTypeList";
+
+	/** The module name */
+	private static final String MODULE = "cardTypeManager";
 
 	/**
 	 * This method will render the add new card type page
@@ -62,6 +69,8 @@ public class CardTypeController {
 			 * Adding the blank Card Type object as model attribute for Form
 			 */
 			model.addAttribute("cardType", new CardType());
+			model.addAttribute(CommonConstants.PAGE_NAME, CARD_TYPE_FORM_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading add new card type Page", ex);
 			if (ex instanceof BaseException) {
@@ -94,6 +103,8 @@ public class CardTypeController {
 			 * page with relevant errors
 			 */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, CARD_TYPE_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return CARD_TYPE_FORM_JSP;
 			}
 
@@ -128,6 +139,8 @@ public class CardTypeController {
 			 * rendering in JSP
 			 */
 			model.addAttribute("cardTypes", cardTypes);
+			model.addAttribute(CommonConstants.PAGE_NAME, CARD_TYPE_LIST_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading the card type listing Page", ex);
 			if (ex instanceof BaseException) {
@@ -161,6 +174,8 @@ public class CardTypeController {
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute("edit", true);
 			model.addAttribute("cardType", cardType);
+			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_CARD_TYPE_FORM_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while updating the card Category", ex);
 			if (ex instanceof BaseException) {
@@ -189,6 +204,8 @@ public class CardTypeController {
 		try {
 			/** Reload the update card Category page in case of any error */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_CARD_TYPE_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return "redirect:/admin/updateCardType/" + cardType.getId();
 			}
 

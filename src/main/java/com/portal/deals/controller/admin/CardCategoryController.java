@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.GenericException;
+import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.CardCategory;
 import com.portal.deals.service.CardCategoryService;
 
@@ -44,8 +45,14 @@ public class CardCategoryController {
 	/** The JSP name for add new card category page */
 	private static final String CARD_CATEGORY_FORM_JSP = "cardCategoryForm";
 
+	/** The update card category page */
+	private static final String UPDATE_CARD_CATEGORY_FORM_JSP = "updateCardCategoryForm";
+
 	/** The JSP name for card category list page */
 	private static final String CARD_CATEGORY_LIST_JSP = "cardCategoryList";
+
+	/** The module name */
+	private static final String MODULE = "cardCategoryManager";
 
 	/**
 	 * This method will render the add new card category page
@@ -62,6 +69,8 @@ public class CardCategoryController {
 			 * Adding the blank Card Category object as model attribute for Form
 			 */
 			model.addAttribute("cardCategory", new CardCategory());
+			model.addAttribute(CommonConstants.PAGE_NAME, CARD_CATEGORY_FORM_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading add new card category Page", ex);
 			if (ex instanceof BaseException) {
@@ -94,6 +103,8 @@ public class CardCategoryController {
 			 * form page with relevant errors
 			 */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, CARD_CATEGORY_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return CARD_CATEGORY_FORM_JSP;
 			}
 
@@ -128,6 +139,8 @@ public class CardCategoryController {
 			 * rendering in JSP
 			 */
 			model.addAttribute("cardCategories", cardCategories);
+			model.addAttribute(CommonConstants.PAGE_NAME, CARD_CATEGORY_LIST_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading the card category listing Page", ex);
 			if (ex instanceof BaseException) {
@@ -161,6 +174,8 @@ public class CardCategoryController {
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute("edit", true);
 			model.addAttribute("cardCategory", cardCategory);
+			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_CARD_CATEGORY_FORM_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while updating the card Category", ex);
 			if (ex instanceof BaseException) {
@@ -189,6 +204,8 @@ public class CardCategoryController {
 		try {
 			/** Reload the update card Category page in case of any error */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_CARD_CATEGORY_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return "redirect:/admin/updateCardCategory/" + cardCategory.getId();
 			}
 

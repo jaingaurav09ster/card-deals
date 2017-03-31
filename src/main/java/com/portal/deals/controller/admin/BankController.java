@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.GenericException;
+import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.Bank;
 import com.portal.deals.service.BankService;
 
 /**
- * This is the controller class for Bank CRUD operation. Only ADMIN
- * will have access to this controller
+ * This is the controller class for Bank CRUD operation. Only ADMIN will have
+ * access to this controller
  * 
  * @author Gaurav Jain
  *
@@ -44,8 +45,14 @@ public class BankController {
 	/** The JSP name for add new bank page */
 	private static final String BANK_FORM_JSP = "bankForm";
 
+	/** The JSP name for add new bank page */
+	private static final String UPDATE_BANK_FORM_JSP = "updateBankForm";
+
 	/** The JSP name for bank list page */
 	private static final String BANK_LIST_JSP = "bankList";
+
+	/** The module name */
+	private static final String MODULE = "bankManager";
 
 	/**
 	 * This method will render the add new bank page
@@ -62,6 +69,8 @@ public class BankController {
 			 * Adding the blank Bank object as model attribute for Form
 			 */
 			model.addAttribute("bank", new Bank());
+			model.addAttribute(CommonConstants.PAGE_NAME, BANK_FORM_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading add new bank Page", ex);
 			if (ex instanceof BaseException) {
@@ -84,16 +93,17 @@ public class BankController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/newBank", method = RequestMethod.POST)
-	public String addBank(@Valid Bank bank, BindingResult result, ModelMap model,
-			HttpServletRequest request) {
+	public String addBank(@Valid Bank bank, BindingResult result, ModelMap model, HttpServletRequest request) {
 		LOG.info("Saving the Bank to the database");
 
 		try {
 			/**
-			 * If there is any validation error, then reload the Bank
-			 * form page with relevant errors
+			 * If there is any validation error, then reload the Bank form page
+			 * with relevant errors
 			 */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, BANK_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return BANK_FORM_JSP;
 			}
 
@@ -110,7 +120,7 @@ public class BankController {
 	}
 
 	/**
-	 * This method will get the list of bank  from the database.
+	 * This method will get the list of bank from the database.
 	 * 
 	 * @param model
 	 *            The model to carry data
@@ -120,14 +130,15 @@ public class BankController {
 	public String listAllCards(ModelMap model) {
 		LOG.info("Loading the bank  list page");
 		try {
-			/** Get the list of Card  from the database */
+			/** Get the list of Card from the database */
 			List<Bank> banks = service.listAllBanks();
 
 			/**
-			 * Adding the bank list to model, to be used for
-			 * rendering in JSP
+			 * Adding the bank list to model, to be used for rendering in JSP
 			 */
 			model.addAttribute("banks", banks);
+			model.addAttribute(CommonConstants.PAGE_NAME, BANK_LIST_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading the bank listing Page", ex);
 			if (ex instanceof BaseException) {
@@ -161,6 +172,8 @@ public class BankController {
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute("edit", true);
 			model.addAttribute("bank", bank);
+			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_BANK_FORM_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while updating the bank", ex);
 			if (ex instanceof BaseException) {
@@ -183,12 +196,13 @@ public class BankController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/updateBank", method = RequestMethod.POST)
-	public String updateCard(@Valid Bank bank, BindingResult result, ModelMap model,
-			HttpServletRequest request) {
+	public String updateBank(@Valid Bank bank, BindingResult result, ModelMap model, HttpServletRequest request) {
 		LOG.info("Updating the bank details");
 		try {
 			/** Reload the update bank page in case of any error */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_BANK_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return "redirect:/admin/updateBank/" + bank.getId();
 			}
 
@@ -205,8 +219,8 @@ public class BankController {
 	}
 
 	/**
-	 * This method will delete the bank from the database, based on the
-	 * id passed
+	 * This method will delete the bank from the database, based on the id
+	 * passed
 	 * 
 	 * @param id
 	 *            The id of the bank that has to be deleted

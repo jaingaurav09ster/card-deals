@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.GenericException;
+import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.Category;
 import com.portal.deals.service.CategoryService;
 
@@ -41,11 +42,17 @@ public class CategoryController {
 	@Autowired
 	private CategoryService service;
 
+	/** The update new category page */
+	private static final String UPDATE_CATEGORY_FORM_JSP = "updateCategoryForm";
+
 	/** The JSP name for add new category page */
 	private static final String CATEGORY_FORM_JSP = "categoryForm";
 
 	/** The JSP name for category list page */
 	private static final String CATEGORY_LIST_JSP = "categoryList";
+
+	/** The module name */
+	private static final String MODULE = "categoryManager";
 
 	/**
 	 * This method will render the add new category page
@@ -62,6 +69,8 @@ public class CategoryController {
 			 * Adding the blank Category object as model attribute for Form
 			 */
 			model.addAttribute("category", new Category());
+			model.addAttribute(CommonConstants.PAGE_NAME, CATEGORY_FORM_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading add new category Page", ex);
 			if (ex instanceof BaseException) {
@@ -94,6 +103,8 @@ public class CategoryController {
 			 * page with relevant errors
 			 */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, CATEGORY_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return CATEGORY_FORM_JSP;
 			}
 
@@ -128,6 +139,8 @@ public class CategoryController {
 			 * JSP
 			 */
 			model.addAttribute("categories", categories);
+			model.addAttribute(CommonConstants.PAGE_NAME, CATEGORY_LIST_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading the category listing Page", ex);
 			if (ex instanceof BaseException) {
@@ -161,6 +174,8 @@ public class CategoryController {
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute("edit", true);
 			model.addAttribute("category", category);
+			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_CATEGORY_FORM_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while updating the  Category", ex);
 			if (ex instanceof BaseException) {
@@ -189,6 +204,8 @@ public class CategoryController {
 		try {
 			/** Reload the update Category page in case of any error */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_CATEGORY_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return "redirect:/admin/updateCategory/" + category.getId();
 			}
 

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.portal.deals.controller.RegistrationController;
 import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.GenericException;
+import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.User;
 import com.portal.deals.model.UserRole;
 import com.portal.deals.service.UserRoleService;
@@ -45,8 +46,14 @@ public class AdminUserController {
 	/** The JSP name for add new user page */
 	private static final String USER_FORM_JSP = "userForm";
 
+	/** The update user page */
+	private static final String UPDATE_USER_FORM_JSP = "updateUserForm";
+
 	/** The JSP name for user list page */
 	private static final String USER_LIST_JSP = "userList";
+
+	/** The module name */
+	private static final String MODULE = "userManager";
 
 	/**
 	 * Service class for communicating with DAO layer for USER specific DB
@@ -80,6 +87,8 @@ public class AdminUserController {
 			/** Get the user list from database */
 			List<User> users = userService.findAllUsers();
 			model.addAttribute("users", users);
+			model.addAttribute(CommonConstants.PAGE_NAME, USER_LIST_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading user list Page", ex);
 			if (ex instanceof BaseException) {
@@ -105,6 +114,8 @@ public class AdminUserController {
 			/** Adding blank model attribute to be used on form */
 			User user = new User();
 			model.addAttribute("user", user);
+			model.addAttribute(CommonConstants.PAGE_NAME, USER_FORM_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading add new user Page", ex);
 			if (ex instanceof BaseException) {
@@ -134,6 +145,8 @@ public class AdminUserController {
 		try {
 			/** Reload the form JSP, in case of any validation errors */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, USER_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return USER_FORM_JSP;
 			}
 
@@ -142,6 +155,8 @@ public class AdminUserController {
 				FieldError error = new FieldError("user", "email", messageSource.getMessage("non.unique.email",
 						new String[] { user.getEmail() }, Locale.getDefault()));
 				result.addError(error);
+				model.addAttribute(CommonConstants.PAGE_NAME, USER_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return USER_FORM_JSP;
 			}
 
@@ -168,7 +183,7 @@ public class AdminUserController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = { "/updateUser/{id}" }, method = RequestMethod.GET)
-	public String editUser(@PathVariable String id, ModelMap model) {
+	public String updateUser(@PathVariable String id, ModelMap model) {
 		LOG.info("Loading the update user page");
 		try {
 			if (LOG.isDebugEnabled()) {
@@ -177,7 +192,8 @@ public class AdminUserController {
 			/** Get the user to be updated from database */
 			User user = userService.findByEmail(id);
 			model.addAttribute("user", user);
-
+			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_USER_FORM_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 			/** Identifier for Edit user flow */
 			model.addAttribute("edit", true);
 		} catch (Exception ex) {
@@ -209,6 +225,8 @@ public class AdminUserController {
 			model.addAttribute("edit", true);
 			/** Reload the User update form in case of any error */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_USER_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return USER_FORM_JSP;
 			}
 			/** Update the user in database */

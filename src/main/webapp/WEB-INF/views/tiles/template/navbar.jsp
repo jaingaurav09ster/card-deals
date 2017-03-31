@@ -34,15 +34,8 @@
 									<li><a href="<c:url value="/admin/listCards" />">Manage
 											Cards</a></li>
 									<li class="divider"></li>
-									<li class="nav-header">Manage Master Data</li>
 									<li><a href="<c:url value="/admin/listBanks" />">Manage
-											Banks</a></li>
-									<li><a href="<c:url value="/admin/listCategories" />">Manage
-											Categories</a></li>
-									<li><a href="<c:url value="/admin/listCardCategories" />">Manage
-											Card Categories</a></li>
-									<li><a href="<c:url value="/admin/listCardTypes" />">Manage
-											Card Types</a></li>
+											Master Data</a></li>
 								</ul></li>
 						</sec:authorize>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
