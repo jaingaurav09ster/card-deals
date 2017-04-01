@@ -653,11 +653,12 @@ footer .footer-below {
 	font-weight: 600;
 	margin-bottom: 50px;
 	border: 1px solid #ddd;
+	border-radius: 4px;
 }
 
 .nav-side-menu .brand {
 	background-color: #f5f5f5;
-	line-height: 50px;
+	line-height: 40px;
 	display: block;
 	text-align: center;
 	font-size: 15px;
@@ -675,19 +676,6 @@ footer .footer-below {
 	margin: 0px;
 	line-height: 40px;
 	cursor: pointer;
-	/*    
-    .collapsed{
-       .arrow:before{
-                 font-family: FontAwesome;
-                 content: "\f053";
-                 display: inline-block;
-                 padding-left:10px;
-                 padding-right: 10px;
-                 vertical-align: middle;
-                 float:right;
-            }
-     }
-*/
 }
 
 .nav-side-menu ul :not(collapsed) .arrow:before, .nav-side-menu li :not(collapsed) .arrow:before
@@ -738,7 +726,7 @@ footer .footer-below {
 	font-family: FontAwesome;
 	content: "\f105";
 	display: inline-block;
-	padding-left: 10px;
+	padding-left: 30px;
 	padding-right: 10px;
 	vertical-align: middle;
 }
@@ -932,4 +920,8 @@ used to vertically center elements, may need modification if you're not using de
 	cursor: not-allowed;
 	background-color: #fff;
 	border-color: #ddd
+}
+
+.col-small-4 {
+	width: 30%;!important
 }

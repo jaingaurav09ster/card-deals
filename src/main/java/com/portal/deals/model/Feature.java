@@ -14,6 +14,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,25 +32,29 @@ public class Feature implements java.io.Serializable {
 	@Column(name = "FEATURE_ID")
 	private Integer id;
 
+	@NotEmpty
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-	@Column(name = "DESCRIPTION", nullable = false)
+	@Column(name = "DESCRIPTION", nullable = true)
 	private String description;
 
-	@Column(name = "RANK", nullable = false)
+	@Column(name = "RANK", nullable = true)
 	private Integer rank;
 
+	@NotNull
+	@Transient
+	private int cardId;
+	
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "FEATURE_CATEGORY_MAP", joinColumns = { @JoinColumn(name = "FEATURE_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "CATEGORY_ID") })
 	private Set<Category> categories;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = false)
-	private Card card;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = true)
+	private Card card;
 
 	/**
 	 * @return the title
@@ -116,7 +124,8 @@ public class Feature implements java.io.Serializable {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Integer id) {
 		this.id = id;
@@ -130,10 +139,38 @@ public class Feature implements java.io.Serializable {
 	}
 
 	/**
-	 * @param categories the categories to set
+	 * @param categories
+	 *            the categories to set
 	 */
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Feature feature = (Feature) obj;
+		return this.id == feature.id;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 89 * hash + (this.id != null ? this.id.hashCode() : 0);
+		return hash;
+	}
+
+	/**
+	 * @return the cardId
+	 */
+	public int getCardId() {
+		return cardId;
+	}
+
+	/**
+	 * @param cardId the cardId to set
+	 */
+	public void setCardId(int cardId) {
+		this.cardId = cardId;
 	}
 
 }

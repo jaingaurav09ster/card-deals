@@ -14,6 +14,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,10 +32,11 @@ public class Reward implements java.io.Serializable {
 	@Column(name = "REWARD_ID")
 	private Integer id;
 
+	@NotEmpty
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-	@Column(name = "DESCRIPTION", nullable = false)
+	@Column(name = "DESCRIPTION", nullable = true)
 	private String description;
 
 	@JsonIgnore
@@ -39,13 +44,17 @@ public class Reward implements java.io.Serializable {
 	@JoinTable(name = "REWARD_CATEGORY_MAP", joinColumns = { @JoinColumn(name = "REWARD_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "CATEGORY_ID") })
 	private Set<Category> categories;
-	
-	@Column(name = "RANK", nullable = false)
+
+	@Column(name = "RANK", nullable = true)
 	private Integer rank;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = false)
+	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = true)
 	private Card card;
+	
+	@NotNull
+	@Transient
+	private int cardId;
 
 	/**
 	 * @return the title
@@ -130,10 +139,38 @@ public class Reward implements java.io.Serializable {
 	}
 
 	/**
-	 * @param categories the categories to set
+	 * @param categories
+	 *            the categories to set
 	 */
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Reward reward = (Reward) obj;
+		return this.id == reward.id;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 89 * hash + (this.id != null ? this.id.hashCode() : 0);
+		return hash;
+	}
+
+	/**
+	 * @return the cardId
+	 */
+	public int getCardId() {
+		return cardId;
+	}
+
+	/**
+	 * @param cardId the cardId to set
+	 */
+	public void setCardId(int cardId) {
+		this.cardId = cardId;
 	}
 
 }

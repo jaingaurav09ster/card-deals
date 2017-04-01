@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.GenericException;
+import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.Bank;
 import com.portal.deals.model.Card;
 import com.portal.deals.model.CardCategory;
@@ -98,6 +101,12 @@ public class AdminCardController {
 	/** Path where image will be uploaded */
 	private static String UPLOAD_LOCATION = "/resources/upload";
 
+	/** The update card page */
+	private static final String UPDATE_CARD_FORM_JSP = "updateCardForm";
+
+	/** The module name */
+	private static final String MODULE = "cardManager";
+
 	/**
 	 * This method will render the add new card page
 	 * 
@@ -111,6 +120,8 @@ public class AdminCardController {
 		try {
 			/** Adding the blank Card object as model attribute for Form */
 			model.addAttribute("card", new Card());
+			model.addAttribute(CommonConstants.PAGE_NAME, CARD_FORM_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading add new card Page", ex);
 			if (ex instanceof BaseException) {
@@ -142,6 +153,8 @@ public class AdminCardController {
 			 * with relevant errors
 			 */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, CARD_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return CARD_FORM_JSP;
 			}
 
@@ -177,6 +190,8 @@ public class AdminCardController {
 			/**
 			 * Adding the card list to model, to be used for rendering in JSP
 			 */
+			model.addAttribute(CommonConstants.PAGE_NAME, CARD_LIST_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute("cards", cards);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading the card listing Page", ex);
@@ -198,7 +213,7 @@ public class AdminCardController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/updateCard/{id}")
-	public String updateCardForm(@PathVariable("id") int id, ModelMap model) {
+	public String updateCard(@PathVariable("id") int id, ModelMap model) {
 		LOG.info("Loading update card page");
 
 		try {
@@ -209,6 +224,8 @@ public class AdminCardController {
 			Card card = cardServiceManager.getCardById(id);
 
 			/** Add edit to true, to identify the request is coming from edit */
+			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_CARD_FORM_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute("edit", true);
 			model.addAttribute("card", card);
 		} catch (Exception ex) {
@@ -238,6 +255,8 @@ public class AdminCardController {
 		try {
 			/** Reload the update card page in case of any error */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_CARD_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return "redirect:/admin/updateCard/" + card.getId();
 			}
 
@@ -303,11 +322,26 @@ public class AdminCardController {
 		return "redirect:/admin/listCards";
 	}
 
+	/***
+	 * Binder for converting the data types
+	 * 
+	 * @param binder
+	 */
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+
+		binder.registerCustomEditor(Set.class, "categories", new CustomCollectionEditor(Set.class) {
+			protected Object convertElement(Object element) {
+				Integer name = null;
+				if (element instanceof String) {
+					name = Integer.parseInt((String) element);
+				}
+				return name != null ? new Category(name) : null;
+			}
+		});
 	}
 
 	/**

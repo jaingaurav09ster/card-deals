@@ -3,7 +3,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="row">
-	<div class="col-md-7 col-md-offset-2">
+	<jsp:include page="manageCardNav.jsp" />
+	<div class="col-sm-4 col-md-8">
 		<div class="panel panel-default panel-table">
 			<div class="panel-heading">
 				<div class="row">
@@ -36,13 +37,16 @@
 								<td>${card.cardType.name}</td>
 								<td>${card.bank.name}</td>
 								<td align="center"><form
-										action="<c:url value="/admin/deleteCard/${card.id}" />"><a
-									href="<c:url value="/admin/updateCard/${card.id}" />"
-									class="btn btn-default"><em class="fa fa-pencil"></em></a>
-									<button class='btn btn-danger' type="submit"
-										name="remove_levels" value="delete">
-										<em class="fa fa-trash"></em>
-									</button></form></td>
+										action="<c:url value="/admin/deleteCard/${card.id}" />">
+										<a href="<c:url value="/admin/updateCard/${card.id}" />"
+											class="btn btn-default"><em class="fa fa-pencil" title="Update Card"></em></a> <a
+											href="<c:url value="/admin/listDeals/${card.id}" />"
+											class="btn btn-default"><em class="fa fa-gear" title="Manage Card"></em></a>
+										<button class='btn btn-danger' type="submit"
+											name="remove_levels" value="delete" title="Delete Card">
+											<em class="fa fa-trash"></em>
+										</button>
+									</form></td>
 							</tr>
 						</c:forEach>
 						<c:if test="${fn:length(cards) lt 1}">

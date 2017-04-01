@@ -28,6 +28,16 @@ public class Category implements java.io.Serializable {
 	@Column(name = "DESCRIPTION", nullable = true)
 	private String description;
 
+	public Category(Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * Default constructor
+	 */
+	public Category() {
+	}
+
 	/**
 	 * @return the name
 	 */
@@ -71,6 +81,19 @@ public class Category implements java.io.Serializable {
 	 */
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Category category = (Category) obj;
+		return this.id == category.id;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 89 * hash + (this.id != null ? this.id.hashCode() : 0);
+		return hash;
 	}
 
 }

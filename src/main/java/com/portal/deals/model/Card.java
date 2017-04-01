@@ -41,7 +41,7 @@ public class Card extends AbstractEntity {
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-	@Column(name = "CARD_DESC", nullable = false)
+	@Column(name = "CARD_DESC", nullable = true)
 	private String description;
 
 	@NotNull
@@ -59,28 +59,30 @@ public class Card extends AbstractEntity {
 	@Column(name = "RANK", nullable = true)
 	private String rank;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CARD_CATEGORY_ID")
 	private CardCategory cardCategory;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CARD_TYPE_ID")
 	private CardType cardType;
 
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "BANK_ID")
 	private Bank bank;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-	private Set<JoiningPerk> joiningPerks;
-
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "CARD_CATEGORY_MAP", joinColumns = { @JoinColumn(name = "CARD_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "CATEGORY_ID") })
 	private Set<Category> categories;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	private Set<JoiningPerk> joiningPerks;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })

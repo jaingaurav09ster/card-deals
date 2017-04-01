@@ -29,7 +29,7 @@ public class Bank implements java.io.Serializable {
 	@Column(name = "NAME", nullable = false)
 	private String name;
 
-	@Column(name = "DESCRIPTION", nullable = false)
+	@Column(name = "DESCRIPTION", nullable = true)
 	private String description;
 
 	@OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)

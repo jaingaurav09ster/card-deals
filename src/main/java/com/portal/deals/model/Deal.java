@@ -15,6 +15,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -29,31 +33,35 @@ public class Deal implements java.io.Serializable {
 	@Column(name = "DEAL_ID")
 	private Integer id;
 
+	@NotEmpty
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-	@Column(name = "DESCRIPTION", nullable = false)
+	@Column(name = "DESCRIPTION", nullable = true)
 	private String description;
 
-	@Column(name = "RANK", nullable = false)
+	@Column(name = "RANK", nullable = true)
 	private Integer rank;
 
-	@Column(name = "START_DATE", nullable = false)
+	@Column(name = "START_DATE", nullable = true)
 	private Date startDate;
 
-	@Column(name = "END_DATE", nullable = false)
+	@Column(name = "END_DATE", nullable = true)
 	private Date endDate;
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "DEAL_CATEGORY_MAP", joinColumns = { @JoinColumn(name = "DEAL_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "CATEGORY_ID") })
 	private Set<Category> categories;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = false)
-	private Card card;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = true)
+	private Card card;
+	
+	@NotNull
+	@Transient
+	private int cardId;
 
 	/**
 	 * @return the title
@@ -153,10 +161,38 @@ public class Deal implements java.io.Serializable {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Deal deal = (Deal) obj;
+		return this.id == deal.id;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 89 * hash + (this.id != null ? this.id.hashCode() : 0);
+		return hash;
+	}
+
+	/**
+	 * @return the cardId
+	 */
+	public int getCardId() {
+		return cardId;
+	}
+
+	/**
+	 * @param cardId the cardId to set
+	 */
+	public void setCardId(int cardId) {
+		this.cardId = cardId;
 	}
 
 	/**
@@ -172,5 +208,4 @@ public class Deal implements java.io.Serializable {
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
-
 }

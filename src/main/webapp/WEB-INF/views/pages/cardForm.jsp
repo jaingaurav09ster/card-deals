@@ -14,7 +14,8 @@
 	src="/deals/resources/vendor/bootstrap/datepicker/js/bootstrap-datepicker.min.js"></script>
 <script src="/deals/resources/vendor/ckeditor/ckeditor.js"></script>
 
-<div class="row col-md-7 col-md-offset-2 custyle">
+<jsp:include page="manageCardNav.jsp" />
+<div class="col-sm-4 col-md-8">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<c:choose>
@@ -102,7 +103,7 @@
 						<label for="bank" class="control-label col-xs-3">Bank<span
 							class="asteriskField">*</span></label>
 						<div class="col-xs-5">
-							<form:select class="form-control" path="bank" id="bank">
+							<form:select class="form-control" path="bank.id" id="bank">
 								<form:option value="">Please Select</form:option>
 								<form:options items="${banks}" itemValue="Id" itemLabel="name" />
 							</form:select>
@@ -116,7 +117,7 @@
 							class="asteriskField">*</span>
 						</label>
 						<div class="col-xs-5">
-							<form:select class="form-control" path="cardType" id="type">
+							<form:select class="form-control" path="cardType.id" id="type">
 								<form:option value="">Please Select</form:option>
 								<form:options items="${cardTypes}" itemValue="Id"
 									itemLabel="name" />
@@ -131,10 +132,10 @@
 							Category<span class="asteriskField">*</span>
 						</label>
 						<div class="col-xs-5">
-							<form:select class="form-control" path="cardCategory"
+							<form:select class="form-control" path="cardCategory.id"
 								id="cardCategory">
 								<form:option value="">Please Select</form:option>
-								<form:options items="${cardCategories}" itemValue="Id"
+								<form:options items="${cardCategories}" itemValue="id"
 									itemLabel="name" />
 							</form:select>
 							<div class="has-error">
@@ -148,7 +149,7 @@
 						<div class="col-xs-5">
 							<form:select multiple="true" class="form-control"
 								path="categories" id="categories">
-								<form:options items="${categories}" itemValue="Id"
+								<form:options items="${categories}" itemValue="id"
 									itemLabel="name" />
 							</form:select>
 							<div class="has-error">

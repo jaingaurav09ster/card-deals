@@ -12,6 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "FEES")
@@ -24,18 +28,24 @@ public class Fees implements java.io.Serializable {
 	@Column(name = "FEES_ID")
 	private Integer id;
 
-	@Column(name = "APR", nullable = false)
+	@Column(name = "APR", nullable = true)
 	private BigDecimal apr;
 
+	@NotEmpty
 	@Column(name = "FIRST_YEAR", nullable = false)
 	private BigDecimal firstYear;
 
+	@NotEmpty
 	@Column(name = "ONWARDS", nullable = false)
 	private BigDecimal onwards;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = false)
+	private Card card;
 	
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = false)
-    private Card card;
+	@NotNull
+	@Transient
+	private int cardId;
 
 	/**
 	 * @return the apr
@@ -90,7 +100,8 @@ public class Fees implements java.io.Serializable {
 	}
 
 	/**
-	 * @param card the card to set
+	 * @param card
+	 *            the card to set
 	 */
 	public void setCard(Card card) {
 		this.card = card;
@@ -104,10 +115,38 @@ public class Fees implements java.io.Serializable {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Fees fees = (Fees) obj;
+		return this.id == fees.id;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 89 * hash + (this.id != null ? this.id.hashCode() : 0);
+		return hash;
+	}
+
+	/**
+	 * @return the cardId
+	 */
+	public int getCardId() {
+		return cardId;
+	}
+
+	/**
+	 * @param cardId the cardId to set
+	 */
+	public void setCardId(int cardId) {
+		this.cardId = cardId;
 	}
 
 }
