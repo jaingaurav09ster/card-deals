@@ -3,6 +3,7 @@
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="category"%>
 
 <link
 	href="/deals/resources/vendor/bootstrap/datepicker/css/bootstrap-datepicker.min.css"
@@ -15,6 +16,7 @@
 <script src="/deals/resources/vendor/ckeditor/ckeditor.js"></script>
 
 <jsp:include page="manageCardNav.jsp" />
+<c:set var="level" value="-1" scope="page" />
 <div class="col-sm-4 col-md-8">
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -149,8 +151,7 @@
 						<div class="col-xs-5">
 							<form:select multiple="true" class="form-control"
 								path="categories" id="categories">
-								<form:options items="${categories}" itemValue="id"
-									itemLabel="name" />
+								<category:selectCategory list="${categories}" level="${level}" />
 							</form:select>
 							<div class="has-error">
 								<form:errors path="categories" class="help-inline" />
