@@ -2,6 +2,8 @@ package com.portal.deals.model.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,5 +51,12 @@ public class CategoryDAOImpl extends AbstractDao<Integer, Category> implements C
 	@Override
 	public void deleteCategoryById(Integer id) {
 		this.deleteById(id);
+	}
+
+	@Override
+	public List<Category> listAllRootCategories() {
+		Criteria criteria = getSession().createCriteria(Category.class);
+		criteria.add(Restrictions.isNull("category.id"));
+		return getEntitiesByCriteria(criteria);
 	}
 }

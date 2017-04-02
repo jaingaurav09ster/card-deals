@@ -101,8 +101,8 @@ public class Card extends AbstractEntity {
 	private Fees fees;
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-	private Rating rating;
+	@OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	private Set<Rating> rating;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
@@ -211,21 +211,6 @@ public class Card extends AbstractEntity {
 	 */
 	public void setFees(Fees fees) {
 		this.fees = fees;
-	}
-
-	/**
-	 * @return the rating
-	 */
-	public Rating getRating() {
-		return rating;
-	}
-
-	/**
-	 * @param rating
-	 *            the rating to set
-	 */
-	public void setRating(Rating rating) {
-		this.rating = rating;
 	}
 
 	/**
@@ -371,9 +356,25 @@ public class Card extends AbstractEntity {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the rating
+	 */
+	public Set<Rating> getRating() {
+		return rating;
+	}
+
+	/**
+	 * @param rating
+	 *            the rating to set
+	 */
+	public void setRating(Set<Rating> rating) {
+		this.rating = rating;
 	}
 }

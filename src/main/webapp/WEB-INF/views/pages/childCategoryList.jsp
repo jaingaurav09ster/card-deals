@@ -3,16 +3,18 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="row">
-	<jsp:include page="masterDataNav.jsp" />
+	<jsp:include page="categoryTreeNav.jsp" />
 	<div class="col-md-7 col-md-offset-0">
 		<div class="panel panel-default panel-table">
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col col-xs-6">
-						<h3 class="panel-title">Categories List</h3>
+						<h3 class="panel-title">Child Category List</h3>
 					</div>
 					<div class="col col-xs-6 text-right">
-						<a href="<c:url value="/admin/newCategory" />"
+						<input type="hidden" name="parentId" value="${parentId}"
+							id="parentId" /> <a
+							href="<c:url value="/admin/newChildCategory/${parentId}" />"
 							class="btn btn-sm btn-primary btn-create">Create New</a>
 					</div>
 				</div>
@@ -35,19 +37,18 @@
 								<td>${category.name}</td>
 								<td width="50%">${category.description}</td>
 								<td align="center"><form
-										action="<c:url value="/admin/deleteCategory/${category.id}" />">
+										action="<c:url value="/admin/deleteChildCategory/${category.id}/${parentId}" />">
 										<a
-											href="<c:url value="/admin/updateCategory/${category.id}" />"
+											href="<c:url value="/admin/updateChildCategory/${category.id}/${parentId}" />"
 											class="btn btn-default" title="Update Category"><em
 											class="fa fa-pencil"></em></a> <a
 											href="<c:url value="/admin/listChildCategories/${category.id}" />"
-											class="btn btn-default"><em class="fa fa-child"
-											title="Add Child"></em></a>
+											class="btn btn-default" title="Add Child"><em
+											class="fa fa-child"></em></a>
 										<button class='btn btn-danger' type="submit"
 											name="remove_levels" value="delete" title="Delete Category">
 											<em class="fa fa-trash"></em>
 										</button>
-
 									</form></td>
 							</tr>
 						</c:forEach>

@@ -14,7 +14,7 @@
 <body>
 	<div class="container-full">
 		<tiles:insertAttribute name="navbar" />
-		<div class="mainContent">
+		<div>
 			<tiles:insertAttribute name="body" />
 		</div>
 		<tiles:insertAttribute name="footer" />

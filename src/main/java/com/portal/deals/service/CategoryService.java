@@ -7,6 +7,8 @@ import com.portal.deals.model.Category;
 public interface CategoryService {
 
 	List<Category> listAllCategories();
+	
+	List<Category> listAllRootCategories();
 
 	Category getCategoryById(Integer id);
 

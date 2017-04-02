@@ -2,7 +2,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<div class="row">
+<div class="row cardList">
 	<jsp:include page="manageCardNav.jsp" />
 	<div class="col-sm-4 col-md-8">
 		<div class="panel panel-default panel-table">
@@ -23,9 +23,12 @@
 					<thead>
 						<tr>
 							<th class="hidden-xs">ID</th>
-							<th>Card Title</th>
-							<th>Card Type</th>
-							<th>Bank Name</th>
+							<th>Image</th>
+							<th>Title</th>
+							<th>Bank</th>
+							<th>Type</th>
+							<th>Category</th>
+							<th>Launched</th>
 							<th><em class="fa fa-cog"></em></th>
 						</tr>
 					</thead>
@@ -33,15 +36,22 @@
 						<c:forEach items="${cards}" var="card">
 							<tr>
 								<td class="hidden-xs">${card.id}</td>
+								<td align="center"><img alt="image"
+									src="/deals/resources/upload/${card.imagePath}"
+									style="width: 50px; height: auto;"></td>
 								<td>${card.title}</td>
-								<td>${card.cardType.name}</td>
 								<td>${card.bank.name}</td>
+								<td>${card.cardType.name}</td>
+								<td>${card.cardCategory.name}</td>
+								<td>${card.launchDate}</td>
 								<td align="center"><form
 										action="<c:url value="/admin/deleteCard/${card.id}" />">
 										<a href="<c:url value="/admin/updateCard/${card.id}" />"
-											class="btn btn-default"><em class="fa fa-pencil" title="Update Card"></em></a> <a
+											class="btn btn-default"><em class="fa fa-pencil"
+											title="Update Card"></em></a> <a
 											href="<c:url value="/admin/listDeals/${card.id}" />"
-											class="btn btn-default"><em class="fa fa-gear" title="Manage Card"></em></a>
+											class="btn btn-default"><em class="fa fa-gear"
+											title="Manage Card"></em></a>
 										<button class='btn btn-danger' type="submit"
 											name="remove_levels" value="delete" title="Delete Card">
 											<em class="fa fa-trash"></em>

@@ -9,12 +9,9 @@
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col col-xs-6">
-						<h3 class="panel-title">List of Fees</h3>
+						<h3 class="panel-title">Fees</h3>
 					</div>
-					<div class="col col-xs-6 text-right">
-						<a href="<c:url value="/admin/newFees/${cardId}" />"
-							class="btn btn-sm btn-primary btn-create">Create New</a>
-					</div>
+					<div class="col col-xs-6 text-right"></div>
 				</div>
 			</div>
 			<div class="panel-body">
@@ -34,15 +31,9 @@
 								<td class="hidden-xs">${fees.id}</td>
 								<td>${fees.firstYear}</td>
 								<td width="50%">${fees.onwards}</td>
-								<td align="center"><form
-										action="<c:url value="/admin/deleteFees/${fees.id}/${cardId}" />">
-										<a href="<c:url value="/admin/updateFees/${fees.id}/${cardId}" />"
-											class="btn btn-default"><em class="fa fa-pencil"></em></a>
-										<button class='btn btn-danger' type="submit"
-											name="remove_levels" value="delete">
-											<em class="fa fa-trash"></em>
-										</button>
-									</form></td>
+								<td align="center"><a
+									href="<c:url value="/admin/updateFees/${cardId}" />"
+									class="btn btn-default"><em class="fa fa-pencil"></em></a></td>
 							</tr>
 						</c:forEach>
 						<c:if test="${fn:length(fees) lt 1}">
@@ -62,4 +53,3 @@
 		</div>
 	</div>
 </div>
-<jsp:include page="confirmModal.jsp" />

@@ -8,12 +8,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "RATING")
@@ -26,15 +24,15 @@ public class Rating implements java.io.Serializable {
 	@Column(name = "RATING_ID")
 	private Integer id;
 
-	@NotEmpty
+	@NotNull
 	@Column(name = "RATING", nullable = false)
 	private Integer rating;
 
 	@Column(name = "COMMENT", nullable = true)
 	private String comment;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = true)
 	private Card card;
 	
 	@NotNull

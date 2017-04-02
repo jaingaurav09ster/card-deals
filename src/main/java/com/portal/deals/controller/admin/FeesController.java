@@ -54,14 +54,13 @@ public class FeesController {
 	 */
 	@Autowired
 	private FeesService service;
-	
+
 	/**
 	 * Service class for communicating with DAO layer for CRUD operation for
 	 * Category entity
 	 */
 	@Autowired
 	private CategoryService categoryService;
-
 
 	/**
 	 * Service class for communicating with DAO layer for CRUD operation for
@@ -97,7 +96,7 @@ public class FeesController {
 			 * Adding the blank Fees object as model attribute for Form
 			 */
 			model.addAttribute("fees", new Fees());
-			model.addAttribute(CommonConstants.PAGE_NAME, DEAL_FORM_JSP);
+			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
 		} catch (Exception ex) {
@@ -122,7 +121,8 @@ public class FeesController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/newFees/{id}", method = RequestMethod.POST)
-	public String addFees(@PathVariable("id") int cardId, @Valid Fees fees, BindingResult result, ModelMap model, HttpServletRequest request) {
+	public String addFees(@PathVariable("id") int cardId, @Valid Fees fees, BindingResult result, ModelMap model,
+			HttpServletRequest request) {
 		LOG.info("Saving the Fees to the database");
 
 		try {
@@ -131,7 +131,7 @@ public class FeesController {
 			 * with relevant errors
 			 */
 			if (result.hasErrors()) {
-				model.addAttribute(CommonConstants.PAGE_NAME, DEAL_FORM_JSP);
+				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				model.addAttribute(CommonConstants.CARD_ID, fees.getCardId());
 				return DEAL_FORM_JSP;
@@ -195,16 +195,23 @@ public class FeesController {
 	 *            The model to carry data
 	 * @return The view JSP
 	 */
-	@RequestMapping(value = "/updateFees/{id}/{cardId}")
-	public String updateFees(@PathVariable("id") int id, @PathVariable("cardId") int cardId, ModelMap model) {
+	@RequestMapping(value = "/updateFees/{cardId}")
+	public String updateFees(@PathVariable("cardId") int cardId, ModelMap model) {
 		LOG.info("Loading update fees page");
 
 		try {
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("The Fees id to be updated [" + id + "]");
+				LOG.debug("The Fees id to be updated for [" + cardId + "]");
 			}
 			/** Get the Fees entity by id from the database */
-			Fees fees = service.getFeesById(id);
+			Card card = cardService.getCardById(cardId);
+			if (card == null) {
+				throw new EntityNotFoundException("ErrorAddFees", "Card not found");
+			}
+			Fees fees = card.getFees();
+			if (fees == null) {
+				return "redirect:/admin/newFees/" + card.getId();
+			}
 
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute("edit", true);
@@ -234,7 +241,8 @@ public class FeesController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/updateFees/{cardId}", method = RequestMethod.POST)
-	public String updateFees(@PathVariable("cardId") int cardId, @Valid Fees fees, BindingResult result, ModelMap model, HttpServletRequest request) {
+	public String updateFees(@PathVariable("cardId") int cardId, @Valid Fees fees, BindingResult result, ModelMap model,
+			HttpServletRequest request) {
 		LOG.info("Updating the fees details");
 		try {
 			/** Reload the update fees page in case of any error */

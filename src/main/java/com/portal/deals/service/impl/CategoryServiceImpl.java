@@ -50,4 +50,9 @@ public class CategoryServiceImpl implements CategoryService {
 	public void deleteCategory(Category category) {
 		categoryDAO.deleteCategory(category);
 	}
+
+	@Override
+	public List<Category> listAllRootCategories() {
+		return categoryDAO.listAllRootCategories();
+	}
 }

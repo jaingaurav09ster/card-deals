@@ -22,6 +22,14 @@ public interface CategoryDAO {
 	List<Category> listAllCategories();
 
 	/**
+	 * This method will return list of all the Category entity from the
+	 * database
+	 * 
+	 * @return List of Category entity
+	 */
+	List<Category> listAllRootCategories();
+
+	/**
 	 * This method will return the Category based on the Category id
 	 * passed.
 	 * 

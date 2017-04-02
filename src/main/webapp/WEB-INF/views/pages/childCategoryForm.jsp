@@ -7,18 +7,18 @@
 <script src="/deals/resources/vendor/ckeditor/ckeditor.js"></script>
 
 <div class="row">
-	<jsp:include page="masterDataNav.jsp" />
+	<jsp:include page="categoryTreeNav.jsp" />
 	<div class="col-sm-4 col-md-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<c:choose>
 					<c:when test="${edit}">
-						<div class="panel-title">Update Category</div>
-						<c:url var="actionUrl" value="/admin/updateCategory" />
+						<div class="panel-title">Update Child Category</div>
+						<c:url var="actionUrl" value="/admin/updateChildCategory/${parentId}" />
 					</c:when>
 					<c:otherwise>
-						<div class="panel-title">Add Category</div>
-						<c:url var="actionUrl" value="/admin/newCategory" />
+						<div class="panel-title">Add Child Category</div>
+						<c:url var="actionUrl" value="/admin/newChildCategory/${parentId}" />
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -29,10 +29,10 @@
 				<c:if test="${not empty msg}">
 					<div class="alert alert-danger col-sm-12">${msg}</div>
 				</c:if>
-				<form:form method="POST" modelAttribute="category" id="addCategory"
+				<form:form method="POST" modelAttribute="category" id="addChildCategory"
 					action="${actionUrl}" cssClass="form-horizontal">
 					<form:input type="hidden" path="id" id="id" />
-					<form:input type="hidden" path="parentId" value="${parentId}" id="id" />
+					<form:input type="hidden" path="parentId" value="${parentId}" id="parentId" />
 					<div>
 						<div class="form-group">
 							<label for="name" class="control-label col-xs-3">Name<span
@@ -61,7 +61,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-xs-offset-3 col-xs-7">
-							<a href="<c:url value='/admin/listCategories' />"
+							<a href="<c:url value='/admin/listChildCategories/${parentId}' />"
 								class="btn btn-primary btn-sm">Cancel</a>
 							<c:choose>
 								<c:when test="${edit}">

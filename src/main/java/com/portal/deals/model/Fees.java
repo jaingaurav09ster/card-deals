@@ -15,8 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 @Entity
 @Table(name = "FEES")
 public class Fees implements java.io.Serializable {
@@ -31,11 +29,11 @@ public class Fees implements java.io.Serializable {
 	@Column(name = "APR", nullable = true)
 	private BigDecimal apr;
 
-	@NotEmpty
+	@NotNull
 	@Column(name = "FIRST_YEAR", nullable = false)
 	private BigDecimal firstYear;
 
-	@NotEmpty
+	@NotNull
 	@Column(name = "ONWARDS", nullable = false)
 	private BigDecimal onwards;
 

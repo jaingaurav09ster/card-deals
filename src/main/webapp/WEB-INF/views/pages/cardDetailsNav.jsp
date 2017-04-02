@@ -6,7 +6,7 @@
 
 <div class="col-sm-4 col-md-4 sidebar">
 	<div class="nav-side-menu">
-		<div class="brand">Set Up Card : (${cardId})</div>
+		<div class="brand">Set Up Card : Id (${cardId})</div>
 		<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse"
 			data-target="#menu-content"></i>
 		<div class="menu-list">
@@ -46,7 +46,8 @@
 					<li id="rewardForm"><a
 						href="<c:url value="/admin/newReward/${cardId}" />">New Reward</a></li>
 					<li id="rewardList"><a
-						href="<c:url value="/admin/listRewards/${cardId}" />">Reward List</a></li>
+						href="<c:url value="/admin/listRewards/${cardId}" />">Reward
+							List</a></li>
 				</ul>
 				<li data-toggle="collapse" data-target="#ratingManager"
 					class="collapsed" id="li-ratingManager"><a href="#"><i
@@ -63,15 +64,12 @@
 				</ul>
 				<li data-toggle="collapse" data-target="#feesManager"
 					class="collapsed" id="li-feesManager"><a href="#"><i
-						class="fa fa-calculator fa-lg"></i> Fees Manager <span class="arrow"></span></a>
-				</li>
+						class="fa fa-calculator fa-lg"></i> Fees Manager <span
+						class="arrow"></span></a></li>
 				<ul class="sub-menu collapse" id="feesManager">
-					<li id="updateFeesForm" style="display: none;"><a href="#">Update
+					<li id="updateFeesForm"><a
+						href="<c:url value="/admin/updateFees/${cardId}" />">Add/Update
 							Fees</a></li>
-					<li id="feesForm"><a
-						href="<c:url value="/admin/newFees/${cardId}" />">New Fees</a></li>
-					<li id="feesList"><a
-						href="<c:url value="/admin/listFeess/${cardId}" />">Fees List</a></li>
 				</ul>
 				<li data-toggle="collapse" data-target="#joiningPerkManager"
 					class="collapsed" id="li-joiningPerkManager"><a href="#"><i
