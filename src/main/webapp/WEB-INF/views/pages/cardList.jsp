@@ -4,31 +4,30 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="row cardList">
 	<jsp:include page="manageCardNav.jsp" />
-	<div class="col-sm-4 col-md-8">
+	<div class="col-sm-8 col-md-8 list">
 		<div class="panel panel-default panel-table">
 			<div class="panel-heading">
 				<div class="row">
-					<div class="col col-xs-6">
+					<div class="col col-md-6">
 						<h3 class="panel-title">List of Cards</h3>
 					</div>
-					<div class="col col-xs-6 text-right">
+					<div class="col col-md-6 text-right">
 						<a href="<c:url value="/admin/newCard" />"
 							class="btn btn-sm btn-primary btn-create">Create New</a>
 					</div>
 				</div>
 			</div>
 			<div class="panel-body">
-				<table class="table table-striped table-bordered table-list"
+				<table class="table table-striped table-bordered table-list card-table"
 					id="paginate">
 					<thead>
 						<tr>
 							<th class="hidden-xs">ID</th>
-							<th>Image</th>
+							<th class="hidden-xs">Image</th>
 							<th>Title</th>
 							<th>Bank</th>
 							<th>Type</th>
-							<th>Category</th>
-							<th>Launched</th>
+							<th class="hidden-xs">Category</th>
 							<th><em class="fa fa-cog"></em></th>
 						</tr>
 					</thead>
@@ -36,15 +35,14 @@
 						<c:forEach items="${cards}" var="card">
 							<tr>
 								<td class="hidden-xs">${card.id}</td>
-								<td align="center"><img alt="image"
+								<td class="hidden-xs" align="center"><img alt="image"
 									src="/deals/resources/upload/${card.imagePath}"
 									style="width: 50px; height: auto;"></td>
 								<td>${card.title}</td>
 								<td>${card.bank.name}</td>
 								<td>${card.cardType.name}</td>
-								<td>${card.cardCategory.name}</td>
-								<td>${card.launchDate}</td>
-								<td align="center"><form
+								<td class="hidden-xs">${card.cardCategory.name}</td>
+								<td><form
 										action="<c:url value="/admin/deleteCard/${card.id}" />">
 										<a href="<c:url value="/admin/updateCard/${card.id}" />"
 											class="btn btn-default"><em class="fa fa-pencil"
@@ -61,7 +59,7 @@
 						</c:forEach>
 						<c:if test="${fn:length(cards) lt 1}">
 							<tr>
-								<td colspan="5" style="text-align: center">No Results found</td>
+								<td colspan="7">No Results found</td>
 							</tr>
 						</c:if>
 					</tbody>

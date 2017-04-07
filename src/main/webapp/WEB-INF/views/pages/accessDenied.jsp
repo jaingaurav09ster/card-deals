@@ -2,14 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div class="row col-md-6 col-md-offset-3 custyle">
+<div class="row col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 custyle form col-sm-8 col-sm-offset-2 custyle form">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="panel-title">Access Denied</div>
 		</div>
-		<div style="padding-top: 50px; padding-left: 40px" class="panel-body">You
+		<div class="panel-body">You
 			are not authorized to access this page.</div>
-		<div style="padding-bottom: 30px; padding-top: 30px;">
+		<div class="panel-footer" align='center'>
 			<a href="<c:url value='/login' />" class="btn btn-primary btn-sm">Continue</a>
 		</div>
 	</div>

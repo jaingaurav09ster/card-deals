@@ -168,12 +168,14 @@ public class RegistrationController {
 			 * Call User service, that will call underlying DAO layer to save
 			 * User to Database.
 			 */
+			user.setEnabled(true);
 			userService.saveUser(user);
 
-			/** Generate validation token and send out email to User */
-			generateToken(user, request);
 			String messageValue = messageSource.getMessage("auth.message.account.created", null, Locale.getDefault());
 			model.addAttribute(MESSAGE, messageValue);
+			
+			/** Generate validation token and send out email to User */
+			generateToken(user, request);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while registering the User", ex);
 			if (ex instanceof BaseException) {

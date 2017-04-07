@@ -17,16 +17,16 @@
 
 <jsp:include page="manageCardNav.jsp" />
 <c:set var="level" value="-1" scope="page" />
-<div class="col-sm-4 col-md-8">
+<div class="col-sm-7 col-md-7 form">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<c:choose>
 				<c:when test="${edit}">
-					<div class="panel-title">Update Card</div>
+					<div class="panel-title">Update Card <span class="required">(*required fields)</span></div>
 					<c:url var="actionUrl" value="/admin/updateCard" />
 				</c:when>
 				<c:otherwise>
-					<div class="panel-title">Add Card</div>
+					<div class="panel-title">Add Card <span class="required">(*required fields)</span></div>
 					<c:url var="actionUrl" value="/admin/newCard" />
 				</c:otherwise>
 			</c:choose>
@@ -44,9 +44,9 @@
 				<form:input type="hidden" path="id" id="id" />
 				<div>
 					<div class="form-group">
-						<label for="title" class="control-label col-xs-3">Title<span
+						<label for="title" class="control-label col-md-4">Title<span
 							class="asteriskField">*</span></label>
-						<div class="col-xs-6">
+						<div class="col-md-6">
 							<form:input type="text" path="title" id="title"
 								class="form-control" placeholder="Card Title" />
 							<div class="has-error">
@@ -55,10 +55,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="launchDate" class="control-label col-xs-3">Launch
+						<label for="launchDate" class="control-label col-md-4">Launch
 							Date<span class="asteriskField">*</span>
 						</label>
-						<div class="col-xs-6">
+						<div class="col-md-6">
 							<div class="input-group date" data-provide="datepicker"
 								data-date-format="yyyy-mm-dd" data-date-autoclose="true"
 								data-date-today-highlight="true">
@@ -75,9 +75,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="image" class="control-label col-xs-3">Image<span
+						<label for="image" class="control-label col-md-4">Image<span
 							class="asteriskField">*</span></label>
-						<div class="col-xs-6">
+						<div class="col-md-6">
 							<div class="input-group image-preview">
 								<form:input type="text"
 									class="form-control image-preview-filename" disabled="disabled"
@@ -102,9 +102,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="bank" class="control-label col-xs-3">Bank<span
+						<label for="bank" class="control-label col-md-4">Bank<span
 							class="asteriskField">*</span></label>
-						<div class="col-xs-5">
+						<div class="col-md-6">
 							<form:select class="form-control" path="bank.id" id="bank">
 								<form:option value="">Please Select</form:option>
 								<form:options items="${banks}" itemValue="Id" itemLabel="name" />
@@ -115,10 +115,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="type" class="control-label col-xs-3">Card Type<span
+						<label for="type" class="control-label col-md-4">Card Type<span
 							class="asteriskField">*</span>
 						</label>
-						<div class="col-xs-5">
+						<div class="col-md-6">
 							<form:select class="form-control" path="cardType.id" id="type">
 								<form:option value="">Please Select</form:option>
 								<form:options items="${cardTypes}" itemValue="Id"
@@ -130,10 +130,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="cardCategory" class="control-label col-xs-3">Card
+						<label for="cardCategory" class="control-label col-md-4">Card
 							Category<span class="asteriskField">*</span>
 						</label>
-						<div class="col-xs-5">
+						<div class="col-md-6">
 							<form:select class="form-control" path="cardCategory.id"
 								id="cardCategory">
 								<form:option value="">Please Select</form:option>
@@ -146,12 +146,13 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="category" class="control-label col-xs-3">Categories<span
+						<label for="category" class="control-label col-md-4">Categories<span
 							class="asteriskField">*</span></label>
-						<div class="col-xs-5">
+						<div class="col-md-6">
 							<form:select multiple="true" class="form-control"
 								path="categories" id="categories">
-								<category:selectCategory list="${categories}" level="${level}" />
+								<category:selectCategory list="${categories}" level="${level}"
+									selectedCategories="${card.categories}" />
 							</form:select>
 							<div class="has-error">
 								<form:errors path="categories" class="help-inline" />
@@ -159,9 +160,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="rank" class="control-label col-xs-3">Rank<span
+						<label for="rank" class="control-label col-md-4">Rank<span
 							class="asteriskField">*</span></label>
-						<div class="col-xs-3">
+						<div class="col-md-6">
 							<form:select class="form-control" path="rank" id="rank">
 								<c:forEach var="i" begin="0" end="10" step="1">
 									<form:option value="${i}">${i}</form:option>
@@ -173,23 +174,23 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="description" class="control-label col-xs-3">Description</label>
-						<div class="col-xs-8">
+						<label for="description" class="control-label col-md-4">Description</label>
+						<div class="col-md-8">
 							<div class="input-group">
 								<form:textarea path="description" class="form-control ckeditor"
-									id="cardDesc" placeholder="Card Description" />
+									id="ckEditorTextArea" placeholder="Card Description" />
 							</div>
 							<div class="has-error">
 								<form:errors path="description" class="help-inline" />
 							</div>
 						</div>
-						<div style="clear: both;"></div>
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-xs-offset-8 col-xs-10">
+					<label class="col-md-4 control-label"></label>
+						<div class="col-md-6">
 						<a href="<c:url value='/admin/listCards' />"
-							class="btn btn-primary btn-sm">Cancel</a>
+							class="btn btn-primary btn-sm btn-cancel">Cancel</a>
 						<c:choose>
 							<c:when test="${edit}">
 								<input type="submit" value="Update"
@@ -197,7 +198,7 @@
 							</c:when>
 							<c:otherwise>
 								<input type="submit" value="Add" class="btn btn-primary btn-sm"
-									style="margin-left: 23px;" />
+									 />
 							</c:otherwise>
 						</c:choose>
 					</div>

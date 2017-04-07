@@ -35,7 +35,7 @@
 					<li data-toggle="collapse" data-target="#${childCategory.name}"
 						class="collapsed" id="li-${childCategory.name}"
 						style="padding-left:${level*25}px"><a
-						href="<c:url value="/admin/listChildCategories/${childCategory.id}" />">
+						href="#">
 							${childCategory.name} </a></li>
 				</c:otherwise>
 			</c:choose>

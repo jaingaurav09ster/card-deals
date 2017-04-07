@@ -4,14 +4,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="row">
 	<jsp:include page="cardDetailsNav.jsp" />
-	<div class="col-md-7 col-md-offset-0">
+	<<div class="col-sm-8 col-md-8 list">
 		<div class="panel panel-default panel-table">
 			<div class="panel-heading">
 				<div class="row">
-					<div class="col col-xs-6">
+					<div class="col col-md-6">
 						<h3 class="panel-title">List of Features</h3>
 					</div>
-					<div class="col col-xs-6 text-right">
+					<div class="col col-md-6 text-right">
 						<a href="<c:url value="/admin/newFeature/${cardId}" />"
 							class="btn btn-sm btn-primary btn-create">Create New</a>
 					</div>
@@ -22,18 +22,16 @@
 					id="paginate">
 					<thead>
 						<tr>
-							<th class="hidden-xs">ID</th>
+							<th>ID</th>
 							<th>Feature Name</th>
-							<th>Description</th>
 							<th><em class="fa fa-cog"></em></th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${features}" var="feature">
 							<tr>
-								<td class="hidden-xs">${feature.id}</td>
+								<td>${feature.id}</td>
 								<td>${feature.title}</td>
-								<td width="50%">${feature.description}</td>
 								<td align="center"><form
 										action="<c:url value="/admin/deleteFeature/${feature.id}/${cardId}" />">
 										<a href="<c:url value="/admin/updateFeature/${feature.id}/${cardId}" />"
@@ -47,7 +45,7 @@
 						</c:forEach>
 						<c:if test="${fn:length(features) lt 1}">
 							<tr>
-								<td colspan="4" style="text-align: center">No Results found</td>
+								<td colspan="3">No Results found</td>
 							</tr>
 						</c:if>
 					</tbody>
@@ -55,7 +53,7 @@
 			</div>
 			<div class="panel-footer">
 				<div class="row">
-					<div class="col col-xs-4"></div>
+					<div class="col col-md-4"></div>
 					<div class="col col-xs-8" id="navigation"></div>
 				</div>
 			</div>

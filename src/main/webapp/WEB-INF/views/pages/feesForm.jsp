@@ -6,16 +6,16 @@
 
 <div class="row">
 	<jsp:include page="cardDetailsNav.jsp" />
-	<div class="col-sm-4 col-md-6">
+	<div class="col-sm-8 col-md-8 list">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<c:choose>
 					<c:when test="${edit}">
-						<div class="panel-title">Update Fees</div>
+						<div class="panel-title">Update Fees <span class="required">(*required fields)</span></div>
 						<c:url var="actionUrl" value="/admin/updateFees/${cardId}" />
 					</c:when>
 					<c:otherwise>
-						<div class="panel-title">Add Fees</div>
+						<div class="panel-title">Add Fees <span class="required">(*required fields)</span></div>
 						<c:url var="actionUrl" value="/admin/newFees/${cardId}" />
 					</c:otherwise>
 				</c:choose>
@@ -33,9 +33,9 @@
 					<form:input type="hidden" path="cardId" value="${cardId}" />
 					<div>
 						<div class="form-group">
-							<label for="firstYear" class="control-label col-xs-3">First Year Fee<span
+							<label for="firstYear" class="control-label col-md-4">First Year Fee<span
 								class="asteriskField">*</span></label>
-							<div class="col-xs-6">
+							<div class="col-md-6">
 								<form:input type="text" path="firstYear" id="firstYear"
 									class="form-control" placeholder="First Year Fee" />
 								<div class="has-error">
@@ -44,9 +44,9 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="onwards" class="control-label col-xs-3">Onwards Fee<span
+							<label for="onwards" class="control-label col-md-4">Onwards Fee<span
 								class="asteriskField">*</span></label>
-							<div class="col-xs-6">
+							<div class="col-md-6">
 								<form:input type="text" path="onwards" id="onwards"
 									class="form-control" placeholder="Onwards Fee" />
 								<div class="has-error">
@@ -55,8 +55,8 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="apr" class="control-label col-xs-3">Apr</label>
-							<div class="col-xs-6">
+							<label for="apr" class="control-label col-md-4">Apr</label>
+							<div class="col-md-6">
 								<form:input type="text" path="apr" id="apr"
 									class="form-control" placeholder="Apr" />
 								<div class="has-error">
@@ -66,9 +66,10 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-xs-offset-3 col-xs-7">
+					<label class="col-md-4 control-label"></label>
+						<div class="col-md-6">
 							<a href="<c:url value='/admin/listFees/${cardId}' />"
-								class="btn btn-primary btn-sm">Cancel</a>
+								class="btn btn-primary btn-sm btn-cancel">Cancel</a>
 							<c:choose>
 								<c:when test="${edit}">
 									<input type="submit" value="Update"
@@ -76,7 +77,7 @@
 								</c:when>
 								<c:otherwise>
 									<input type="submit" value="Add" class="btn btn-primary btn-sm"
-										style="margin-left: 23px;" />
+										 />
 								</c:otherwise>
 							</c:choose>
 						</div>

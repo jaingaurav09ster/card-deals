@@ -37,6 +37,22 @@ public class Deal implements java.io.Serializable {
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
+	@Column(name = "VALUE", nullable = true)
+	private String dealValue;
+
+	@Column(name = "MAX_VALUE", nullable = true)
+	private String maxValue;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "OFFER_TYPE_ID")
+	private OfferType offerType;
+
+	@Column(name = "MAX_VALUE_UNIT")
+	private String maxValueUnit;
+
+	@Column(name = "VALUE_UNIT")
+	private String valueUnit;
+
 	@Column(name = "DESCRIPTION", nullable = true)
 	private String description;
 
@@ -58,7 +74,7 @@ public class Deal implements java.io.Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = true)
 	private Card card;
-	
+
 	@NotNull
 	@Transient
 	private int cardId;
@@ -189,7 +205,8 @@ public class Deal implements java.io.Serializable {
 	}
 
 	/**
-	 * @param cardId the cardId to set
+	 * @param cardId
+	 *            the cardId to set
 	 */
 	public void setCardId(int cardId) {
 		this.cardId = cardId;
@@ -203,9 +220,84 @@ public class Deal implements java.io.Serializable {
 	}
 
 	/**
-	 * @param categories the categories to set
+	 * @param categories
+	 *            the categories to set
 	 */
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
+
+	/**
+	 * @return the dealValue
+	 */
+	public String getDealValue() {
+		return dealValue;
+	}
+
+	/**
+	 * @param dealValue
+	 *            the dealValue to set
+	 */
+	public void setDealValue(String dealValue) {
+		this.dealValue = dealValue;
+	}
+
+	/**
+	 * @return the maxValue
+	 */
+	public String getMaxValue() {
+		return maxValue;
+	}
+
+	/**
+	 * @param maxValue
+	 *            the maxValue to set
+	 */
+	public void setMaxValue(String maxValue) {
+		this.maxValue = maxValue;
+	}
+
+	/**
+	 * @return the offerType
+	 */
+	public OfferType getOfferType() {
+		return offerType;
+	}
+
+	/**
+	 * @param offerType
+	 *            the offerType to set
+	 */
+	public void setOfferType(OfferType offerType) {
+		this.offerType = offerType;
+	}
+
+	/**
+	 * @return the maxValueUnit
+	 */
+	public String getMaxValueUnit() {
+		return maxValueUnit;
+	}
+
+	/**
+	 * @param maxValueUnit the maxValueUnit to set
+	 */
+	public void setMaxValueUnit(String maxValueUnit) {
+		this.maxValueUnit = maxValueUnit;
+	}
+
+	/**
+	 * @return the valueUnit
+	 */
+	public String getValueUnit() {
+		return valueUnit;
+	}
+
+	/**
+	 * @param valueUnit the valueUnit to set
+	 */
+	public void setValueUnit(String valueUnit) {
+		this.valueUnit = valueUnit;
+	}
+
 }

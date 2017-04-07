@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div class="row col-md-5 col-md-offset-3 custyle">
+<div class="row col-md-5 col-sm-8 col-sm-offset-2 col-md-offset-3 custyle form">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="panel-title">Edit Profile</div>
@@ -77,9 +77,22 @@
 						<form:errors path="mobile" class="help-inline" />
 					</div>
 				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-bank"></i></span>
+						<form:select class="form-control" path="bank.id" id="bank">
+							<form:option value="">Please Select Bank</form:option>
+							<form:options items="${banks}" itemValue="Id" itemLabel="name" />
+						</form:select>
+					</div>
+					<div class="has-error">
+						<form:errors path="bank" class="help-inline" />
+					</div>
+				</div>
 				<div class="form-group button-group">
-					<a href="<c:url value='/' />" class="btn btn-primary btn-sm">Cancel</a>
-					<input type="submit" value="Update" class="btn btn-primary btn-sm" />
+					<a href="<c:url value='/' />"
+						class="btn btn-primary btn-sm btn-cancel">Cancel</a> <input
+						type="submit" value="Update" class="btn btn-primary btn-sm" />
 				</div>
 			</form:form>
 		</div>

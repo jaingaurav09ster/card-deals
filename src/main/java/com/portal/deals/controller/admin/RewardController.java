@@ -289,7 +289,7 @@ public class RewardController {
 	 */
 	@ModelAttribute("categories")
 	public List<Category> initializeCategories() {
-		return categoryService.listAllCategories();
+		return categoryService.listAllRootCategories();
 	}
 
 	/***

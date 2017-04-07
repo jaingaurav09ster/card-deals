@@ -6,7 +6,7 @@
 
 <div class="col-sm-4 col-md-4 sidebar">
 	<div class="nav-side-menu">
-		<div class="brand">Set Up Card : Id (${cardId})</div>
+		<div class="brand">Set Up Card : Id (${card.title})</div>
 		<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse"
 			data-target="#menu-content"></i>
 		<div class="menu-list">

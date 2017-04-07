@@ -1,9 +1,6 @@
 package com.portal.deals.controller.admin;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -11,14 +8,9 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomCollectionEditor;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,15 +20,13 @@ import com.portal.deals.exception.EntityNotFoundException;
 import com.portal.deals.exception.GenericException;
 import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.Card;
-import com.portal.deals.model.Category;
 import com.portal.deals.model.Document;
 import com.portal.deals.service.CardManagerService;
-import com.portal.deals.service.CategoryService;
 import com.portal.deals.service.DocumentService;
 
 /**
- * This is the controller class for Document CRUD operation. Only ADMIN will have
- * access to this controller
+ * This is the controller class for Document CRUD operation. Only ADMIN will
+ * have access to this controller
  * 
  * @author Gaurav Jain
  *
@@ -54,14 +44,6 @@ public class DocumentController {
 	 */
 	@Autowired
 	private DocumentService service;
-	
-	/**
-	 * Service class for communicating with DAO layer for CRUD operation for
-	 * Category entity
-	 */
-	@Autowired
-	private CategoryService categoryService;
-
 
 	/**
 	 * Service class for communicating with DAO layer for CRUD operation for
@@ -122,13 +104,14 @@ public class DocumentController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/newDocument/{id}", method = RequestMethod.POST)
-	public String addDocument(@PathVariable("id") int cardId, @Valid Document document, BindingResult result, ModelMap model, HttpServletRequest request) {
+	public String addDocument(@PathVariable("id") int cardId, @Valid Document document, BindingResult result,
+			ModelMap model, HttpServletRequest request) {
 		LOG.info("Saving the Document to the database");
 
 		try {
 			/**
-			 * If there is any validation error, then reload the Document form page
-			 * with relevant errors
+			 * If there is any validation error, then reload the Document form
+			 * page with relevant errors
 			 */
 			if (result.hasErrors()) {
 				model.addAttribute(CommonConstants.PAGE_NAME, DEAL_FORM_JSP);
@@ -170,7 +153,8 @@ public class DocumentController {
 		try {
 			List<Document> documents = service.getDocumentsByCardId(cardId);
 			/**
-			 * Adding the document list to model, to be used for rendering in JSP
+			 * Adding the document list to model, to be used for rendering in
+			 * JSP
 			 */
 			model.addAttribute("documents", documents);
 			model.addAttribute(CommonConstants.PAGE_NAME, DEAL_LIST_JSP);
@@ -234,7 +218,8 @@ public class DocumentController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/updateDocument/{cardId}", method = RequestMethod.POST)
-	public String updateDocument(@PathVariable("cardId") int cardId, @Valid Document document, BindingResult result, ModelMap model, HttpServletRequest request) {
+	public String updateDocument(@PathVariable("cardId") int cardId, @Valid Document document, BindingResult result,
+			ModelMap model, HttpServletRequest request) {
 		LOG.info("Updating the document details");
 		try {
 			/** Reload the update document page in case of any error */
@@ -283,35 +268,4 @@ public class DocumentController {
 		}
 		return "redirect:/admin/listDocuments/" + cardId;
 	}
-
-	/**
-	 * This method will provide Category list to views
-	 */
-	@ModelAttribute("categories")
-	public List<Category> initializeCategories() {
-		return categoryService.listAllCategories();
-	}
-
-	/***
-	 * Binder for converting the data types
-	 * 
-	 * @param binder
-	 */
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-
-		binder.registerCustomEditor(Set.class, "categories", new CustomCollectionEditor(Set.class) {
-			protected Object convertElement(Object element) {
-				Integer name = null;
-				if (element instanceof String) {
-					name = Integer.parseInt((String) element);
-				}
-				return name != null ? new Category(name) : null;
-			}
-		});
-	}
-
 }

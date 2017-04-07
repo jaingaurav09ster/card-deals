@@ -48,3 +48,5 @@
 <script src="/deals/resources/vendor/bootstrap/js/bootstrapValidator.js"></script>
 <script src="/deals/resources/javascripts/typeahead.bundle.js"></script>
 <script src="/deals/resources/vendor/jquery/jquery.paginate.js"></script> 	
+<script src="/deals/resources/vendor/nProgress/js/nprogress.js"></script>
+<script src="/deals/resources/javascripts/cards.js"></script>

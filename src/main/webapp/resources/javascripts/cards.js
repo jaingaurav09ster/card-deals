@@ -32,170 +32,232 @@
 		}
 	});
 
-	$('#registrationForm, #editProfileForm, #userForm')
-			.bootstrapValidator(
-					{
-						feedbackIcons : {
-							valid : 'glyphicon glyphicon-ok',
-							invalid : 'glyphicon glyphicon-remove',
-							validating : 'glyphicon glyphicon-refresh'
-						},
-						fields : {
-							firstName : {
-								validators : {
-									stringLength : {
-										min : 2,
-									},
-									notEmpty : {
-										message : 'Please enter first name'
+	$(document)
+			.ready(
+					function() {
+
+						$('#registrationForm, #editProfileForm, #newUserForm')
+								.bootstrapValidator(
+										{
+											feedbackIcons : {
+												valid : 'glyphicon glyphicon-ok',
+												invalid : 'glyphicon glyphicon-remove',
+												validating : 'glyphicon glyphicon-refresh'
+											},
+											fields : {
+												firstName : {
+													validators : {
+														stringLength : {
+															min : 2,
+														},
+														notEmpty : {
+															message : 'Please enter first name'
+														}
+													}
+												},
+												lastName : {
+													validators : {
+														stringLength : {
+															min : 2,
+														},
+														notEmpty : {
+															message : 'Please enter last name'
+														}
+													}
+												},
+												email : {
+													validators : {
+														notEmpty : {
+															message : 'Please enter email address'
+														},
+														emailAddress : {
+															message : 'Please supply a valid email address'
+														}
+													}
+												},
+												password : {
+													validators : {
+														notEmpty : {
+															message : 'Please enter password'
+														},
+														stringLength : {
+															min : 4,
+															message : 'Password should be atleast 4 digits'
+														}
+													}
+												},
+												mobile : {
+													validators : {
+														notEmpty : {
+															message : 'Please enter phone number'
+														},
+														phone : {
+															country : 'US',
+															message : 'Please supply a vaild phone number with area code'
+														}
+													}
+												}
+											}
+										}).on('submit', function(e) {
+
+								});
+
+						$('#forgotPasswordForm')
+								.bootstrapValidator(
+										{
+											feedbackIcons : {
+												valid : 'glyphicon glyphicon-ok',
+												invalid : 'glyphicon glyphicon-remove',
+												validating : 'glyphicon glyphicon-refresh'
+											},
+											fields : {
+												email : {
+													validators : {
+														notEmpty : {
+															message : 'Please enter email address'
+														},
+														emailAddress : {
+															message : 'Please supply a valid email address'
+														}
+													}
+												}
+											}
+										}).on('submit', function(e) {
+								});
+						$('#resetPasswordForm')
+								.bootstrapValidator(
+										{
+											feedbackIcons : {
+												valid : 'glyphicon glyphicon-ok',
+												invalid : 'glyphicon glyphicon-remove',
+												validating : 'glyphicon glyphicon-refresh'
+											},
+											fields : {
+												newPassword : {
+													validators : {
+														notEmpty : {
+															message : 'Please supply the password'
+														},
+														stringLength : {
+															min : 4,
+															message : 'Password should be atleast 4 digits'
+														}
+													}
+												},
+												matchPassword : {
+													validators : {
+														notEmpty : {
+															message : 'Please re-enter password'
+														},
+														stringLength : {
+															min : 4,
+															message : 'Password should be atleast 4 digits'
+														}
+													}
+												}
+											}
+										}).on('submit', function(e) {
+								});
+
+						$('#loginform')
+								.bootstrapValidator(
+										{
+											feedbackIcons : {
+												valid : 'glyphicon glyphicon-ok',
+												invalid : 'glyphicon glyphicon-remove',
+												validating : 'glyphicon glyphicon-refresh'
+											},
+											fields : {
+												email : {
+													validators : {
+														notEmpty : {
+															message : 'Please enter email address'
+														}
+													}
+												},
+												password : {
+													validators : {
+														notEmpty : {
+															message : 'Please enter password'
+														}
+													}
+												}
+											}
+										}).on('submit', function(e) {
+								});
+						
+						$('#bankForm')
+						.bootstrapValidator(
+								{
+									
+									fields : {
+										name : {
+											validators : {
+												notEmpty : {
+													message : 'Please enter bank name'
+												}
+											}
+										}
 									}
-								}
-							},
-							lastName : {
-								validators : {
-									stringLength : {
-										min : 2,
-									},
-									notEmpty : {
-										message : 'Please enter last name'
-									}
-								}
-							},
-							email : {
-								validators : {
-									notEmpty : {
-										message : 'Please enter email address'
-									},
-									emailAddress : {
-										message : 'Please supply a valid email address'
-									}
-								}
-							},
-							password : {
-								validators : {
-									notEmpty : {
-										message : 'Please enter password'
-									},
-									stringLength : {
-										min : 4,
-										message : 'Password should be atleast 4 digits'
-									}
-								}
-							},
-							mobile : {
-								validators : {
-									notEmpty : {
-										message : 'Please enter phone number'
-									},
-									phone : {
-										country : 'US',
-										message : 'Please supply a vaild phone number with area code'
-									}
-								}
-							}
+								}).on('submit', function(e) {alert('asd');
+						});
+
+						NProgress.configure({
+							showSpinner : false
+						});
+						NProgress.start();
+						NProgress.set(0.4);
+						// Increment
+						var interval = setInterval(function() {
+							NProgress.inc();
+						}, 1000);
+
+						NProgress.done();
+						clearInterval(interval);
+
+						$('#paginate').paginate({
+							limit : 10,
+							initialPage : 0,
+							navigationWrapper : $('#navigation'),
+							navigationClass : 'pagination pull-right'
+						});
+
+						var ckEditorTextArea = $("#ckEditorTextArea").val();
+						if (typeof ckEditorTextArea != "undefined"
+								&& ckEditorTextArea != null) {
+							CKEDITOR
+									.replace(
+											'ckEditorTextArea',
+											{
+												// Define the toolbar groups as
+												// it is a more accessible
+												// solution.
+												toolbarGroups : [
+														{
+															"name" : "basicstyles",
+															"groups" : [ "basicstyles" ]
+														},
+														{
+															"name" : "links",
+															"groups" : [ "links" ]
+														},
+														{
+															"name" : "paragraph",
+															"groups" : [
+																	"list",
+																	"blocks" ]
+														},
+														{
+															"name" : "document",
+															"groups" : [ "mode" ]
+														}, ],
+												// Remove the redundant buttons
+												// from toolbar groups defined
+												// above.
+												removeButtons : 'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar'
+											});
 						}
-					}).on('submit', function(e) {
-
-			});
-
-	$('#forgotPasswordForm').bootstrapValidator({
-		feedbackIcons : {
-			valid : 'glyphicon glyphicon-ok',
-			invalid : 'glyphicon glyphicon-remove',
-			validating : 'glyphicon glyphicon-refresh'
-		},
-		fields : {
-			email : {
-				validators : {
-					notEmpty : {
-						message : 'Please enter email address'
-					},
-					emailAddress : {
-						message : 'Please supply a valid email address'
-					}
-				}
-			}
-		}
-	}).on('submit', function(e) {
-	});
-	$('#resetPasswordForm').bootstrapValidator({
-		feedbackIcons : {
-			valid : 'glyphicon glyphicon-ok',
-			invalid : 'glyphicon glyphicon-remove',
-			validating : 'glyphicon glyphicon-refresh'
-		},
-		fields : {
-			newPassword : {
-				validators : {
-					notEmpty : {
-						message : 'Please supply the password'
-					},
-					stringLength : {
-						min : 4,
-						message : 'Password should be atleast 4 digits'
-					}
-				}
-			},
-			matchPassword : {
-				validators : {
-					notEmpty : {
-						message : 'Please re-enter password'
-					},
-					stringLength : {
-						min : 4,
-						message : 'Password should be atleast 4 digits'
-					}
-				}
-			}
-		}
-	}).on('submit', function(e) {
-	});
-
-	$('#loginform').bootstrapValidator({
-		feedbackIcons : {
-			valid : 'glyphicon glyphicon-ok',
-			invalid : 'glyphicon glyphicon-remove',
-			validating : 'glyphicon glyphicon-refresh'
-		},
-		fields : {
-			email : {
-				validators : {
-					notEmpty : {
-						message : 'Please enter email address'
-					}
-				}
-			},
-			password : {
-				validators : {
-					notEmpty : {
-						message : 'Please enter password'
-					}
-				}
-			}
-		}
-	}).on('submit', function(e) {
-	});
-
-	NProgress.configure({
-		showSpinner : false
-	});
-	NProgress.start();
-	NProgress.set(0.4);
-	// Increment
-	var interval = setInterval(function() {
-		NProgress.inc();
-	}, 1000);
-	$(document).ready(function() {
-		NProgress.done();
-		clearInterval(interval);
-		
-		$('#paginate').paginate({
-			limit : 10,
-			initialPage : 0,
-			navigationWrapper: $('#navigation'),
-			navigationClass: 'pagination hidden-xs pull-right'
-		});
-	});
+					});
 
 	$(document).on('click', '#close-preview', function() {
 		$('.image-preview').popover('hide');

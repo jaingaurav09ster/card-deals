@@ -63,6 +63,32 @@
 					<li id="cardTypeList"><a
 						href="<c:url value="/admin/listCardTypes" />">Card Type List</a></li>
 				</ul>
+				
+				<li data-toggle="collapse" data-target="#offerTypeManager"
+					class="collapsed" id="li-offerTypeManager"><a href="#"><i
+						class="fa fa-gift fa-lg"></i> Offer Type Manager <span
+						class="arrow"></span></a></li>
+				<ul class="sub-menu collapse" id="offerTypeManager">
+					<li id="updateOfferTypeForm" style="display: none;"><a href="#">Update
+							Offer Type</a></li>
+					<li id="offerTypeForm"><a
+						href="<c:url value="/admin/newOfferType" />">New Offer Type</a></li>
+					<li id="offerTypeList"><a
+						href="<c:url value="/admin/listOfferTypes" />">Offer Type List</a></li>
+				</ul>
+				
+				<li data-toggle="collapse" data-target="#offerUnitManager"
+					class="collapsed" id="li-offerUnitManager"><a href="#"><i
+						class="fa fa-calculator fa-lg"></i> Offer Unit Manager <span
+						class="arrow"></span></a></li>
+				<ul class="sub-menu collapse" id="offerUnitManager">
+					<li id="updateofferUnitForm" style="display: none;"><a href="#">Update
+							Card Type</a></li>
+					<li id="offerUnitForm"><a
+						href="<c:url value="/admin/newOfferUnit" />">New Offer Unit Type</a></li>
+					<li id="offerUnitList"><a
+						href="<c:url value="/admin/listOfferUnits" />">Offer Unit Type List</a></li>
+				</ul>
 			</ul>
 		</div>
 	</div>

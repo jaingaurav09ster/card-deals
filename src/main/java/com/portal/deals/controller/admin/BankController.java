@@ -1,5 +1,6 @@
 package com.portal.deals.controller.admin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +21,7 @@ import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.GenericException;
 import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.Bank;
+import com.portal.deals.model.Sector;
 import com.portal.deals.service.BankService;
 
 /**
@@ -159,7 +162,7 @@ public class BankController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/updateBank/{id}")
-	public String updateBankForm(@PathVariable("id") int id, ModelMap model) {
+	public String updateBank(@PathVariable("id") int id, ModelMap model) {
 		LOG.info("Loading update bank page");
 
 		try {
@@ -227,7 +230,7 @@ public class BankController {
 	 * @return the redirect value
 	 */
 	@RequestMapping(value = "/deleteBank/{id}")
-	public String deleteCard(@PathVariable("id") int id) {
+	public String deleteBank(@PathVariable("id") int id) {
 		LOG.info("Deleting the bank from database");
 		try {
 			if (LOG.isDebugEnabled()) {
@@ -243,6 +246,21 @@ public class BankController {
 			}
 		}
 		return "redirect:/admin/listBanks";
+	}
+
+	/**
+	 * This method will provide Category list to views
+	 */
+	@ModelAttribute("sectors")
+	public List<Sector> initializeSectors() {
+		List<Sector> sectors = new ArrayList<>();
+		sectors.add(new Sector("Public-Sector Bank"));
+		sectors.add(new Sector("Private-Sector Bank"));
+		sectors.add(new Sector("Foreign Bank"));
+		sectors.add(new Sector("Regional Rural Bank"));
+		sectors.add(new Sector("Cooperative Bank"));
+		sectors.add(new Sector("Urban Cooperative Bank"));
+		return sectors;
 	}
 
 }

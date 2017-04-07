@@ -40,7 +40,7 @@ public class Reward implements java.io.Serializable {
 	private String description;
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "REWARD_CATEGORY_MAP", joinColumns = { @JoinColumn(name = "REWARD_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "CATEGORY_ID") })
 	private Set<Category> categories;

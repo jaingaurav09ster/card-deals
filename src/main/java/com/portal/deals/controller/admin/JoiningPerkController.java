@@ -289,7 +289,7 @@ public class JoiningPerkController {
 	 */
 	@ModelAttribute("categories")
 	public List<Category> initializeCategories() {
-		return categoryService.listAllCategories();
+		return categoryService.listAllRootCategories();
 	}
 
 	/***

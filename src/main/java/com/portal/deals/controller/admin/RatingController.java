@@ -1,9 +1,6 @@
 package com.portal.deals.controller.admin;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -11,14 +8,9 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomCollectionEditor;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,10 +20,8 @@ import com.portal.deals.exception.EntityNotFoundException;
 import com.portal.deals.exception.GenericException;
 import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.Card;
-import com.portal.deals.model.Category;
 import com.portal.deals.model.Rating;
 import com.portal.deals.service.CardManagerService;
-import com.portal.deals.service.CategoryService;
 import com.portal.deals.service.RatingService;
 
 /**
@@ -55,14 +45,6 @@ public class RatingController {
 	@Autowired
 	private RatingService service;
 	
-	/**
-	 * Service class for communicating with DAO layer for CRUD operation for
-	 * Category entity
-	 */
-	@Autowired
-	private CategoryService categoryService;
-
-
 	/**
 	 * Service class for communicating with DAO layer for CRUD operation for
 	 * CARD entity
@@ -266,7 +248,7 @@ public class RatingController {
 	 * @return the redirect value
 	 */
 	@RequestMapping(value = "/deleteRating/{id}/{cardId}")
-	public String deleteCard(@PathVariable("id") int id, @PathVariable("cardId") int cardId) {
+	public String deleteRating(@PathVariable("id") int id, @PathVariable("cardId") int cardId) {
 		LOG.info("Deleting the rating from database");
 		try {
 			if (LOG.isDebugEnabled()) {
@@ -283,35 +265,4 @@ public class RatingController {
 		}
 		return "redirect:/admin/listRatings/" + cardId;
 	}
-
-	/**
-	 * This method will provide Category list to views
-	 */
-	@ModelAttribute("categories")
-	public List<Category> initializeCategories() {
-		return categoryService.listAllCategories();
-	}
-
-	/***
-	 * Binder for converting the data types
-	 * 
-	 * @param binder
-	 */
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-
-		binder.registerCustomEditor(Set.class, "categories", new CustomCollectionEditor(Set.class) {
-			protected Object convertElement(Object element) {
-				Integer name = null;
-				if (element instanceof String) {
-					name = Integer.parseInt((String) element);
-				}
-				return name != null ? new Category(name) : null;
-			}
-		});
-	}
-
 }

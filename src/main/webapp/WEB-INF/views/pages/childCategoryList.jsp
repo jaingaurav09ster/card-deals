@@ -4,14 +4,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="row">
 	<jsp:include page="categoryTreeNav.jsp" />
-	<div class="col-md-7 col-md-offset-0">
+	<div class="col-sm-8 col-md-8 list">
 		<div class="panel panel-default panel-table">
 			<div class="panel-heading">
 				<div class="row">
-					<div class="col col-xs-6">
+					<div class="col col-md-6">
 						<h3 class="panel-title">Child Category List</h3>
 					</div>
-					<div class="col col-xs-6 text-right">
+					<div class="col col-md-6 text-right">
 						<input type="hidden" name="parentId" value="${parentId}"
 							id="parentId" /> <a
 							href="<c:url value="/admin/newChildCategory/${parentId}" />"
@@ -24,18 +24,16 @@
 					id="paginate">
 					<thead>
 						<tr>
-							<th class="hidden-xs">ID</th>
+							<th>ID</th>
 							<th>Category Name</th>
-							<th>Description</th>
 							<th><em class="fa fa-cog"></em></th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${categories}" var="category">
 							<tr>
-								<td class="hidden-xs">${category.id}</td>
+								<td>${category.id}</td>
 								<td>${category.name}</td>
-								<td width="50%">${category.description}</td>
 								<td align="center"><form
 										action="<c:url value="/admin/deleteChildCategory/${category.id}/${parentId}" />">
 										<a
@@ -54,7 +52,7 @@
 						</c:forEach>
 						<c:if test="${fn:length(categories) lt 1}">
 							<tr>
-								<td colspan="4" style="text-align: center">No Results found</td>
+								<td colspan="3">No Results found</td>
 							</tr>
 						</c:if>
 					</tbody>

@@ -14,19 +14,9 @@
 		<put-attribute name="footer"
 			value="/WEB-INF/views/tiles/template/footer.jsp" />
 	</definition>
-	
-	<definition name="full-page" template="/WEB-INF/views/tiles/layouts/fullPageLayout.jsp">
-		<put-attribute name="title" value="" />
-		<put-attribute name="head"
-			value="/WEB-INF/views/tiles/template/head.jsp" />
-		<put-attribute name="navbar"
-			value="/WEB-INF/views/tiles/template/navbar.jsp" />
-		<put-attribute name="body" value="" />
-		<put-attribute name="footer"
-			value="/WEB-INF/views/tiles/template/footer.jsp" />
-	</definition>
-	
-		<definition name="two-column" template="/WEB-INF/views/tiles/layouts/twoColumnLayout.jsp">
+
+	<definition name="full-page"
+		template="/WEB-INF/views/tiles/layouts/fullPageLayout.jsp">
 		<put-attribute name="title" value="" />
 		<put-attribute name="head"
 			value="/WEB-INF/views/tiles/template/head.jsp" />
@@ -90,13 +80,13 @@
 	</definition>
 
 	<!-- User List Page -->
-	<definition name="userList" extends="two-column">
+	<definition name="userList" extends="base-definition">
 		<put-attribute name="title" value="List of Users" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/userList.jsp" />
 	</definition>
 
 	<!-- User Add Page -->
-	<definition name="userForm" extends="two-column">
+	<definition name="userForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update User" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/userForm.jsp" />
 	</definition>
@@ -160,148 +150,194 @@
 	</definition>
 
 	<!-- Add Card Type Page -->
-	<definition name="cardTypeForm" extends="two-column">
+	<definition name="cardTypeForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Card Type" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/cardTypeForm.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/cardTypeForm.jsp" />
 	</definition>
 
 	<!-- Card Type List Page -->
-	<definition name="cardTypeList" extends="two-column">
+	<definition name="cardTypeList" extends="base-definition">
 		<put-attribute name="title" value="List of Card Types" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/cardTypeList.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/cardTypeList.jsp" />
 	</definition>
 
 	<!-- Add Category Page -->
-	<definition name="categoryForm" extends="two-column">
+	<definition name="categoryForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Category" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/categoryForm.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/categoryForm.jsp" />
 	</definition>
 
 	<!-- Category List Page -->
-	<definition name="categoryList" extends="two-column">
+	<definition name="categoryList" extends="base-definition">
 		<put-attribute name="title" value="List of Categories" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/categoryList.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/categoryList.jsp" />
 	</definition>
-	
-		<!-- Add Child Category Page -->
-	<definition name="childCategoryForm" extends="two-column">
+
+	<!-- Add Child Category Page -->
+	<definition name="childCategoryForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Child Category" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/childCategoryForm.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/childCategoryForm.jsp" />
 	</definition>
 
 	<!-- Child Category List Page -->
-	<definition name="childCategoryList" extends="two-column">
+	<definition name="childCategoryList" extends="base-definition">
 		<put-attribute name="title" value="List of Child Categories" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/childCategoryList.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/childCategoryList.jsp" />
 	</definition>
-	
+
 
 	<!-- Add Bank Page -->
-	<definition name="bankForm" extends="two-column">
+	<definition name="bankForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Bank" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/bankForm.jsp" />
 	</definition>
 
 	<!-- Bank List Page -->
-	<definition name="bankList" extends="two-column">
+	<definition name="bankList" extends="base-definition">
 		<put-attribute name="title" value="List of Banks" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/bankList.jsp" />
 	</definition>
 
 	<!-- Add Card Page -->
-	<definition name="cardCategoryForm" extends="two-column">
+	<definition name="cardCategoryForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Card Category" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/cardCategoryForm.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/cardCategoryForm.jsp" />
 	</definition>
 
 	<!-- Card List Page -->
-	<definition name="cardCategoryList" extends="two-column">
+	<definition name="cardCategoryList" extends="base-definition">
 		<put-attribute name="title" value="List of Card Categories" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/cardCategoryList.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/cardCategoryList.jsp" />
 	</definition>
 
 	<!-- Add Deal Page -->
-	<definition name="dealForm" extends="two-column">
+	<definition name="dealForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Deal" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/dealForm.jsp" />
 	</definition>
 
 	<!-- Deal List Page -->
-	<definition name="dealList" extends="two-column">
+	<definition name="dealList" extends="base-definition">
 		<put-attribute name="title" value="List of Deals" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/dealList.jsp" />
 	</definition>
 
 	<!-- Add Feature Page -->
-	<definition name="featureForm" extends="two-column">
+	<definition name="featureForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Feature" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/featureForm.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/featureForm.jsp" />
 	</definition>
 
 	<!-- Deal Feature Page -->
-	<definition name="featureList" extends="two-column">
+	<definition name="featureList" extends="base-definition">
 		<put-attribute name="title" value="List of Feature" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/featureList.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/featureList.jsp" />
 	</definition>
 
 	<!-- Add Document Page -->
-	<definition name="documentForm" extends="two-column">
+	<definition name="documentForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Document" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/documentForm.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/documentForm.jsp" />
 	</definition>
 
 	<!-- Document List Page -->
-	<definition name="documentList" extends="two-column">
+	<definition name="documentList" extends="base-definition">
 		<put-attribute name="title" value="List of Document" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/documentList.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/documentList.jsp" />
 	</definition>
 
 	<!-- Add Joining Perk Page -->
-	<definition name="joiningPerkForm" extends="two-column">
+	<definition name="joiningPerkForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Joining Perk" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/joiningPerkForm.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/joiningPerkForm.jsp" />
 	</definition>
 
 	<!-- Joining Perk List Page -->
-	<definition name="joiningPerkList" extends="two-column">
+	<definition name="joiningPerkList" extends="base-definition">
 		<put-attribute name="title" value="List of Joining Perk" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/joiningPerkList.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/joiningPerkList.jsp" />
 	</definition>
 
 	<!-- Add Fees Page -->
-	<definition name="feesForm" extends="two-column">
+	<definition name="feesForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Fees" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/feesForm.jsp" />
 	</definition>
 
 	<!-- Add Fees Page -->
-	<definition name="feesList" extends="two-column">
+	<definition name="feesList" extends="base-definition">
 		<put-attribute name="title" value="List of Fees" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/feesList.jsp" />
 	</definition>
 
 	<!-- Add Rating Page -->
-	<definition name="ratingForm" extends="two-column">
+	<definition name="ratingForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Rating" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/ratingForm.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/ratingForm.jsp" />
 	</definition>
 
 	<!-- Deal List Page -->
-	<definition name="ratingList" extends="two-column">
+	<definition name="ratingList" extends="base-definition">
 		<put-attribute name="title" value="List of Rating" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/ratingList.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/ratingList.jsp" />
 	</definition>
 
 	<!-- Add Reward Page -->
-	<definition name="rewardForm" extends="two-column">
+	<definition name="rewardForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Reward" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/rewardForm.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/rewardForm.jsp" />
 	</definition>
 
 	<!-- Deal Reward Page -->
-	<definition name="rewardList" extends="two-column">
+	<definition name="rewardList" extends="base-definition">
 		<put-attribute name="title" value="List of Reward" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/rewardList.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/rewardList.jsp" />
+	</definition>
+	
+		<!-- Add Offer Type Page -->
+	<definition name="offerTypeForm" extends="base-definition">
+		<put-attribute name="title" value="Add/Update Offer Type" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/offerTypeForm.jsp" />
+	</definition>
+
+	<!-- Offer Type List Page -->
+	<definition name="offerTypeList" extends="base-definition">
+		<put-attribute name="title" value="List of Offer Types" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/offerTypeList.jsp" />
+	</definition>
+	
+		<!-- Add Offer Unit Page -->
+	<definition name="offerUnitForm" extends="base-definition">
+		<put-attribute name="title" value="Add/Update Offer Unit" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/offerUnitForm.jsp" />
+	</definition>
+
+	<!-- Offer Unit List Page -->
+	<definition name="offerUnitList" extends="base-definition">
+		<put-attribute name="title" value="List of Offer Units" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/offerUnitList.jsp" />
 	</definition>
 
 </tiles-definitions>

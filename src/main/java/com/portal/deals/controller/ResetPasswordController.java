@@ -184,10 +184,11 @@ public class ResetPasswordController {
 			emailParams.setTo(recipientAddress);
 			emailParams.setSubject(subject);
 			emailParams.setEmailBody(message + " :: " + resetPasswordUrl);
-			mailService.sendEmail(emailParams);
 
 			message = messageSource.getMessage("forgot.password.success", null, Locale.getDefault());
 			model.addAttribute(MESSAGE, message);
+
+			mailService.sendEmail(emailParams);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while submitting forgot password Page", ex);
 			if (ex instanceof BaseException) {

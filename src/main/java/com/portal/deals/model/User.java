@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
@@ -49,6 +50,10 @@ public class User extends AbstractEntity {
 	@Email
 	@Column(name = "EMAIL", unique = true, nullable = false)
 	private String email;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "BANK_ID")
+	private Bank bank;
 
 	@NotEmpty
 	@Pattern(regexp = "(^$|[0-9]{10})")
@@ -259,6 +264,21 @@ public class User extends AbstractEntity {
 	 */
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
+	}
+
+	/**
+	 * @return the bank
+	 */
+	public Bank getBank() {
+		return bank;
+	}
+
+	/**
+	 * @param bank
+	 *            the bank to set
+	 */
+	public void setBank(Bank bank) {
+		this.bank = bank;
 	}
 
 }

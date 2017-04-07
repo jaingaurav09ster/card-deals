@@ -41,5 +41,3 @@
 		</div>
 	</div>
 </footer>
-<script src="/deals/resources/vendor/nProgress/js/nprogress.js"></script>
-<script src="/deals/resources/javascripts/cards.js"></script>

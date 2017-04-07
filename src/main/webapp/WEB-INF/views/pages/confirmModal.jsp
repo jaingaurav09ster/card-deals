@@ -7,13 +7,12 @@
 				<h4 class="modal-title">Confirmation</h4>
 			</div>
 			<div class="modal-body">
-				<p>Are you sure you want to delete?</p>
+				<p class="smallFont">Are you sure you want to delete?</p>
 				<div class="row">
 					<div class="col-12-xs text-center">
 						<button type="button" data-dismiss="modal" class="btn btn-primary"
 							id="delete">Delete</button>
-						<button type="button" data-dismiss="modal" class="btn"
-							style="margin-left: 20px;">Cancel</button>
+						<button type="button" data-dismiss="modal" class="btn">Cancel</button>
 					</div>
 				</div>
 			</div>

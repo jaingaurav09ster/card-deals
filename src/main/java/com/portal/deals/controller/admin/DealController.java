@@ -30,9 +30,13 @@ import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.Card;
 import com.portal.deals.model.Category;
 import com.portal.deals.model.Deal;
+import com.portal.deals.model.OfferType;
+import com.portal.deals.model.OfferUnit;
 import com.portal.deals.service.CardManagerService;
 import com.portal.deals.service.CategoryService;
 import com.portal.deals.service.DealService;
+import com.portal.deals.service.OfferTypeService;
+import com.portal.deals.service.OfferUnitService;
 
 /**
  * This is the controller class for Deal CRUD operation. Only ADMIN will have
@@ -54,7 +58,7 @@ public class DealController {
 	 */
 	@Autowired
 	private DealService service;
-	
+
 	/**
 	 * Service class for communicating with DAO layer for CRUD operation for
 	 * Category entity
@@ -62,13 +66,18 @@ public class DealController {
 	@Autowired
 	private CategoryService categoryService;
 
-
 	/**
 	 * Service class for communicating with DAO layer for CRUD operation for
 	 * CARD entity
 	 */
 	@Autowired
 	private CardManagerService cardService;
+
+	@Autowired
+	private OfferTypeService offerTypeService;
+
+	@Autowired
+	private OfferUnitService offerUnitService;
 
 	/** The JSP name for add new deal page */
 	private static final String DEAL_FORM_JSP = "dealForm";
@@ -122,7 +131,8 @@ public class DealController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/newDeal/{id}", method = RequestMethod.POST)
-	public String addDeal(@PathVariable("id") int cardId, @Valid Deal deal, BindingResult result, ModelMap model, HttpServletRequest request) {
+	public String addDeal(@PathVariable("id") int cardId, @Valid Deal deal, BindingResult result, ModelMap model,
+			HttpServletRequest request) {
 		LOG.info("Saving the Deal to the database");
 
 		try {
@@ -234,7 +244,8 @@ public class DealController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/updateDeal/{cardId}", method = RequestMethod.POST)
-	public String updateDeal(@PathVariable("cardId") int cardId, @Valid Deal deal, BindingResult result, ModelMap model, HttpServletRequest request) {
+	public String updateDeal(@PathVariable("cardId") int cardId, @Valid Deal deal, BindingResult result, ModelMap model,
+			HttpServletRequest request) {
 		LOG.info("Updating the deal details");
 		try {
 			/** Reload the update deal page in case of any error */
@@ -289,7 +300,23 @@ public class DealController {
 	 */
 	@ModelAttribute("categories")
 	public List<Category> initializeCategories() {
-		return categoryService.listAllCategories();
+		return categoryService.listAllRootCategories();
+	}
+
+	/**
+	 * This method will provide Category list to views
+	 */
+	@ModelAttribute("offerTypes")
+	public List<OfferType> initializeOfferTypes() {
+		return offerTypeService.listAllOfferTypes();
+	}
+
+	/**
+	 * This method will provide Category list to views
+	 */
+	@ModelAttribute("offerUnits")
+	public List<OfferUnit> initializeOfferUnits() {
+		return offerUnitService.listAllOfferUnits();
 	}
 
 	/***

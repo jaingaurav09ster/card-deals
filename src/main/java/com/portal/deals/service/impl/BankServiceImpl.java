@@ -43,6 +43,7 @@ public class BankServiceImpl implements BankService {
 		if (entity != null) {
 			entity.setDescription(bank.getDescription());
 			entity.setName(bank.getName());
+			entity.setSector(bank.getSector());
 		}
 	}
 

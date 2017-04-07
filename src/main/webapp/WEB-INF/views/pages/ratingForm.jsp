@@ -8,16 +8,16 @@
 
 <div class="row">
 	<jsp:include page="cardDetailsNav.jsp" />
-	<div class="col-sm-4 col-md-6">
+	<div class="col-sm-7 col-md-7 form">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<c:choose>
 					<c:when test="${edit}">
-						<div class="panel-title">Update Rating</div>
+						<div class="panel-title">Update Rating <span class="required">(*required fields)</span></div>
 						<c:url var="actionUrl" value="/admin/updateRating/${cardId}" />
 					</c:when>
 					<c:otherwise>
-						<div class="panel-title">Add Rating</div>
+						<div class="panel-title">Add Rating <span class="required">(*required fields)</span></div>
 						<c:url var="actionUrl" value="/admin/newRating/${cardId}" />
 					</c:otherwise>
 				</c:choose>
@@ -35,9 +35,9 @@
 					<form:input type="hidden" path="cardId" value="${cardId}" />
 					<div>
 						<div class="form-group">
-							<label for="rank" class="control-label col-xs-3">Rating<span
+							<label for="rank" class="control-label col-md-4">Rating<span
 								class="asteriskField">*</span></label>
-							<div class="col-xs-3">
+							<div class="col-md-6">
 								<form:select class="form-control" path="rating" id="rating">
 									<c:forEach var="i" begin="0" end="5" step="1">
 										<form:option value="${i}">${i}</form:option>
@@ -49,23 +49,23 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="description" class="control-label col-xs-3">Comments</label>
-							<div class="col-xs-8">
+							<label for="description" class="control-label col-md-4">Comments</label>
+							<div class="col-md-8">
 								<div class="input-group">
 									<form:textarea path="comment" class="form-control ckeditor"
-										id="comment" placeholder="comment" />
+										id="ckEditorTextArea" placeholder="comment" />
 								</div>
 								<div class="has-error">
 									<form:errors path="comment" class="help-inline" />
 								</div>
 							</div>
-							<div style="clear: both;"></div>
+							
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-xs-offset-3 col-xs-7">
+						<div class="col-md-6">
 							<a href="<c:url value='/admin/listRatings/${cardId}' />"
-								class="btn btn-primary btn-sm">Cancel</a>
+								class="btn btn-primary btn-sm btn-cancel">Cancel</a>
 							<c:choose>
 								<c:when test="${edit}">
 									<input type="submit" value="Update"
@@ -73,7 +73,7 @@
 								</c:when>
 								<c:otherwise>
 									<input type="submit" value="Add" class="btn btn-primary btn-sm"
-										style="margin-left: 23px;" />
+										 />
 								</c:otherwise>
 							</c:choose>
 						</div>

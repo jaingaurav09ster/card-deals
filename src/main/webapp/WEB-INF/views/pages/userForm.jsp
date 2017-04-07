@@ -6,7 +6,7 @@
 
 <div class="row">
 	<jsp:include page="manageUserNav.jsp" />
-	<div class="col-sm-4 col-md-6">
+	<div class="col-sm-7 col-md-7 col-lg-5 form">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<c:choose>
@@ -27,7 +27,7 @@
 				<c:if test="${not empty msg}">
 					<div class="alert alert-danger col-sm-12">${msg}</div>
 				</c:if>
-				<form:form method="POST" modelAttribute="user" id="userForm"
+				<form:form method="POST" modelAttribute="user" id="newUserForm"
 					action="${actionUrl}">
 					<form:input type="hidden" path="id" id="id" />
 					<div>
@@ -101,6 +101,20 @@
 							<form:errors path="mobile" class="help-inline" />
 						</div>
 					</div>
+
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-bank"></i></span>
+							<form:select class="form-control" path="bank.id" id="bank">
+								<form:option value="">Please Select Bank</form:option>
+								<form:options items="${banks}" itemValue="Id" itemLabel="name" />
+							</form:select>
+						</div>
+						<div class="has-error">
+							<form:errors path="bank" class="help-inline" />
+						</div>
+					</div>
+
 					<div class="form-group">
 						<div class="input-group">
 							<span class="input-group-addon"><i
@@ -116,13 +130,13 @@
 						<c:choose>
 							<c:when test="${edit}">
 								<a href="<c:url value='/admin/listUsers' />"
-									class="btn btn-primary btn-sm">Cancel</a>
+									class="btn btn-primary btn-sm btn-cancel">Cancel</a>
 								<input type="submit" value="Update"
 									class="btn btn-primary btn-sm" />
 							</c:when>
 							<c:otherwise>
 								<a href="<c:url value='/admin/listUsers' />"
-									class="btn btn-primary btn-sm">Cancel</a>
+									class="btn btn-primary btn-sm btn-cancel">Cancel</a>
 								<input type="submit" value="Register"
 									class="btn btn-primary btn-sm" />
 							</c:otherwise>

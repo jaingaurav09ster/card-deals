@@ -222,6 +222,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 		Criteria criteria = getSession().createCriteria(persistentClass);
 		criteria.createAlias(childEntityName, "child");
 		criteria.add(Restrictions.eq("child." + propName, value));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) ;
 		criteria.setFetchMode(childEntityName, FetchMode.JOIN);
 		return getEntitiesByCriteria(criteria);
 	}

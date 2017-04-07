@@ -3,6 +3,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <!-- Menu Navigation -->
+<header>
 <nav id="mainNav"
 	class="navbar navbar-default navbar-custom">
 	<div class="container">
@@ -65,3 +66,4 @@
 	</div>
 	<!-- /.container-fluid -->
 </nav>
+</header>

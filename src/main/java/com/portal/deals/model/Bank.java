@@ -29,11 +29,17 @@ public class Bank implements java.io.Serializable {
 	@Column(name = "NAME", nullable = false)
 	private String name;
 
+	@Column(name = "SECTOR", nullable = true)
+	private String sector;
+
 	@Column(name = "DESCRIPTION", nullable = true)
 	private String description;
 
 	@OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
 	private Set<Card> cardSet;
+	
+	@OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
+	private Set<User> userSet;
 
 	/**
 	 * @return the name
@@ -73,7 +79,8 @@ public class Bank implements java.io.Serializable {
 	}
 
 	/**
-	 * @param cardSet the cardSet to set
+	 * @param cardSet
+	 *            the cardSet to set
 	 */
 	public void setCardSet(Set<Card> cardSet) {
 		this.cardSet = cardSet;
@@ -87,10 +94,25 @@ public class Bank implements java.io.Serializable {
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the sector
+	 */
+	public String getSector() {
+		return sector;
+	}
+
+	/**
+	 * @param sector the sector to set
+	 */
+	public void setSector(String sector) {
+		this.sector = sector;
 	}
 
 }

@@ -23,8 +23,10 @@ import com.portal.deals.controller.RegistrationController;
 import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.GenericException;
 import com.portal.deals.form.CommonConstants;
+import com.portal.deals.model.Bank;
 import com.portal.deals.model.User;
 import com.portal.deals.model.UserRole;
+import com.portal.deals.service.BankService;
 import com.portal.deals.service.UserRoleService;
 import com.portal.deals.service.UserService;
 
@@ -72,6 +74,13 @@ public class AdminUserController {
 	/** Getting resource bundle for reading messages from properties file */
 	@Autowired
 	MessageSource messageSource;
+
+	/**
+	 * Service class for communicating with DAO layer for CRUD operation for
+	 * CARD entity
+	 */
+	@Autowired
+	private BankService bankService;
 
 	/**
 	 * This method will list all existing users.
@@ -149,7 +158,7 @@ public class AdminUserController {
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return USER_FORM_JSP;
 			}
-
+			user.setEnabled(true);
 			/** Checking if the email id entered is unique */
 			if (!userService.isUserUnique(user.getId(), user.getEmail())) {
 				FieldError error = new FieldError("user", "email", messageSource.getMessage("non.unique.email",
@@ -276,4 +285,13 @@ public class AdminUserController {
 	public List<UserRole> initializeProfiles() {
 		return userRoleService.findAll();
 	}
+
+	/**
+	 * This method will provide Bank list to views
+	 */
+	@ModelAttribute("banks")
+	public List<Bank> initializeBanks() {
+		return bankService.listAllBanks();
+	}
+
 }

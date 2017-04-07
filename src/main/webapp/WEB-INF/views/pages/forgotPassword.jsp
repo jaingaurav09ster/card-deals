@@ -5,7 +5,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<div class="row col-md-5 col-md-offset-3 custyle">
+<div class="row col-md-5 col-sm-8 col-sm-offset-2 col-md-offset-3 custyle form">
+	<p align="center">Forgot Password</p>
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="panel-title">Please enter your email</div>
@@ -31,8 +32,9 @@
 					</div>
 				</div>
 				<div class="form-group button-group">
-					<a href="<c:url value='/login' />" class="btn btn-primary btn-sm">Cancel</a>
-					<input type="submit" value="Reset Password"
+					<a href="<c:url value='/login' />"
+						class="btn btn-primary btn-sm btn-cancel">Cancel</a> <input
+						type="submit" value="Reset Password"
 						class="btn btn-primary btn-sm" />
 				</div>
 			</form:form>

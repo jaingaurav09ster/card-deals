@@ -386,7 +386,7 @@ public class CategoryController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/updateChildCategory/{id}/{parentId}")
-	public String updateCategory(@PathVariable(PARENT_ID) int parentId, @PathVariable("id") int id, ModelMap model) {
+	public String updateChildCategory(@PathVariable(PARENT_ID) int parentId, @PathVariable("id") int id, ModelMap model) {
 		LOG.info("Loading update  Category page");
 
 		try {
@@ -401,7 +401,7 @@ public class CategoryController {
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute("edit", true);
 			model.addAttribute(PARENT_ID, parentId);
-			model.addAttribute("childCategory", childCategory);
+			model.addAttribute("category", childCategory);
 			model.addAttribute(CommonConstants.PAGE_NAME, CHILD_UPDATE_CATEGORY_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
