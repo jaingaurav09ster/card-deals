@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.portal.deals.exception.BaseException;
+import com.portal.deals.exception.EntityNotFoundException;
 import com.portal.deals.exception.GenericException;
 import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.Bank;
@@ -222,7 +223,9 @@ public class AdminCardController {
 			}
 			/** Get the Card entity by id from the database */
 			Card card = cardServiceManager.getCardById(id);
-
+			if (card == null) {
+				throw new EntityNotFoundException("ErrorAddCard", "Card not found");
+			}
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_CARD_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);

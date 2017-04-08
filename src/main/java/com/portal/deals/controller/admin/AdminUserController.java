@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.portal.deals.controller.RegistrationController;
 import com.portal.deals.exception.BaseException;
+import com.portal.deals.exception.EntityNotFoundException;
 import com.portal.deals.exception.GenericException;
 import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.Bank;
@@ -200,6 +201,9 @@ public class AdminUserController {
 			}
 			/** Get the user to be updated from database */
 			User user = userService.findByEmail(id);
+			if (user == null) {
+				throw new EntityNotFoundException("Error", "Entity not found");
+			}
 			model.addAttribute("user", user);
 			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_USER_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);

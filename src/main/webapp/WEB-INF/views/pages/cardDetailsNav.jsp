@@ -1,12 +1,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <input type="hidden" value="${module}" id="module">
 <input type="hidden" value="${pageName}" id="pageName">
 
 <div class="col-sm-4 col-md-4 sidebar">
 	<div class="nav-side-menu">
-		<div class="brand">Set Up Card : Id (${card.title})</div>
+		<c:if test="${fn:length(cardName)  gt 25}">
+			<c:set var="cardName">${fn:substring(cardName, 0, 25)}..</c:set>
+		</c:if>
+		<div class="brand">
+			<a href="<c:url value="/admin/listCards" />" title="${cardName}">&lt;&lt;${cardName}</a>
+		</div>
 		<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse"
 			data-target="#menu-content"></i>
 		<div class="menu-list">

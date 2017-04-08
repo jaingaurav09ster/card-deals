@@ -40,6 +40,15 @@ public interface CardDetailsDAO {
 	Card getCardById(Integer id);
 
 	/**
+	 * This method will return the Card name based on the card id passed.
+	 * 
+	 * @param id
+	 *            card id
+	 * @return Card entity
+	 */
+	String getCardName(Integer id);
+
+	/**
 	 * This method will save the Card entity to the database
 	 * 
 	 * @param card

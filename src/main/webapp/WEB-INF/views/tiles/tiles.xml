@@ -27,6 +27,18 @@
 			value="/WEB-INF/views/tiles/template/footer.jsp" />
 	</definition>
 
+	<definition name="content-layout"
+		template="/WEB-INF/views/tiles/layouts/contentLayout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="head"
+			value="/WEB-INF/views/tiles/template/head.jsp" />
+		<put-attribute name="navbar"
+			value="/WEB-INF/views/tiles/template/navbar.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/tiles/template/footer.jsp" />
+	</definition>
+
 	<!-- Home Page -->
 	<definition name="home" extends="full-page">
 		<put-attribute name="title" value="Welcome to Card Deals" />
@@ -311,8 +323,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/rewardList.jsp" />
 	</definition>
-	
-		<!-- Add Offer Type Page -->
+
+	<!-- Add Offer Type Page -->
 	<definition name="offerTypeForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Offer Type" />
 		<put-attribute name="body"
@@ -325,8 +337,8 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/offerTypeList.jsp" />
 	</definition>
-	
-		<!-- Add Offer Unit Page -->
+
+	<!-- Add Offer Unit Page -->
 	<definition name="offerUnitForm" extends="base-definition">
 		<put-attribute name="title" value="Add/Update Offer Unit" />
 		<put-attribute name="body"
@@ -338,6 +350,26 @@
 		<put-attribute name="title" value="List of Offer Units" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/offerUnitList.jsp" />
+	</definition>
+
+	<!-- Add Content Page -->
+	<definition name="contentForm" extends="base-definition">
+		<put-attribute name="title" value="Add/Update Content" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/contentForm.jsp" />
+	</definition>
+
+	<!-- Content List Page -->
+	<definition name="contentList" extends="base-definition">
+		<put-attribute name="title" value="List of Contents" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/contentList.jsp" />
+	</definition>
+
+	<!-- Content List Page -->
+	<definition name="contentRender" extends="content-layout">
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/contentRender.jsp" />
 	</definition>
 
 </tiles-definitions>

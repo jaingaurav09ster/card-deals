@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.portal.deals.exception.BaseException;
+import com.portal.deals.exception.EntityNotFoundException;
 import com.portal.deals.exception.GenericException;
 import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.CardCategory;
@@ -170,7 +171,9 @@ public class CardCategoryController {
 			}
 			/** Get the Card Category entity by id from the database */
 			CardCategory cardCategory = service.getCardCategoryById(id);
-
+			if (cardCategory == null) {
+				throw new EntityNotFoundException("Error", "Entity not found");
+			}
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute("edit", true);
 			model.addAttribute("cardCategory", cardCategory);

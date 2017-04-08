@@ -18,7 +18,8 @@
 				</div>
 			</div>
 			<div class="panel-body">
-				<table class="table table-striped table-bordered table-list card-table"
+				<table
+					class="table table-striped table-bordered table-list card-table"
 					id="paginate">
 					<thead>
 						<tr>
@@ -49,7 +50,10 @@
 											title="Update Card"></em></a> <a
 											href="<c:url value="/admin/listDeals/${card.id}" />"
 											class="btn btn-default"><em class="fa fa-gear"
-											title="Manage Card"></em></a>
+											title="Manage Card"></em></a> <a
+											href="<c:url value="/admin/updateCard/${card.id}" />"
+											class="btn btn-default"><em class="fa fa-view"
+											title="View Card"></em></a>
 										<button class='btn btn-danger' type="submit"
 											name="remove_levels" value="delete" title="Delete Card">
 											<em class="fa fa-trash"></em>

@@ -2,15 +2,25 @@ package com.portal.deals.config;
 
 import java.util.Properties;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+
+import org.apache.commons.dbcp.BasicDataSource;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -32,6 +42,8 @@ import com.portal.deals.converter.RoleToUserProfileConverter;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.portal.deals")
+@EnableTransactionManagement
+@PropertySource(value = { "classpath:database.properties" })
 public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 
 	/**
@@ -40,6 +52,9 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 	 */
 	@Autowired
 	RoleToUserProfileConverter roleToUserProfileConverter;
+
+	@Resource
+	private Environment env;
 
 	/**
 	 * This is Apache Tiles Configure Bean, that will be used to handle the
@@ -133,5 +148,42 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 	@Bean(name = "multipartResolver")
 	public StandardServletMultipartResolver resolver() {
 		return new StandardServletMultipartResolver();
+	}
+
+	@Bean(name = "datasource")
+	public DataSource dataSource() {
+		BasicDataSource ds = new BasicDataSource();
+		ds.setDriverClassName(env.getProperty("jdbc.driverClassName"));
+		ds.setUrl(env.getProperty("jdbc.url"));
+		ds.setUsername(env.getProperty("jdbc.username"));
+		ds.setPassword(env.getProperty("jdbc.password"));
+
+		return ds;
+	}
+
+	@Bean
+	public LocalSessionFactoryBean sessionFactory() {
+		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource());
+		sessionFactory.setPackagesToScan(new String[] { "com.portal.deals.model" });
+		sessionFactory.setHibernateProperties(hibernateProperties());
+		return sessionFactory;
+
+	}
+
+	private Properties hibernateProperties() {
+		Properties properties = new Properties();
+		properties.setProperty("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+		properties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+		properties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+		return properties;
+	}
+
+	@Bean
+	@Autowired
+	public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+		HibernateTransactionManager tx = new HibernateTransactionManager();
+		tx.setSessionFactory(sessionFactory);
+		return tx;
 	}
 }

@@ -100,6 +100,7 @@ public class RewardController {
 			model.addAttribute(CommonConstants.PAGE_NAME, DEAL_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
+			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading add new reward Page", ex);
 			if (ex instanceof BaseException) {
@@ -134,6 +135,7 @@ public class RewardController {
 				model.addAttribute(CommonConstants.PAGE_NAME, DEAL_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				model.addAttribute(CommonConstants.CARD_ID, reward.getCardId());
+				model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 				return DEAL_FORM_JSP;
 			}
 
@@ -176,6 +178,7 @@ public class RewardController {
 			model.addAttribute(CommonConstants.PAGE_NAME, DEAL_LIST_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
+			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading the reward listing Page", ex);
 			if (ex instanceof BaseException) {
@@ -205,13 +208,16 @@ public class RewardController {
 			}
 			/** Get the Reward entity by id from the database */
 			Reward reward = service.getRewardById(id);
-
+			if (reward == null) {
+				throw new EntityNotFoundException("Error", "Entity not found");
+			}
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute("edit", true);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
 			model.addAttribute("reward", reward);
 			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
+			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
 			LOG.error("Exception occured while updating the reward", ex);
 			if (ex instanceof BaseException) {
@@ -242,6 +248,7 @@ public class RewardController {
 				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				model.addAttribute(CommonConstants.CARD_ID, reward.getCard());
+				model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 				return "redirect:/admin/updateReward/" + reward.getId() + "/" + reward.getCardId();
 			}
 

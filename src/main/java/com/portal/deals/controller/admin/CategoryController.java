@@ -186,7 +186,9 @@ public class CategoryController {
 			}
 			/** Get the Category entity by id from the database */
 			Category category = service.getCategoryById(id);
-
+			if (category == null) {
+				throw new EntityNotFoundException("Error", "Entity not found");
+			}
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute("edit", true);
 			model.addAttribute("category", category);
@@ -356,6 +358,9 @@ public class CategoryController {
 		try {
 			/** Get the list of categories from the database */
 			Category parentCategory = service.getCategoryById(parentId);
+			if (parentCategory == null) {
+				throw new EntityNotFoundException("Error", "Entity not found");
+			}
 			List<Category> rootCategories = service.listAllRootCategories();
 			model.addAttribute(ROOT_CATEGORY, rootCategories);
 			/**
@@ -395,6 +400,9 @@ public class CategoryController {
 			}
 			/** Get the Category entity by id from the database */
 			Category childCategory = service.getCategoryById(id);
+			if (childCategory == null) {
+				throw new EntityNotFoundException("Error", "Entity not found");
+			}
 			List<Category> rootCategories = service.listAllRootCategories();
 			model.addAttribute(ROOT_CATEGORY, rootCategories);
 

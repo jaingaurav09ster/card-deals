@@ -82,6 +82,7 @@ public class DocumentController {
 			model.addAttribute(CommonConstants.PAGE_NAME, DEAL_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
+			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading add new document Page", ex);
 			if (ex instanceof BaseException) {
@@ -117,6 +118,7 @@ public class DocumentController {
 				model.addAttribute(CommonConstants.PAGE_NAME, DEAL_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				model.addAttribute(CommonConstants.CARD_ID, document.getCardId());
+				model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 				return DEAL_FORM_JSP;
 			}
 
@@ -160,6 +162,7 @@ public class DocumentController {
 			model.addAttribute(CommonConstants.PAGE_NAME, DEAL_LIST_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
+			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading the document listing Page", ex);
 			if (ex instanceof BaseException) {
@@ -189,13 +192,16 @@ public class DocumentController {
 			}
 			/** Get the Document entity by id from the database */
 			Document document = service.getDocumentById(id);
-
+			if (document == null) {
+				throw new EntityNotFoundException("Error", "Entity not found");
+			}
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute("edit", true);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
 			model.addAttribute("document", document);
 			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
+			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
 			LOG.error("Exception occured while updating the document", ex);
 			if (ex instanceof BaseException) {
@@ -227,6 +233,7 @@ public class DocumentController {
 				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				model.addAttribute(CommonConstants.CARD_ID, document.getCard());
+				model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 				return "redirect:/admin/updateDocument/" + document.getId() + "/" + document.getCardId();
 			}
 

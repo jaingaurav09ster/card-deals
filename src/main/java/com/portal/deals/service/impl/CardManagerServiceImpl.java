@@ -63,4 +63,9 @@ public class CardManagerServiceImpl implements CardManagerService {
 	public void deleteCard(Card card) {
 		cardDao.deleteCard(card);
 	}
+
+	@Override
+	public String getCardName(Integer id) {
+		return cardDao.getCardName(id);
+	}
 }

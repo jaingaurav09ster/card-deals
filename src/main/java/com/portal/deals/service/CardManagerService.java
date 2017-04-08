@@ -11,6 +11,8 @@ public interface CardManagerService {
 	List<Card> listAllCards();
 
 	Card getCardById(Integer id);
+	
+	String getCardName(Integer id);
 
 	void deleteCardById(Integer id);
 

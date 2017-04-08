@@ -89,6 +89,19 @@
 					<li id="offerUnitList"><a
 						href="<c:url value="/admin/listOfferUnits" />">Offer Unit Type List</a></li>
 				</ul>
+				
+				<li data-toggle="collapse" data-target="#contentManager"
+					class="collapsed" id="li-contentManager"><a href="#"><i
+						class="fa fa-content fa-lg"></i> Content Manager <span class="arrow"></span></a>
+				</li>
+				<ul class="sub-menu collapse" id="contentManager">
+					<li id="updateContentForm" style="display: none;"><a href="#">Update
+							Content</a></li>
+					<li id="contentForm"><a href="<c:url value="/admin/newContent" />">New
+							Content</a></li>
+					<li id="contentList"><a href="<c:url value="/admin/listContents" />">Content
+							List</a></li>
+				</ul>
 			</ul>
 		</div>
 	</div>

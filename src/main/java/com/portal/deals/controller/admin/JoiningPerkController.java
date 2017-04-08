@@ -100,6 +100,7 @@ public class JoiningPerkController {
 			model.addAttribute(CommonConstants.PAGE_NAME, DEAL_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
+			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading add new joiningPerk Page", ex);
 			if (ex instanceof BaseException) {
@@ -134,6 +135,7 @@ public class JoiningPerkController {
 				model.addAttribute(CommonConstants.PAGE_NAME, DEAL_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				model.addAttribute(CommonConstants.CARD_ID, joiningPerk.getCardId());
+				model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 				return DEAL_FORM_JSP;
 			}
 
@@ -176,6 +178,7 @@ public class JoiningPerkController {
 			model.addAttribute(CommonConstants.PAGE_NAME, DEAL_LIST_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
+			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading the joiningPerk listing Page", ex);
 			if (ex instanceof BaseException) {
@@ -205,13 +208,16 @@ public class JoiningPerkController {
 			}
 			/** Get the JoiningPerk entity by id from the database */
 			JoiningPerk joiningPerk = service.getJoiningPerkById(id);
-
+			if (joiningPerk == null) {
+				throw new EntityNotFoundException("Error", "Entity not found");
+			}
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute("edit", true);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
 			model.addAttribute("joiningPerk", joiningPerk);
 			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
+			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
 			LOG.error("Exception occured while updating the joiningPerk", ex);
 			if (ex instanceof BaseException) {
@@ -242,6 +248,7 @@ public class JoiningPerkController {
 				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				model.addAttribute(CommonConstants.CARD_ID, joiningPerk.getCard());
+				model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 				return "redirect:/admin/updateJoiningPerk/" + joiningPerk.getId() + "/" + joiningPerk.getCardId();
 			}
 

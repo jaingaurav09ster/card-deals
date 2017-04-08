@@ -82,6 +82,7 @@ public class FeesController {
 			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
+			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading add new fees Page", ex);
 			if (ex instanceof BaseException) {
@@ -117,6 +118,7 @@ public class FeesController {
 				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				model.addAttribute(CommonConstants.CARD_ID, fees.getCardId());
+				model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 				return DEAL_FORM_JSP;
 			}
 
@@ -159,6 +161,7 @@ public class FeesController {
 			model.addAttribute(CommonConstants.PAGE_NAME, DEAL_LIST_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
+			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading the fees listing Page", ex);
 			if (ex instanceof BaseException) {
@@ -202,6 +205,7 @@ public class FeesController {
 			model.addAttribute("fees", fees);
 			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
+			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
 			LOG.error("Exception occured while updating the fees", ex);
 			if (ex instanceof BaseException) {
@@ -233,6 +237,7 @@ public class FeesController {
 				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				model.addAttribute(CommonConstants.CARD_ID, fees.getCard());
+				model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 				return "redirect:/admin/updateFees/" + fees.getId() + "/" + fees.getCardId();
 			}
 

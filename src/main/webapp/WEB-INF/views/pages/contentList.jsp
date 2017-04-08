@@ -9,10 +9,10 @@
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col col-md-6">
-						<h3 class="panel-title">List of Banks</h3>
+						<h3 class="panel-title">List of Contents</h3>
 					</div>
 					<div class="col col-md-6 text-right">
-						<a href="<c:url value="/admin/newBank" />"
+						<a href="<c:url value="/admin/newContent" />"
 							class="btn btn-sm btn-primary btn-create">Create New</a>
 					</div>
 				</div>
@@ -23,20 +23,20 @@
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Bank Name</th>
-							<th class="hidden-xs">Sector</th>
+							<th>Page Title</th>
+							<th>URL Mapping</th>
 							<th><em class="fa fa-cog"></em></th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${banks}" var="bank">
+						<c:forEach items="${contents}" var="content">
 							<tr>
-								<td>${bank.id}</td>
-								<td>${bank.name}</td>
-								<td class="hidden-xs">${bank.sector}</td>
+								<td>${content.id}</td>
+								<td>${content.pageTitle}</td>
+								<td>${content.urlMapping}</td>
 								<td align="center"><form
-										action="<c:url value="/admin/deleteBank/${bank.id}" />">
-										<a href="<c:url value="/admin/updateBank/${bank.id}" />"
+										action="<c:url value="/admin/deleteContent/${content.id}" />">
+										<a href="<c:url value="/admin/updateContent/${content.id}" />"
 											class="btn btn-default"><em class="fa fa-pencil"></em></a>
 										<button class='btn btn-danger' type="submit"
 											name="remove_levels" value="delete">
@@ -45,9 +45,9 @@
 									</form></td>
 							</tr>
 						</c:forEach>
-						<c:if test="${fn:length(banks) lt 1}">
+						<c:if test="${fn:length(contents) lt 1}">
 							<tr>
-								<td colspan="4">No Results found</td>
+								<td colspan="3">No Results found</td>
 							</tr>
 						</c:if>
 					</tbody>

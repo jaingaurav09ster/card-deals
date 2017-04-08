@@ -58,4 +58,11 @@ public class CardDetailsDAOImpl extends AbstractDao<Integer, Card> implements Ca
 	public void deleteCardById(Integer id) {
 		this.deleteById(id);
 	}
+
+	@Override
+	public String getCardName(Integer id) {
+		String name = (String) getSession().createQuery("select card.title from Card card where card.id = :id")
+				.setInteger("id", id).uniqueResult();
+		return name;
+	}
 }
