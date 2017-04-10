@@ -16,7 +16,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "CARD_TYPE")
-public class CardType implements java.io.Serializable {
+public class CardType extends AbstractEntity {
 
 	private static final long serialVersionUID = -7420477606415096968L;
 

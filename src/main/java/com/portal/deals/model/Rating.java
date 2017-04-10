@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "RATING")
-public class Rating implements java.io.Serializable {
+public class Rating extends AbstractEntity {
 
 	private static final long serialVersionUID = -7420477606415096968L;
 

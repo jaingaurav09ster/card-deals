@@ -11,12 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "BANK")
-public class Bank implements java.io.Serializable {
+public class Bank extends AbstractEntity {
 
 	private static final long serialVersionUID = -7420477606415096968L;
 
@@ -40,6 +42,13 @@ public class Bank implements java.io.Serializable {
 	
 	@OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
 	private Set<User> userSet;
+	
+	@Transient
+	private MultipartFile image;
+
+	@Column(name = "IMAGE", nullable = true)
+	private String imagePath;
+
 
 	/**
 	 * @return the name
@@ -113,6 +122,48 @@ public class Bank implements java.io.Serializable {
 	 */
 	public void setSector(String sector) {
 		this.sector = sector;
+	}
+
+	/**
+	 * @return the userSet
+	 */
+	public Set<User> getUserSet() {
+		return userSet;
+	}
+
+	/**
+	 * @param userSet the userSet to set
+	 */
+	public void setUserSet(Set<User> userSet) {
+		this.userSet = userSet;
+	}
+
+	/**
+	 * @return the image
+	 */
+	public MultipartFile getImage() {
+		return image;
+	}
+
+	/**
+	 * @param image the image to set
+	 */
+	public void setImage(MultipartFile image) {
+		this.image = image;
+	}
+
+	/**
+	 * @return the imagePath
+	 */
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	/**
+	 * @param imagePath the imagePath to set
+	 */
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 
 }

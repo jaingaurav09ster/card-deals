@@ -44,6 +44,8 @@ public class BankServiceImpl implements BankService {
 			entity.setDescription(bank.getDescription());
 			entity.setName(bank.getName());
 			entity.setSector(bank.getSector());
+			entity.setImage(entity.getImage());
+			entity.setImagePath(entity.getImagePath());
 		}
 	}
 

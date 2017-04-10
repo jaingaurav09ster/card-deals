@@ -1,8 +1,9 @@
 package com.portal.deals.controller;
 
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -30,6 +27,7 @@ import com.portal.deals.exception.GenericException;
 import com.portal.deals.form.ForgotPasswordForm;
 import com.portal.deals.form.ResetPasswordForm;
 import com.portal.deals.model.EmailParams;
+import com.portal.deals.model.EmailTemplate;
 import com.portal.deals.model.PasswordResetToken;
 import com.portal.deals.model.User;
 import com.portal.deals.service.MailService;
@@ -155,7 +153,7 @@ public class ResetPasswordController {
 			/** Generate token and persist the token in database */
 			String token = UUID.randomUUID().toString();
 			PasswordResetToken passwordResetToken = null;
-			if (user.getToken() == null) {
+			if (user.getPasswordResettoken() == null) {
 				passwordResetToken = new PasswordResetToken();
 			} else {
 				passwordResetToken = user.getPasswordResettoken();
@@ -167,6 +165,11 @@ public class ResetPasswordController {
 
 			/** Create reset password link */
 			StringBuffer appUrl = new StringBuffer();
+			if (request.isSecure()) {
+				appUrl.append("https://");
+			} else {
+				appUrl.append("http://");
+			}
 			String serverName = request.getServerName();
 			int portNumber = request.getServerPort();
 			if (StringUtils.isEmpty(portNumber)) {
@@ -184,6 +187,14 @@ public class ResetPasswordController {
 			emailParams.setTo(recipientAddress);
 			emailParams.setSubject(subject);
 			emailParams.setEmailBody(message + " :: " + resetPasswordUrl);
+			emailParams.setTemplateName(EmailTemplate.FORGOT_PASSWORD);
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("body", message);
+			parameters.put("resetPasswordUrl", resetPasswordUrl);
+			parameters.put("name", user.getFirstName());
+			parameters.put("email", user.getEmail());
+
+			emailParams.setParameters(parameters);
 
 			message = messageSource.getMessage("forgot.password.success", null, Locale.getDefault());
 			model.addAttribute(MESSAGE, message);
@@ -246,13 +257,8 @@ public class ResetPasswordController {
 				return RESET_PASSWORD_ERROR_JSP;
 			}
 
-			/**
-			 * Giving User the access to Reset Password
-			 */
-			Authentication auth = new UsernamePasswordAuthenticationToken(user, null,
-					Arrays.asList(new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
-			SecurityContextHolder.getContext().setAuthentication(auth);
 			ResetPasswordForm form = new ResetPasswordForm();
+			form.setResetPasswordToken(token);
 			model.addAttribute("resetPasswordForm", form);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while validating the token", ex);
@@ -289,8 +295,23 @@ public class ResetPasswordController {
 			if (result.hasErrors()) {
 				return RESET_PASSWORD_JSP;
 			}
+
+			PasswordResetToken passwordResetToken = tokenService
+					.getPasswordResetToken(resetPassword.getResetPasswordToken());
+
+			if (passwordResetToken == null) {
+				/**
+				 * If the verification token not found in the Database, token is
+				 * considered invalid
+				 */
+				String message = messageSource.getMessage("reset.password.invalidToken", null, Locale.getDefault());
+				model.addAttribute(MESSAGE, message);
+				model.addAttribute(TOKEN_STATE, "invalid");
+				return RESET_PASSWORD_ERROR_JSP;
+			}
+
 			/** Get the user and update the User in DB with updated password */
-			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			User user = passwordResetToken.getUser();
 			user.setPassword(resetPassword.getNewPassword());
 			userService.updateUser(user);
 		} catch (Exception ex) {

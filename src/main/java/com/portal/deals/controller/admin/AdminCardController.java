@@ -96,11 +96,14 @@ public class AdminCardController {
 	/** The JSP name for add new card page */
 	private static final String CARD_FORM_JSP = "cardForm";
 
+	/** The JSP name for add view card page */
+	private static final String CARD_VIEW_JSP = "cardView";
+
 	/** The JSP name for card list page */
 	private static final String CARD_LIST_JSP = "cardList";
 
 	/** Path where image will be uploaded */
-	private static String UPLOAD_LOCATION = "/resources/upload";
+	private static String UPLOAD_LOCATION = "/resources/upload/card";
 
 	/** The update card page */
 	private static final String UPDATE_CARD_FORM_JSP = "updateCardForm";
@@ -242,6 +245,41 @@ public class AdminCardController {
 	}
 
 	/**
+	 * This method will view the card details
+	 * 
+	 * @param id
+	 *            Id of the card, that has to be updated
+	 * @param model
+	 *            The model to carry data
+	 * @return The view JSP
+	 */
+	@RequestMapping(value = "/viewCard/{id}")
+	public String viewCard(@PathVariable("id") int id, ModelMap model) {
+		LOG.info("Loading view card page");
+
+		try {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("The Card id to be updated [" + id + "]");
+			}
+			/** Get the Card entity by id from the database */
+			Card card = cardServiceManager.getCardWithDetailsById(id);
+			if (card == null) {
+				throw new EntityNotFoundException("ErrorAddCard", "Card not found");
+			}
+			model.addAttribute(CommonConstants.PAGE_NAME, CARD_VIEW_JSP);
+			model.addAttribute(CommonConstants.MODULE, MODULE);
+			model.addAttribute("card", card);
+		} catch (Exception ex) {
+			LOG.error("Exception occured while updating the card", ex);
+			if (ex instanceof BaseException) {
+				BaseException baseException = (BaseException) ex;
+				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
+			}
+		}
+		return CARD_VIEW_JSP;
+	}
+
+	/**
 	 * This method will update the card data in the database
 	 * 
 	 * @param card
@@ -291,6 +329,11 @@ public class AdminCardController {
 			if (!StringUtils.isEmpty(multipartFile.getOriginalFilename())) {
 				ServletContext context = request.getServletContext();
 				String contextPath = context.getRealPath(UPLOAD_LOCATION);
+
+				File directory = new File(contextPath);
+				if (!directory.exists()) {
+					directory.mkdirs();
+				}
 				FileCopyUtils.copy(multipartFile.getBytes(),
 						new File(contextPath + File.separator + multipartFile.getOriginalFilename()));
 				card.setImagePath(multipartFile.getOriginalFilename());

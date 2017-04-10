@@ -21,4 +21,6 @@ public interface CardManagerService {
 	void updateCard(Card card);
 
 	void deleteCard(Card card);
+
+	Card getCardWithDetailsById(Integer id);
 }

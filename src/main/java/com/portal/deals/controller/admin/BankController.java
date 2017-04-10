@@ -1,8 +1,11 @@
 package com.portal.deals.controller.admin;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -11,11 +14,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.portal.deals.exception.BaseException;
 import com.portal.deals.exception.EntityNotFoundException;
@@ -57,6 +63,9 @@ public class BankController {
 
 	/** The module name */
 	private static final String MODULE = "bankManager";
+
+	/** Path where image will be uploaded */
+	private static String UPLOAD_LOCATION = "/resources/upload/bank";
 
 	/**
 	 * This method will render the add new bank page
@@ -110,6 +119,8 @@ public class BankController {
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return BANK_FORM_JSP;
 			}
+			/** Upload the File */
+			uploadImage(bank, request);
 
 			/** Save the Bank in the database */
 			service.saveBank(bank);
@@ -212,6 +223,9 @@ public class BankController {
 				return "redirect:/admin/updateBank/" + bank.getId();
 			}
 
+			/** Upload the File */
+			uploadImage(bank, request);
+
 			/** Updating the Bank in the database */
 			service.updateBank(bank);
 		} catch (Exception ex) {
@@ -264,6 +278,31 @@ public class BankController {
 		sectors.add(new Sector("Cooperative Bank"));
 		sectors.add(new Sector("Urban Cooperative Bank"));
 		return sectors;
+	}
+
+	/**
+	 * This method will upload the image
+	 * 
+	 * @param card
+	 * @param request
+	 * @throws IOException
+	 */
+	private void uploadImage(Bank bank, HttpServletRequest request) throws IOException {
+		if (bank.getImage() != null) {
+			MultipartFile multipartFile = bank.getImage();
+			if (!StringUtils.isEmpty(multipartFile.getOriginalFilename())) {
+				ServletContext context = request.getServletContext();
+				String contextPath = context.getRealPath(UPLOAD_LOCATION);
+
+				File directory = new File(contextPath);
+				if (!directory.exists()) {
+					directory.mkdirs();
+				}
+				FileCopyUtils.copy(multipartFile.getBytes(),
+						new File(contextPath + File.separator + multipartFile.getOriginalFilename()));
+				bank.setImagePath(multipartFile.getOriginalFilename());
+			}
+		}
 	}
 
 }

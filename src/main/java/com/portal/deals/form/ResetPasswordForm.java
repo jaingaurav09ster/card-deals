@@ -23,6 +23,8 @@ public class ResetPasswordForm {
 	@Length(min = 4)
 	@NotEmpty
 	private String matchPassword;
+	
+	private String resetPasswordToken;
 
 	/**
 	 * @return the newPassword
@@ -53,4 +55,19 @@ public class ResetPasswordForm {
 	public void setMatchPassword(String matchPassword) {
 		this.matchPassword = matchPassword;
 	}
+
+	/**
+	 * @return the resetPasswordToken
+	 */
+	public String getResetPasswordToken() {
+		return resetPasswordToken;
+	}
+
+	/**
+	 * @param resetPasswordToken the resetPasswordToken to set
+	 */
+	public void setResetPasswordToken(String resetPasswordToken) {
+		this.resetPasswordToken = resetPasswordToken;
+	}
+
 }

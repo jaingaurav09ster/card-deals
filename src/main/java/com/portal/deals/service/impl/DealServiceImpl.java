@@ -45,6 +45,11 @@ public class DealServiceImpl implements DealService {
 			entity.setTitle(deal.getTitle());
 			entity.setRank(deal.getRank());
 			entity.setCategories(deal.getCategories());
+			entity.setDealValue(deal.getDealValue());
+			entity.setMaxValue(deal.getMaxValue());
+			entity.setOfferType(deal.getOfferType());
+			entity.setValueUnit(deal.getValueUnit());
+			entity.setMaxValueUnit(deal.getMaxValueUnit());
 		}
 	}
 

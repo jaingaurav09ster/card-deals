@@ -68,4 +68,9 @@ public class CardManagerServiceImpl implements CardManagerService {
 	public String getCardName(Integer id) {
 		return cardDao.getCardName(id);
 	}
+	
+	@Override
+	public Card getCardWithDetailsById(Integer id) {
+		return cardDao.getCardWithDetailsById(id);
+	}
 }

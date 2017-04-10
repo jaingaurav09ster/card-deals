@@ -37,7 +37,7 @@
 							<tr>
 								<td class="hidden-xs">${card.id}</td>
 								<td class="hidden-xs" align="center"><img alt="image"
-									src="/deals/resources/upload/${card.imagePath}"
+									src="/deals/resources/upload/card/${card.imagePath}"
 									style="width: 50px; height: auto;"></td>
 								<td>${card.title}</td>
 								<td>${card.bank.name}</td>
@@ -51,8 +51,8 @@
 											href="<c:url value="/admin/listDeals/${card.id}" />"
 											class="btn btn-default"><em class="fa fa-gear"
 											title="Manage Card"></em></a> <a
-											href="<c:url value="/admin/updateCard/${card.id}" />"
-											class="btn btn-default"><em class="fa fa-view"
+											href="<c:url value="/admin/viewCard/${card.id}" />"
+											class="btn btn-default"><em class="fa fa-eye"
 											title="View Card"></em></a>
 										<button class='btn btn-danger' type="submit"
 											name="remove_levels" value="delete" title="Delete Card">

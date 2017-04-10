@@ -1,6 +1,8 @@
 package com.portal.deals.listener;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.portal.deals.controller.RegistrationController;
 import com.portal.deals.event.OnRegistrationCompleteEvent;
 import com.portal.deals.model.EmailParams;
+import com.portal.deals.model.EmailTemplate;
 import com.portal.deals.model.User;
 import com.portal.deals.model.VerificationToken;
 import com.portal.deals.service.MailService;
@@ -108,6 +111,14 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
 		emailParams.setTo(recipientAddress);
 		emailParams.setSubject(subject);
 		emailParams.setEmailBody(message + " rn" + confirmationUrl);
+
+		emailParams.setTemplateName(EmailTemplate.REGISTRATION);
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("name", user.getFirstName());
+		parameters.put("email", user.getEmail());
+		parameters.put("confirmationUrl", confirmationUrl);
+		emailParams.setParameters(parameters);
+
 		mailService.sendEmail(emailParams);
 	}
 }

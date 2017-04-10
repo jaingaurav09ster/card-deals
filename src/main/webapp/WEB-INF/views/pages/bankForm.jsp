@@ -28,7 +28,7 @@
 				<c:if test="${not empty msg}">
 					<div class="alert alert-danger col-sm-12">${msg}</div>
 				</c:if>
-				<form:form method="POST" modelAttribute="bank" id="bankForm"
+				<form:form enctype="multipart/form-data" method="POST" modelAttribute="bank" id="bankForm"
 					action="${actionUrl}" cssClass="form-horizontal">
 					<form:input type="hidden" path="id" id="id" />
 					<div>
@@ -43,6 +43,32 @@
 								</div>
 							</div>
 						</div>
+						<div class="form-group">
+						<label for="image" class="control-label col-md-4">Logo</label>
+						<div class="col-md-6">
+							<div class="input-group image-preview">
+								<form:input type="text"
+									class="form-control image-preview-filename" disabled="disabled"
+									path="imagePath" readonly="true" />
+								<span class="input-group-btn">
+									<button type="button"
+										class="btn btn-default image-preview-clear"
+										style="display: none;">
+										<span class="glyphicon glyphicon-remove"></span> Clear
+									</button> <!-- image-preview-input -->
+									<div class="btn btn-default image-preview-input">
+										<span class="glyphicon glyphicon-folder-open"></span> <span
+											class="image-preview-input-title">Browse</span> <input
+											type="file" accept="image/png, image/jpeg, image/gif"
+											name="image" />
+									</div>
+								</span>
+							</div>
+							<div class="has-error">
+								<form:errors path="imagePath" class="help-inline" />
+							</div>
+						</div>
+					</div>
 						<div class="form-group">
 							<label for="sector" class="control-label col-md-4">Sector</label>
 							<div class="col-md-6">

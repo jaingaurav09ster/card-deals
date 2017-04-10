@@ -17,7 +17,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "DOCUMENT")
-public class Document implements java.io.Serializable {
+public class Document extends AbstractEntity {
 
 	private static final long serialVersionUID = -7420477606415096968L;
 

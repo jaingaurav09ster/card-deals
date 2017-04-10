@@ -1,5 +1,6 @@
 package com.portal.deals.config;
 
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
@@ -31,6 +32,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 		ctx.register(ApplicationConfiguration.class);
 		ctx.setServletContext(servletContext);
 		Dynamic servlet = servletContext.addServlet("dispatcher", new DispatcherServlet(ctx));
+		servlet.setMultipartConfig(new MultipartConfigElement(null, 1024*1024*5, 1024*1024*5*5, 1024*1024));
 		servlet.addMapping("/");
 		servlet.setLoadOnStartup(1);
 		servlet.setInitParameter("throwExceptionIfNoHandlerFound", "true");

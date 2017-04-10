@@ -107,7 +107,7 @@
 						<div class="col-md-6">
 							<form:select class="form-control" path="bank.id" id="bank">
 								<form:option value="">Please Select</form:option>
-								<form:options items="${banks}" itemValue="Id" itemLabel="name" />
+								<form:options items="${banks}" itemValue="id" itemLabel="name" />
 							</form:select>
 							<div class="has-error">
 								<form:errors path="bank" class="help-inline" />

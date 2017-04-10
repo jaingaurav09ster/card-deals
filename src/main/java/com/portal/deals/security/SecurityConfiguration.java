@@ -57,8 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/admin/**").access("hasRole('ADMIN')").antMatchers("/user/**")
 				.access("hasRole('ADMIN') or hasRole('USER') or hasRole('BANK') or hasRole('AUTHOR')")
-				.antMatchers("/admin/card/**").access("hasRole('BANK')").antMatchers("/savePassword*")
-				.hasAuthority("CHANGE_PASSWORD_PRIVILEGE").and().formLogin().loginPage("/login")
+				.antMatchers("/admin/card/**").access("hasRole('BANK')").and().formLogin().loginPage("/login")
 				.loginProcessingUrl("/login").usernameParameter("email").passwordParameter("password").and()
 				.rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
 				.tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");

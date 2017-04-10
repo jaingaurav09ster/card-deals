@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "FEATURE")
-public class Feature implements java.io.Serializable {
+public class Feature extends AbstractEntity {
 
 	private static final long serialVersionUID = -7420477606415096968L;
 

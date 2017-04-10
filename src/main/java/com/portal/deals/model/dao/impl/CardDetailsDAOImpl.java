@@ -2,6 +2,7 @@ package com.portal.deals.model.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,6 +53,19 @@ public class CardDetailsDAOImpl extends AbstractDao<Integer, Card> implements Ca
 	@Override
 	public Card getCardById(Integer id) {
 		return this.get(id);
+	}
+
+	@Override
+	public Card getCardWithDetailsById(Integer id) {
+		Card card = this.get(id);
+		Hibernate.initialize(card.getDeals());
+		Hibernate.initialize(card.getRewards());
+		Hibernate.initialize(card.getRating());
+		Hibernate.initialize(card.getFeatures());
+		Hibernate.initialize(card.getJoiningPerks());
+		Hibernate.initialize(card.getDocuments());
+		Hibernate.initialize(card.getFees());
+		return card;
 	}
 
 	@Override

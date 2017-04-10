@@ -77,4 +77,12 @@ public interface CardDetailsDAO {
 	 *            card id
 	 */
 	void deleteCardById(Integer id);
+
+	/**
+	 * THis will get the details of card as well
+	 * 
+	 * @param id
+	 * @return
+	 */
+	Card getCardWithDetailsById(Integer id);
 }

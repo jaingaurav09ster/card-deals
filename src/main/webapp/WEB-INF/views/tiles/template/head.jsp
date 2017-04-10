@@ -30,10 +30,10 @@
 <link
 	href="/deals/resources//vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+<link href="/deals/resources/stylesheets/font1.css"
 	rel="stylesheet" type="text/css">
 <link
-	href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic"
+	href="/deals/resources/stylesheets/font2.css"
 	rel="stylesheet" type="text/css">
 <link rel="icon" type="image/png" href="/deals/resources/images/favicon.ico">
 

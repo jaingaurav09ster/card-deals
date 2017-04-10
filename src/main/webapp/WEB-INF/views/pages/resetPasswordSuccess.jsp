@@ -9,7 +9,7 @@
 		</div>
 		<div class="panel-body">Your
 			password has been reset, please use your new password to login.</div>
-		<div>
+		<div class="panel-footer" align='center'>
 			<a href="<c:url value='/login' />" class="btn btn-primary btn-sm">Continue</a>
 		</div>
 	</div>

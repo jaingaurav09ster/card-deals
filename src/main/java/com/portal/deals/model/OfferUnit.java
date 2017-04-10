@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "OFFER_UNIT")
-public class OfferUnit implements java.io.Serializable {
+public class OfferUnit extends AbstractEntity {
 
 	private static final long serialVersionUID = -7420477606415096968L;
 

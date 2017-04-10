@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "DEAL")
-public class Deal implements java.io.Serializable {
+public class Deal extends AbstractEntity {
 
 	private static final long serialVersionUID = -7420477606415096968L;
 

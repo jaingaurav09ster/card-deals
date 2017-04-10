@@ -372,4 +372,11 @@
 			value="/WEB-INF/views/pages/contentRender.jsp" />
 	</definition>
 
+	<!-- View Card Page -->
+	<definition name="cardView" extends="base-definition">
+		<put-attribute name="title" value="View Card" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/cardView.jsp" />
+	</definition>
+
+
 </tiles-definitions>

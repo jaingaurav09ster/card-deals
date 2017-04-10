@@ -5,7 +5,6 @@ import java.util.Properties;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -16,11 +15,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
@@ -152,7 +153,7 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 
 	@Bean(name = "datasource")
 	public DataSource dataSource() {
-		BasicDataSource ds = new BasicDataSource();
+		DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName(env.getProperty("jdbc.driverClassName"));
 		ds.setUrl(env.getProperty("jdbc.url"));
 		ds.setUsername(env.getProperty("jdbc.username"));
@@ -185,5 +186,12 @@ public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 		HibernateTransactionManager tx = new HibernateTransactionManager();
 		tx.setSessionFactory(sessionFactory);
 		return tx;
+	}
+
+	@Bean
+	public FreeMarkerConfigurationFactoryBean getFreeMarkerConfiguration() {
+		FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();
+		bean.setTemplateLoaderPath("/WEB-INF/classes/fmtemplates/");
+		return bean;
 	}
 }

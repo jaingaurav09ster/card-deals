@@ -77,18 +77,6 @@
 						<form:errors path="mobile" class="help-inline" />
 					</div>
 				</div>
-				<div class="form-group">
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-bank"></i></span>
-						<form:select class="form-control" path="bank.id" id="bank">
-							<form:option value="">Please Select Bank</form:option>
-							<form:options items="${banks}" itemValue="Id" itemLabel="name" />
-						</form:select>
-					</div>
-					<div class="has-error">
-						<form:errors path="bank" class="help-inline" />
-					</div>
-				</div>
 				<div class="form-group button-group">
 					<a href="<c:url value='/' />"
 						class="btn btn-primary btn-sm btn-cancel">Cancel</a> <input

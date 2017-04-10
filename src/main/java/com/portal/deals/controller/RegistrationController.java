@@ -189,6 +189,11 @@ public class RegistrationController {
 	private void generateToken(User user, HttpServletRequest request) {
 		/** Generate validation token and send out email to User */
 		StringBuffer appUrl = new StringBuffer();
+		if (request.isSecure()) {
+			appUrl.append("https://");
+		} else {
+			appUrl.append("http://");
+		}
 		String serverName = request.getServerName();
 		int portNumber = request.getServerPort();
 		if (StringUtils.isEmpty(portNumber)) {

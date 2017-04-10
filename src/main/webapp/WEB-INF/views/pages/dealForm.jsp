@@ -134,7 +134,7 @@
 								<form:select class="form-control" path="valueUnit"
 									id="valueUnit">
 									<form:option value="">Unit</form:option>
-									<form:options items="${offerUnits}" itemValue="Id"
+									<form:options items="${offerUnits}" itemValue="title"
 										itemLabel="title" />
 								</form:select>
 								<div class="has-error">
@@ -156,7 +156,7 @@
 								<form:select class="form-control" path="maxValueUnit"
 									id="maxValueUnit">
 									<form:option value="">Unit</form:option>
-									<form:options items="${offerUnits}" itemValue="Id"
+									<form:options items="${offerUnits}" itemValue="title"
 										itemLabel="title" />
 								</form:select>
 								<div class="has-error">

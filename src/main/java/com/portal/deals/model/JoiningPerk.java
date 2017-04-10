@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "JOINING_PERK")
-public class JoiningPerk implements java.io.Serializable {
+public class JoiningPerk extends AbstractEntity {
 
 	private static final long serialVersionUID = -7420477606415096968L;
 

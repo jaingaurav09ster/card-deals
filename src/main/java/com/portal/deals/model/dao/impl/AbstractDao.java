@@ -10,6 +10,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -108,7 +109,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	 * @return list of entity object
 	 */
 	protected List<T> loadAll() {
-		return getSession().createQuery("from " + persistentClass.getName()).list();
+		return getSession().createQuery("from " + persistentClass.getName() + " order by lastModifiedDate desc").list();
 	}
 
 	/**
@@ -155,6 +156,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	protected List<T> findAllByProperty(String propName, Object propValue) {
 		Criteria criteria = getSession().createCriteria(persistentClass);
 		criteria.add(Restrictions.eq(propName, propValue));
+		criteria.addOrder(Order.desc("lastModifiedDate"));
 		return getEntitiesByCriteria(criteria);
 	}
 
@@ -170,6 +172,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 		for (Map.Entry<String, Object> entry : propMap.entrySet()) {
 			criteria.add(Restrictions.eq(entry.getKey(), entry.getValue()));
 		}
+		criteria.addOrder(Order.desc("lastModifiedDate"));
 		return getEntitiesByCriteria(criteria);
 	}
 
@@ -186,6 +189,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	protected List<T> findAllByPropertyValues(String propName, Collection<Object> propValues) {
 		Criteria criteria = getSession().createCriteria(persistentClass);
 		criteria.add(Restrictions.in(propName, propValues));
+		criteria.addOrder(Order.desc("lastModifiedDate"));
 		return getEntitiesByCriteria(criteria);
 	}
 
@@ -204,6 +208,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 		Criteria criteria = getSession().createCriteria(persistentClass);
 		criteria.add(Restrictions.ge(propName, start));
 		criteria.add(Restrictions.le(propName, end));
+		criteria.addOrder(Order.desc("lastModifiedDate"));
 		return getEntitiesByCriteria(criteria);
 	}
 
@@ -222,8 +227,9 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 		Criteria criteria = getSession().createCriteria(persistentClass);
 		criteria.createAlias(childEntityName, "child");
 		criteria.add(Restrictions.eq("child." + propName, value));
-		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) ;
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		criteria.setFetchMode(childEntityName, FetchMode.JOIN);
+		criteria.addOrder(Order.desc("lastModifiedDate"));
 		return getEntitiesByCriteria(criteria);
 	}
 
@@ -245,6 +251,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 			criteria.add(Restrictions.eq("child." + propEntry.getKey(), propEntry.getValue()));
 		}
 		criteria.setFetchMode(childEntityName, FetchMode.JOIN);
+		criteria.addOrder(Order.desc("lastModifiedDate"));
 		return getEntitiesByCriteria(criteria);
 	}
 
@@ -271,6 +278,7 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 			criteria.add(Restrictions.eq(propEntry.getKey(), propEntry.getValue()));
 		}
 		criteria.setFetchMode(childEntityName, FetchMode.JOIN);
+		criteria.addOrder(Order.desc("lastModifiedDate"));
 		return getEntitiesByCriteria(criteria);
 	}
 

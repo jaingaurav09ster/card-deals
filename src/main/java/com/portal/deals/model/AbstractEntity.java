@@ -5,7 +5,9 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  * The Class AbstractEntity.
@@ -19,9 +21,14 @@ public class AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/** The last modified date. */
-	@Version
-	@Column(name = "LAST_MOD_DT", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", insertable = false)
+	@UpdateTimestamp
+	@Column(name = "LAST_MOD_DT", nullable = false, insertable = false)
 	private Timestamp lastModifiedDate;
+
+	/** The last modified date. */
+	@CreationTimestamp
+	@Column(name = "CREATION_DT", nullable = false, insertable = false)
+	private Timestamp creationDate;
 
 	/**
 	 * Gets the last modified date.
@@ -40,6 +47,21 @@ public class AbstractEntity implements Serializable {
 	 */
 	public void setLastModifiedDate(Timestamp lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	/**
+	 * @return the creationDate
+	 */
+	public Timestamp getCreationDate() {
+		return creationDate;
+	}
+
+	/**
+	 * @param creationDate
+	 *            the creationDate to set
+	 */
+	public void setCreationDate(Timestamp creationDate) {
+		this.creationDate = creationDate;
 	}
 
 }

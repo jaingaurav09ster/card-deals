@@ -23,6 +23,7 @@
 					<thead>
 						<tr>
 							<th>ID</th>
+							<th class="hidden-xs">Logo</th>
 							<th>Bank Name</th>
 							<th class="hidden-xs">Sector</th>
 							<th><em class="fa fa-cog"></em></th>
@@ -32,6 +33,18 @@
 						<c:forEach items="${banks}" var="bank">
 							<tr>
 								<td>${bank.id}</td>
+								<c:choose>
+									<c:when test="${not empty bank.imagePath}">
+										<td class="hidden-xs" align="center"><img alt="image"
+											src="/deals/resources/upload/bank/${bank.imagePath}"
+											style="width: 50px; height: auto;"></td>
+									</c:when>
+									<c:otherwise>
+										<td class="hidden-xs" align="center"><img alt="image"
+											src="/deals/resources/upload/default-placeholder.png"
+											style="width: 50px; height: auto;"></td>
+									</c:otherwise>
+								</c:choose>
 								<td>${bank.name}</td>
 								<td class="hidden-xs">${bank.sector}</td>
 								<td align="center"><form
