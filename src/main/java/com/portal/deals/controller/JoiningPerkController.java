@@ -1,4 +1,4 @@
-package com.portal.deals.controller.admin;
+package com.portal.deals.controller;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -42,7 +43,7 @@ import com.portal.deals.service.JoiningPerkService;
  *
  */
 @Controller
-@RequestMapping(value = "/admin")
+@Secured({ "ROLE_BANK", "ROLE_ADMIN" })
 public class JoiningPerkController {
 
 	/** Initializing the Logger */
@@ -156,7 +157,7 @@ public class JoiningPerkController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/listJoiningPerks/" + joiningPerk.getCardId();
+		return "redirect:/listJoiningPerks/" + joiningPerk.getCardId();
 	}
 
 	/**
@@ -249,7 +250,7 @@ public class JoiningPerkController {
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				model.addAttribute(CommonConstants.CARD_ID, joiningPerk.getCard());
 				model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
-				return "redirect:/admin/updateJoiningPerk/" + joiningPerk.getId() + "/" + joiningPerk.getCardId();
+				return "redirect:/updateJoiningPerk/" + joiningPerk.getId() + "/" + joiningPerk.getCardId();
 			}
 
 			/** Updating the JoiningPerk in the database */
@@ -261,7 +262,7 @@ public class JoiningPerkController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/listJoiningPerks/" + joiningPerk.getCardId();
+		return "redirect:/listJoiningPerks/" + joiningPerk.getCardId();
 	}
 
 	/**
@@ -288,7 +289,7 @@ public class JoiningPerkController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/listJoiningPerks/" + cardId;
+		return "redirect:/listJoiningPerks/" + cardId;
 	}
 
 	/**

@@ -24,11 +24,11 @@
 				<c:choose>
 					<c:when test="${edit}">
 						<div class="panel-title">Update Reward <span class="required">(*required fields)</span></div>
-						<c:url var="actionUrl" value="/admin/updateReward/${cardId}" />
+						<c:url var="actionUrl" value="/updateReward/${cardId}" />
 					</c:when>
 					<c:otherwise>
 						<div class="panel-title">Add Reward <span class="required">(*required fields)</span></div>
-						<c:url var="actionUrl" value="/admin/newReward/${cardId}" />
+						<c:url var="actionUrl" value="/newReward/${cardId}" />
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -98,7 +98,7 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label"></label>
 						<div class="col-md-6">
-							<a href="<c:url value='/admin/listRewards/${cardId}' />"
+							<a href="<c:url value='/listRewards/${cardId}' />"
 								class="btn btn-primary btn-sm btn-cancel">Cancel</a>
 							<c:choose>
 								<c:when test="${edit}">

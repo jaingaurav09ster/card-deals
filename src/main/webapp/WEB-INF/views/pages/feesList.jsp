@@ -32,7 +32,7 @@
 								<td>${fees.firstYear}</td>
 								<td width="50%">${fees.onwards}</td>
 								<td align="center"><a
-									href="<c:url value="/admin/updateFees/${cardId}" />"
+									href="<c:url value="/updateFees/${cardId}" />"
 									class="btn btn-default"><em class="fa fa-pencil"></em></a></td>
 							</tr>
 						</c:forEach>

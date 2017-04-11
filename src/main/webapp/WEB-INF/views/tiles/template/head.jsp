@@ -23,7 +23,9 @@
 <link rel="stylesheet"
 	href="/deals/resources/vendor/nProgress/css/nprogress.css"
 	type="text/css">
-
+<link rel="stylesheet"
+	href="/deals/resources/vendor/bootstrap/css/bootstrap-table.css"
+	type="text/css">
 <link href="/deals/resources/stylesheets/cards.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
@@ -46,6 +48,7 @@
 <!-- Plugin JavaScript -->
 <script src="/deals/resources/vendor/jquery/jquery.easing.min.js"></script>
 <script src="/deals/resources/vendor/bootstrap/js/bootstrapValidator.js"></script>
+<script src="/deals/resources/vendor/bootstrap/js/bootstrap-table.js"></script>
 <script src="/deals/resources/javascripts/typeahead.bundle.js"></script>
 <script src="/deals/resources/vendor/jquery/jquery.paginate.js"></script> 	
 <script src="/deals/resources/vendor/nProgress/js/nprogress.js"></script>

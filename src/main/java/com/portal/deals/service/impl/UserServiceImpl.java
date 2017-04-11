@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.portal.deals.model.User;
 import com.portal.deals.model.dao.UserDao;
@@ -63,7 +64,11 @@ public class UserServiceImpl implements UserService {
 			entity.setMobile(user.getMobile());
 			entity.setLastName(user.getLastName());
 			entity.setUserRoles(user.getUserRoles());
-			entity.setBank(user.getBank());
+			if (StringUtils.isEmpty(user.getBank().getId())) {
+				entity.setBank(null);
+			} else {
+				entity.setBank(user.getBank());
+			}
 		}
 	}
 

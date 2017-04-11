@@ -38,8 +38,17 @@
 											Master Data</a></li>
 								</ul></li>
 						</sec:authorize>
+						<sec:authorize access="hasRole('BANK')">
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+								data-toggle="dropdown">Administration<b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li><a href="<c:url value="/listCards" />">Manage
+											Cards</a></li>
+								</ul></li>
+						</sec:authorize>
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
-							data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i><b
+							data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i>
+								Hi <sec:authentication property="principal.firstName" /> <b
 								class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<li><a href="#">${pageContext.request.userPrincipal.name}</a></li>

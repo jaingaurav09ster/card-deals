@@ -85,4 +85,12 @@ public interface CardDetailsDAO {
 	 * @return
 	 */
 	Card getCardWithDetailsById(Integer id);
+
+	/**
+	 * This will get the list of card for a BANK
+	 * 
+	 * @param bankId
+	 * @return
+	 */
+	List<Card> listAllCardsByBank(Integer bankId);
 }

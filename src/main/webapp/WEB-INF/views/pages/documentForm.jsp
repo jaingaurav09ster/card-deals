@@ -15,13 +15,13 @@
 						<div class="panel-title">
 							Update Document <span class="required">(*required fields)</span>
 						</div>
-						<c:url var="actionUrl" value="/admin/updateDocument/${cardId}" />
+						<c:url var="actionUrl" value="/updateDocument/${cardId}" />
 					</c:when>
 					<c:otherwise>
 						<div class="panel-title">
 							Add Document <span class="required">(*required fields)</span>
 						</div>
-						<c:url var="actionUrl" value="/admin/newDocument/${cardId}" />
+						<c:url var="actionUrl" value="/newDocument/${cardId}" />
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -65,7 +65,7 @@
 					<div class="form-group">
 						<label class="col-md-4 control-label"></label>
 						<div class="col-md-6">
-							<a href="<c:url value='/admin/listDocuments/${cardId}' />"
+							<a href="<c:url value='/listDocuments/${cardId}' />"
 								class="btn btn-primary btn-sm btn-cancel">Cancel</a>
 							<c:choose>
 								<c:when test="${edit}">

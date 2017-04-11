@@ -1,4 +1,4 @@
-package com.portal.deals.controller.admin;
+package com.portal.deals.controller;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -32,7 +33,7 @@ import com.portal.deals.service.DocumentService;
  *
  */
 @Controller
-@RequestMapping(value = "/admin")
+@Secured({ "ROLE_BANK", "ROLE_ADMIN" })
 public class DocumentController {
 
 	/** Initializing the Logger */
@@ -139,7 +140,7 @@ public class DocumentController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/listDocuments/" + document.getCardId();
+		return "redirect:/listDocuments/" + document.getCardId();
 	}
 
 	/**
@@ -234,7 +235,7 @@ public class DocumentController {
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				model.addAttribute(CommonConstants.CARD_ID, document.getCard());
 				model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
-				return "redirect:/admin/updateDocument/" + document.getId() + "/" + document.getCardId();
+				return "redirect:/updateDocument/" + document.getId() + "/" + document.getCardId();
 			}
 
 			/** Updating the Document in the database */
@@ -246,7 +247,7 @@ public class DocumentController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/listDocuments/" + document.getCardId();
+		return "redirect:/listDocuments/" + document.getCardId();
 	}
 
 	/**
@@ -273,6 +274,6 @@ public class DocumentController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/listDocuments/" + cardId;
+		return "redirect:/listDocuments/" + cardId;
 	}
 }

@@ -260,6 +260,12 @@ section.success {
 
 
 
+
+
+
+
+
+
 :not
 
 
@@ -274,7 +280,13 @@ section.success {
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -303,7 +315,13 @@ section.success {
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -346,7 +364,16 @@ padding-left
 
 
 
+
+
+
+
+
+
 :
+
+
+
 
 
 
@@ -374,8 +401,17 @@ padding-left
 
 
 
+
+
+
 14
 px
+
+
+
+
+
+
 
 
 
@@ -430,6 +466,12 @@ border-left
 
 
 
+
+
+
+
+
+
 :
 
 
@@ -444,7 +486,13 @@ border-left
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -473,7 +521,13 @@ px
 
 
 
+
+
+
  
+
+
+
 
 
 
@@ -501,6 +555,9 @@ solid
 
 
 
+
+
+
  
 
 
@@ -515,7 +572,16 @@ solid
 
 
 
+
+
+
 #eeeeee
+
+
+
+
+
+
 
 
 
@@ -1390,4 +1456,29 @@ p.smallFont {
 	.accordion>.panel-group>.panel-default>.panel-collapse>.panel-body {
 		display: flex;
 	}
+}
+
+.fixed-table-container thead th .both:before {
+	font-family: FontAwesome;
+	content: "\f0dc";
+	display: inline-block;
+	float: right;
+}
+
+.fixed-table-container thead th .asc:before {
+	font-family: FontAwesome;
+	content: "\f0de";
+	display: inline-block;
+	float: right;
+}
+
+.fixed-table-container thead th .desc:before {
+	font-family: FontAwesome;
+	content: "\f0dd";
+	display: inline-block;
+	float: right;
+}
+
+.fixed-table-container thead th .both {
+	background-image: none;
 }

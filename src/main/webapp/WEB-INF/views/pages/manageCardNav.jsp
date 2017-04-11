@@ -4,6 +4,11 @@
 <input type="hidden" value="${module}" id="module">
 <input type="hidden" value="${pageName}" id="pageName">
 
+<c:set var="contextUri" value="" scope="page" />
+<c:if test="${empty bankUser}">
+	<c:set var="contextUri" value="/admin" scope="page" />
+</c:if>
+
 <div class="col-sm-4 col-sm-4 col-small-4 sidebar">
 	<div class="nav-side-menu">
 		<div class="brand">Card Manager</div>
@@ -16,9 +21,9 @@
 						class="fa fa-credit-card fa-lg"></i> Card Manager <span
 						class="arrow"></span></a></li>
 				<ul class="sub-menu collapse" id="cardManager">
-					<li id="cardForm"><a href="<c:url value="/admin/newCard" />">New
+					<li id="cardForm"><a href="<c:url value="${contextUri}/newCard" />">New
 							Card</a></li>
-					<li id="cardList"><a href="<c:url value="/admin/listCards" />">Card
+					<li id="cardList"><a href="<c:url value="${contextUri}/listCards" />">Card
 							List</a></li>
 					<li id="updateCardForm" style="display: none;"><a href="#">Update
 							Card</a></li>

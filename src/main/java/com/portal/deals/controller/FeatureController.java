@@ -1,4 +1,4 @@
-package com.portal.deals.controller.admin;
+package com.portal.deals.controller;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -29,42 +30,39 @@ import com.portal.deals.exception.GenericException;
 import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.Card;
 import com.portal.deals.model.Category;
-import com.portal.deals.model.Deal;
-import com.portal.deals.model.OfferType;
-import com.portal.deals.model.OfferUnit;
+import com.portal.deals.model.Feature;
 import com.portal.deals.service.CardManagerService;
 import com.portal.deals.service.CategoryService;
-import com.portal.deals.service.DealService;
-import com.portal.deals.service.OfferTypeService;
-import com.portal.deals.service.OfferUnitService;
+import com.portal.deals.service.FeatureService;
 
 /**
- * This is the controller class for Deal CRUD operation. Only ADMIN will have
+ * This is the controller class for Feature CRUD operation. Only ADMIN will have
  * access to this controller
  * 
  * @author Gaurav Jain
  *
  */
 @Controller
-@RequestMapping(value = "/admin")
-public class DealController {
+@Secured({ "ROLE_BANK", "ROLE_ADMIN" })
+public class FeatureController {
 
 	/** Initializing the Logger */
-	private static final Logger LOG = LoggerFactory.getLogger(DealController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(FeatureController.class);
 
 	/**
 	 * Service class for communicating with DAO layer for CRUD operation for
 	 * DEAL entity
 	 */
 	@Autowired
-	private DealService service;
-
+	private FeatureService service;
+	
 	/**
 	 * Service class for communicating with DAO layer for CRUD operation for
 	 * Category entity
 	 */
 	@Autowired
 	private CategoryService categoryService;
+
 
 	/**
 	 * Service class for communicating with DAO layer for CRUD operation for
@@ -73,45 +71,39 @@ public class DealController {
 	@Autowired
 	private CardManagerService cardService;
 
-	@Autowired
-	private OfferTypeService offerTypeService;
+	/** The JSP name for add new feature page */
+	private static final String DEAL_FORM_JSP = "featureForm";
 
-	@Autowired
-	private OfferUnitService offerUnitService;
+	/** The JSP name for add new feature page */
+	private static final String UPDATE_DEAL_FORM_JSP = "updateFeatureForm";
 
-	/** The JSP name for add new deal page */
-	private static final String DEAL_FORM_JSP = "dealForm";
-
-	/** The JSP name for add new deal page */
-	private static final String UPDATE_DEAL_FORM_JSP = "updateDealForm";
-
-	/** The JSP name for deal list page */
-	private static final String DEAL_LIST_JSP = "dealList";
+	/** The JSP name for feature list page */
+	private static final String DEAL_LIST_JSP = "featureList";
 
 	/** The module name */
-	private static final String MODULE = "dealManager";
+	private static final String MODULE = "featureManager";
 
 	/**
-	 * This method will render the add new deal page
+	 * This method will render the add new feature page
 	 * 
 	 * @param model
 	 *            The model to carry data
 	 * @return The view JSP
 	 */
-	@RequestMapping(value = "/newDeal/{id}")
-	public String addDeal(@PathVariable("id") int cardId, ModelMap model) {
-		LOG.info("Rendering the add new deal page");
+	@RequestMapping(value = "/newFeature/{id}")
+	public String addFeature(@PathVariable("id") int cardId, ModelMap model) {
+		LOG.info("Rendering the add new feature page");
 		try {
 			/**
-			 * Adding the blank Deal object as model attribute for Form
+			 * Adding the blank Feature object as model attribute for Form
 			 */
-			model.addAttribute("deal", new Deal());
+			model.addAttribute("feature", new Feature());
 			model.addAttribute(CommonConstants.PAGE_NAME, DEAL_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
 			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
-			LOG.error("Exception occured while loading add new deal Page", ex);
+			LOG.error("Exception occured while loading add new feature Page", ex);
 			if (ex instanceof BaseException) {
 				BaseException baseException = (BaseException) ex;
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
@@ -121,76 +113,75 @@ public class DealController {
 	}
 
 	/**
-	 * This method will persist the deal data in the database
+	 * This method will persist the feature data in the database
 	 * 
-	 * @param deal
-	 *            category The CARD category added on add deal form
+	 * @param feature
+	 *            category The CARD category added on add feature form
 	 * @param result
 	 *            The binding result, from validation etc.
 	 * @param model
 	 *            The model to carry data
 	 * @return The view JSP
 	 */
-	@RequestMapping(value = "/newDeal/{id}", method = RequestMethod.POST)
-	public String addDeal(@PathVariable("id") int cardId, @Valid Deal deal, BindingResult result, ModelMap model,
-			HttpServletRequest request) {
-		LOG.info("Saving the Deal to the database");
+	@RequestMapping(value = "/newFeature/{id}", method = RequestMethod.POST)
+	public String addFeature(@PathVariable("id") int cardId, @Valid Feature feature, BindingResult result, ModelMap model, HttpServletRequest request) {
+		LOG.info("Saving the Feature to the database");
 
 		try {
 			/**
-			 * If there is any validation error, then reload the Deal form page
+			 * If there is any validation error, then reload the Feature form page
 			 * with relevant errors
 			 */
 			if (result.hasErrors()) {
 				model.addAttribute(CommonConstants.PAGE_NAME, DEAL_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
-				model.addAttribute(CommonConstants.CARD_ID, deal.getCardId());
+				model.addAttribute(CommonConstants.CARD_ID, feature.getCardId());
 				model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 				return DEAL_FORM_JSP;
 			}
 
 			/** Get the Card from the database */
-			Card card = cardService.getCardById(deal.getCardId());
+			Card card = cardService.getCardById(feature.getCardId());
 			if (card == null) {
-				throw new EntityNotFoundException("ErrorAddDeal", "Card not found");
+				throw new EntityNotFoundException("ErrorAddFeature", "Card not found");
 			}
-			/** Add the deal to Card */
-			deal.setCard(card);
+			/** Add the feature to Card */
+			feature.setCard(card);
 
-			/** Save the Deal in the database */
-			service.saveDeal(deal);
+			/** Save the Feature in the database */
+			service.saveFeature(feature);
 		} catch (Exception ex) {
-			LOG.error("Exception occured while saving the Deal", ex);
+			LOG.error("Exception occured while saving the Feature", ex);
 			if (ex instanceof BaseException) {
 				BaseException baseException = (BaseException) ex;
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/listDeals/" + deal.getCardId();
+		return "redirect:/listFeatures/" + feature.getCardId();
 	}
 
 	/**
-	 * This method will get the list of deal from the database.
+	 * This method will get the list of feature from the database.
 	 * 
 	 * @param model
 	 *            The model to carry data
 	 * @return The view JSP
 	 */
-	@RequestMapping(value = "/listDeals/{id}")
-	public String listAllDeals(@PathVariable("id") int cardId, ModelMap model) {
-		LOG.info("Loading the deal  list page");
+	@RequestMapping(value = "/listFeatures/{id}")
+	public String listAllFeatures(@PathVariable("id") int cardId, ModelMap model) {
+		LOG.info("Loading the feature  list page");
 		try {
-			List<Deal> deals = service.getDealsByCardId(cardId);
+			List<Feature> features = service.getFeaturesByCardId(cardId);
 			/**
-			 * Adding the deal list to model, to be used for rendering in JSP
+			 * Adding the feature list to model, to be used for rendering in JSP
 			 */
-			model.addAttribute("deals", deals);
+			model.addAttribute("features", features);
 			model.addAttribute(CommonConstants.PAGE_NAME, DEAL_LIST_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
 			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
-			LOG.error("Exception occured while loading the deal listing Page", ex);
+			LOG.error("Exception occured while loading the feature listing Page", ex);
 			if (ex instanceof BaseException) {
 				BaseException baseException = (BaseException) ex;
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
@@ -200,36 +191,36 @@ public class DealController {
 	}
 
 	/**
-	 * This method will update the deal details
+	 * This method will update the feature details
 	 * 
 	 * @param id
-	 *            Id of the deal, that has to be updated
+	 *            Id of the feature, that has to be updated
 	 * @param model
 	 *            The model to carry data
 	 * @return The view JSP
 	 */
-	@RequestMapping(value = "/updateDeal/{id}/{cardId}")
-	public String updateDeal(@PathVariable("id") int id, @PathVariable("cardId") int cardId, ModelMap model) {
-		LOG.info("Loading update deal page");
+	@RequestMapping(value = "/updateFeature/{id}/{cardId}")
+	public String updateFeature(@PathVariable("id") int id, @PathVariable("cardId") int cardId, ModelMap model) {
+		LOG.info("Loading update feature page");
 
 		try {
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("The Deal id to be updated [" + id + "]");
+				LOG.debug("The Feature id to be updated [" + id + "]");
 			}
-			/** Get the Deal entity by id from the database */
-			Deal deal = service.getDealById(id);
-			if (deal == null) {
+			/** Get the Feature entity by id from the database */
+			Feature feature = service.getFeatureById(id);
+			if (feature == null) {
 				throw new EntityNotFoundException("Error", "Entity not found");
 			}
 			/** Add edit to true, to identify the request is coming from edit */
 			model.addAttribute("edit", true);
 			model.addAttribute(CommonConstants.CARD_ID, cardId);
-			model.addAttribute("deal", deal);
+			model.addAttribute("feature", feature);
 			model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
 		} catch (Exception ex) {
-			LOG.error("Exception occured while updating the deal", ex);
+			LOG.error("Exception occured while updating the feature", ex);
 			if (ex instanceof BaseException) {
 				BaseException baseException = (BaseException) ex;
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
@@ -239,67 +230,66 @@ public class DealController {
 	}
 
 	/**
-	 * This method will update the deal data in the database
+	 * This method will update the feature data in the database
 	 * 
-	 * @param deal
-	 *            The CARD details added on add deal form
+	 * @param feature
+	 *            The CARD details added on add feature form
 	 * @param result
 	 *            The binding result, from validation etc.
 	 * @param model
 	 *            The model to carry data
 	 * @return The view JSP
 	 */
-	@RequestMapping(value = "/updateDeal/{cardId}", method = RequestMethod.POST)
-	public String updateDeal(@PathVariable("cardId") int cardId, @Valid Deal deal, BindingResult result, ModelMap model,
-			HttpServletRequest request) {
-		LOG.info("Updating the deal details");
+	@RequestMapping(value = "/updateFeature/{cardId}", method = RequestMethod.POST)
+	public String updateFeature(@PathVariable("cardId") int cardId, @Valid Feature feature, BindingResult result, ModelMap model, HttpServletRequest request) {
+		LOG.info("Updating the feature details");
 		try {
-			/** Reload the update deal page in case of any error */
+			/** Reload the update feature page in case of any error */
 			if (result.hasErrors()) {
 				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_DEAL_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
-				model.addAttribute(CommonConstants.CARD_ID, deal.getCard());
+				model.addAttribute(CommonConstants.CARD_ID, feature.getCard());
 				model.addAttribute(CommonConstants.CARD_NAME, cardService.getCardName(cardId));
-				return "redirect:/admin/updateDeal/" + deal.getId() + "/" + deal.getCardId();
+				return "redirect:/updateFeature/" + feature.getId() + "/" + feature.getCardId();
 			}
 
-			/** Updating the Deal in the database */
-			service.updateDeal(deal);
+			/** Updating the Feature in the database */
+			service.updateFeature(feature);
 		} catch (Exception ex) {
-			LOG.error("Exception occured while loading Deal Page", ex);
+			LOG.error("Exception occured while loading Feature Page", ex);
 			if (ex instanceof BaseException) {
 				BaseException baseException = (BaseException) ex;
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/listDeals/" + deal.getCardId();
+		return "redirect:/listFeatures/" + feature.getCardId();
 	}
 
 	/**
-	 * This method will delete the deal from the database, based on the id
+	 * This method will delete the feature from the database, based on the id
 	 * passed
 	 * 
 	 * @param id
-	 *            The id of the deal that has to be deleted
+	 *            The id of the feature that has to be deleted
 	 * @return the redirect value
 	 */
-	@RequestMapping(value = "/deleteDeal/{id}/{cardId}")
+	@RequestMapping(value = "/deleteFeature/{id}/{cardId}")
 	public String deleteCard(@PathVariable("id") int id, @PathVariable("cardId") int cardId) {
-		LOG.info("Deleting the deal from database");
+		LOG.info("Deleting the feature from database");
 		try {
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("The Deal id to be deleted [" + id + "]");
+				LOG.debug("The Feature id to be deleted [" + id + "]");
 			}
-			/** Call to database to delete the deal */
-			service.deleteDealById(id);
+			/** Call to database to delete the feature */
+			service.deleteFeatureById(id);
 		} catch (Exception ex) {
-			LOG.error("Exception occured while deleting the deal", ex);
+			LOG.error("Exception occured while deleting the feature", ex);
 			if (ex instanceof BaseException) {
 				BaseException baseException = (BaseException) ex;
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/listDeals/" + cardId;
+		return "redirect:/listFeatures/" + cardId;
 	}
 
 	/**
@@ -308,22 +298,6 @@ public class DealController {
 	@ModelAttribute("categories")
 	public List<Category> initializeCategories() {
 		return categoryService.listAllRootCategories();
-	}
-
-	/**
-	 * This method will provide Category list to views
-	 */
-	@ModelAttribute("offerTypes")
-	public List<OfferType> initializeOfferTypes() {
-		return offerTypeService.listAllOfferTypes();
-	}
-
-	/**
-	 * This method will provide Category list to views
-	 */
-	@ModelAttribute("offerUnits")
-	public List<OfferUnit> initializeOfferUnits() {
-		return offerUnitService.listAllOfferUnits();
 	}
 
 	/***

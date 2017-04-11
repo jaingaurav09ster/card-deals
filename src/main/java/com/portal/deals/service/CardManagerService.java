@@ -18,9 +18,11 @@ public interface CardManagerService {
 
 	void saveCard(Card card);
 
-	void updateCard(Card card);
+	void updateCard(Card card, boolean bankUser);
 
 	void deleteCard(Card card);
 
 	Card getCardWithDetailsById(Integer id);
+
+	List<Card> listAllCardsByBank(Integer bankId);
 }

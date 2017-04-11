@@ -5,13 +5,18 @@
 <input type="hidden" value="${module}" id="module">
 <input type="hidden" value="${pageName}" id="pageName">
 
+<c:set var="contextUri" value="" scope="page" />
+<c:if test="${empty bankUser}">
+	<c:set var="contextUri" value="/admin" scope="page" />
+</c:if>
+
 <div class="col-sm-4 col-md-4 sidebar">
 	<div class="nav-side-menu">
 		<c:if test="${fn:length(cardName)  gt 25}">
 			<c:set var="cardName">${fn:substring(cardName, 0, 25)}..</c:set>
 		</c:if>
 		<div class="brand">
-			<a href="<c:url value="/admin/listCards" />" title="${cardName}">&lt;&lt;${cardName}</a>
+			<a href="<c:url value="${contextUri}/listCards" />" title="${cardName}">&lt;&lt;${cardName}</a>
 		</div>
 		<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse"
 			data-target="#menu-content"></i>
@@ -25,9 +30,9 @@
 					<li id="updateDealForm" style="display: none;"><a href="#">Update
 							Deal</a></li>
 					<li id="dealForm"><a
-						href="<c:url value="/admin/newDeal/${cardId}" />">New Deal</a></li>
+						href="<c:url value="/newDeal/${cardId}" />">New Deal</a></li>
 					<li id="dealList"><a
-						href="<c:url value="/admin/listDeals/${cardId}" />">Deal List</a></li>
+						href="<c:url value="/listDeals/${cardId}" />">Deal List</a></li>
 				</ul>
 				<li data-toggle="collapse" data-target="#documentManager"
 					class="collapsed" id="li-documentManager"><a href="#"><i
@@ -36,10 +41,10 @@
 					<li id="updateDocumentForm" style="display: none;"><a href="#">Update
 							Document</a></li>
 					<li id="documentForm"><a
-						href="<c:url value="/admin/newDocument/${cardId}" />">New
+						href="<c:url value="/newDocument/${cardId}" />">New
 							Document</a></li>
 					<li id="documentList"><a
-						href="<c:url value="/admin/listDocuments/${cardId}" />">Document
+						href="<c:url value="/listDocuments/${cardId}" />">Document
 							List</a></li>
 				</ul>
 				<li data-toggle="collapse" data-target="#rewardManager"
@@ -50,9 +55,9 @@
 					<li id="updateRewardForm" style="display: none;"><a href="#">Update
 							Reward</a></li>
 					<li id="rewardForm"><a
-						href="<c:url value="/admin/newReward/${cardId}" />">New Reward</a></li>
+						href="<c:url value="/newReward/${cardId}" />">New Reward</a></li>
 					<li id="rewardList"><a
-						href="<c:url value="/admin/listRewards/${cardId}" />">Reward
+						href="<c:url value="/listRewards/${cardId}" />">Reward
 							List</a></li>
 				</ul>
 				<li data-toggle="collapse" data-target="#ratingManager"
@@ -63,9 +68,9 @@
 					<li id="updateRatingForm" style="display: none;"><a href="#">Update
 							Rating</a></li>
 					<li id="ratingForm"><a
-						href="<c:url value="/admin/newRating/${cardId}" />">New Rating</a></li>
+						href="<c:url value="/newRating/${cardId}" />">New Rating</a></li>
 					<li id="ratingList"><a
-						href="<c:url value="/admin/listRatings/${cardId}" />">Rating
+						href="<c:url value="/listRatings/${cardId}" />">Rating
 							List</a></li>
 				</ul>
 				<li data-toggle="collapse" data-target="#feesManager"
@@ -74,7 +79,7 @@
 						class="arrow"></span></a></li>
 				<ul class="sub-menu collapse" id="feesManager">
 					<li id="updateFeesForm"><a
-						href="<c:url value="/admin/updateFees/${cardId}" />">Add/Update
+						href="<c:url value="/updateFees/${cardId}" />">Add/Update
 							Fees</a></li>
 				</ul>
 				<li data-toggle="collapse" data-target="#joiningPerkManager"
@@ -85,10 +90,10 @@
 					<li id="updateJoiningPerkForm" style="display: none;"><a
 						href="#">Update JoiningPerk</a></li>
 					<li id="joiningPerkForm"><a
-						href="<c:url value="/admin/newJoiningPerk/${cardId}" />">New
+						href="<c:url value="/newJoiningPerk/${cardId}" />">New
 							Joining Perk</a></li>
 					<li id="joiningPerkList"><a
-						href="<c:url value="/admin/listJoiningPerks/${cardId}" />">Joining
+						href="<c:url value="/listJoiningPerks/${cardId}" />">Joining
 							Perk List</a></li>
 				</ul>
 				<li data-toggle="collapse" data-target="#featureManager"
@@ -99,10 +104,10 @@
 					<li id="updateFeatureForm" style="display: none;"><a href="#">Update
 							Feature</a></li>
 					<li id="featureForm"><a
-						href="<c:url value="/admin/newFeature/${cardId}" />">New
+						href="<c:url value="/newFeature/${cardId}" />">New
 							Feature</a></li>
 					<li id="featureList"><a
-						href="<c:url value="/admin/listFeatures/${cardId}" />">Feature
+						href="<c:url value="/listFeatures/${cardId}" />">Feature
 							List</a></li>
 				</ul>
 			</ul>

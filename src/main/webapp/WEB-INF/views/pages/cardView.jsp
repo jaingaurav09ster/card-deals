@@ -22,8 +22,8 @@
 					<div class="panel-body">
 						<div class="col-xs-12 col-sm-5 text-center image-box">
 							<figure>
-								<img src="/deals/resources/upload/card/${card.imagePath}" alt="Card"
-									class="img-responsive">
+								<img src="/deals/resources/upload/card/${card.imagePath}"
+									alt="Card" class="img-responsive">
 							</figure>
 						</div>
 						<div class="col-xs-12 col-sm-7 card-detail-box">
@@ -79,7 +79,7 @@
 									</p>
 									<p>
 										<strong>${deal.offerType.title}</strong> for max value
-											${deal.maxValueUnit} ${deal.maxValue}
+										${deal.maxValueUnit} ${deal.maxValue}
 									</p>
 									<p>
 										<strong>Rank: </strong>${deal.rank}
@@ -213,19 +213,54 @@
 					</div>
 				</div>
 			</c:if>
-			<c:if test="${fn:length(card.documents) gt 0}">
+			<c:if test="${fn:length(card.rating) gt 0}">
 				<div class="panel panel-default">
 					<div class="panel-heading" role="tab" id="headingSeven">
 						<h4 class="panel-title">
 							<a class="collapsed" role="button" data-toggle="collapse"
 								data-parent="#accordion" href="#collapseSeven"
 								aria-expanded="false" aria-controls="collapseSeven"> <i
-								class="more-less glyphicon glyphicon-plus"></i>Documents
+								class="more-less glyphicon glyphicon-plus"></i>Rating
 							</a>
 						</h4>
 					</div>
 					<div id="collapseSeven" class="panel-collapse collapse"
 						role="tabpanel" aria-labelledby="headingSeven">
+						<div class="panel-body">
+							<c:forEach items="${card.rating}" var="rating">
+								<div class="col-xs-12 col-sm-6 detail-box">
+									<h4>
+										<c:forEach var="i" begin="1" end="5" step="1">
+											<c:choose>
+												<c:when test="${i <= rating.rating }">
+													<a href="#"> <span class="fa fa-star"></span></a>
+												</c:when>
+												<c:otherwise>
+													<a href="#"> <span class="fa fa-star-o"></span></a>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+									</h4>
+									${rating.comment}
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+			</c:if>
+			<c:if test="${fn:length(card.documents) gt 0}">
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingEight">
+						<h4 class="panel-title">
+							<a class="collapsed" role="button" data-toggle="collapse"
+								data-parent="#accordion" href="#collapseEight"
+								aria-expanded="false" aria-controls="collapseEight"> <i
+								class="more-less glyphicon glyphicon-plus"></i>Documents
+							</a>
+						</h4>
+					</div>
+					<div id="collapseEight" class="panel-collapse collapse"
+						role="tabpanel" aria-labelledby="headingEight">
 						<div class="panel-body">
 							<c:forEach items="${card.documents}" var="document">
 								<div class="col-xs-12 col-sm-6 detail-box">

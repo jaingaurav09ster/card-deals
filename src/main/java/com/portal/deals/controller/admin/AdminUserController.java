@@ -171,12 +171,10 @@ public class AdminUserController {
 				return USER_FORM_JSP;
 			}
 
-			Bank bank = null;
-			if (!StringUtils.isEmpty(user.getBank().getId())) {
-				bank = bankService.getBankById(user.getBank().getId());
+			if (StringUtils.isEmpty(user.getBank().getId())) {
+				user.setBank(null);
 			}
-
-			user.setBank(bank);
+			
 			/** Saving the user in the database */
 			userService.saveUser(user);
 		} catch (Exception ex) {

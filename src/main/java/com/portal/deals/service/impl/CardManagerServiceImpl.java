@@ -43,7 +43,7 @@ public class CardManagerServiceImpl implements CardManagerService {
 	}
 
 	@Override
-	public void updateCard(Card card) {
+	public void updateCard(Card card, boolean bankUser) {
 		Card entity = cardDao.getCardById(card.getId());
 		if (entity != null) {
 			entity.setTitle(card.getTitle());
@@ -52,7 +52,9 @@ public class CardManagerServiceImpl implements CardManagerService {
 			entity.setImage(card.getImage());
 			entity.setImagePath(card.getImagePath());
 			entity.setRank(card.getRank());
-			entity.setBank(card.getBank());
+			if (!bankUser) {
+				entity.setBank(card.getBank());
+			}
 			entity.setCardCategory(card.getCardCategory());
 			entity.setCardType(card.getCardType());
 			entity.setCategories(card.getCategories());
@@ -68,9 +70,14 @@ public class CardManagerServiceImpl implements CardManagerService {
 	public String getCardName(Integer id) {
 		return cardDao.getCardName(id);
 	}
-	
+
 	@Override
 	public Card getCardWithDetailsById(Integer id) {
 		return cardDao.getCardWithDetailsById(id);
+	}
+
+	@Override
+	public List<Card> listAllCardsByBank(Integer bankId) {
+		return cardDao.listAllCardsByBank(bankId);
 	}
 }

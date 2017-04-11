@@ -51,6 +51,12 @@ public class CardDetailsDAOImpl extends AbstractDao<Integer, Card> implements Ca
 	}
 
 	@Override
+	public List<Card> listAllCardsByBank(Integer bankId) {
+		List<Card> list = this.findAllByChildProperty("bank", "id", bankId);
+		return list;
+	}
+
+	@Override
 	public Card getCardById(Integer id) {
 		return this.get(id);
 	}

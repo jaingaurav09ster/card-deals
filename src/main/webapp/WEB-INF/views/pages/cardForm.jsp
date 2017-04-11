@@ -16,18 +16,26 @@
 <script src="/deals/resources/vendor/ckeditor/ckeditor.js"></script>
 
 <jsp:include page="manageCardNav.jsp" />
+<c:set var="contextUri" value="" scope="page" />
+<c:if test="${empty bankUser}">
+	<c:set var="contextUri" value="/admin" scope="page" />
+</c:if>
 <c:set var="level" value="-1" scope="page" />
 <div class="col-sm-7 col-md-7 form">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<c:choose>
 				<c:when test="${edit}">
-					<div class="panel-title">Update Card <span class="required">(*required fields)</span></div>
-					<c:url var="actionUrl" value="/admin/updateCard" />
+					<div class="panel-title">
+						Update Card <span class="required">(*required fields)</span>
+					</div>
+					<c:url var="actionUrl" value="${contextUri}/updateCard" />
 				</c:when>
 				<c:otherwise>
-					<div class="panel-title">Add Card <span class="required">(*required fields)</span></div>
-					<c:url var="actionUrl" value="/admin/newCard" />
+					<div class="panel-title">
+						Add Card <span class="required">(*required fields)</span>
+					</div>
+					<c:url var="actionUrl" value="${contextUri}/newCard" />
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -101,19 +109,21 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="bank" class="control-label col-md-4">Bank<span
-							class="asteriskField">*</span></label>
-						<div class="col-md-6">
-							<form:select class="form-control" path="bank.id" id="bank">
-								<form:option value="">Please Select</form:option>
-								<form:options items="${banks}" itemValue="id" itemLabel="name" />
-							</form:select>
-							<div class="has-error">
-								<form:errors path="bank" class="help-inline" />
+					<c:if test="${empty bankUser}">
+						<div class="form-group">
+							<label for="bank" class="control-label col-md-4">Bank<span
+								class="asteriskField">*</span></label>
+							<div class="col-md-6">
+								<form:select class="form-control" path="bank.id" id="bank">
+									<form:option value="">Please Select</form:option>
+									<form:options items="${banks}" itemValue="id" itemLabel="name" />
+								</form:select>
+								<div class="has-error">
+									<form:errors path="bank" class="help-inline" />
+								</div>
 							</div>
 						</div>
-					</div>
+					</c:if>
 					<div class="form-group">
 						<label for="type" class="control-label col-md-4">Card Type<span
 							class="asteriskField">*</span>
@@ -188,8 +198,8 @@
 				</div>
 				<div class="form-group">
 					<label class="col-md-4 control-label"></label>
-						<div class="col-md-6">
-						<a href="<c:url value='/admin/listCards' />"
+					<div class="col-md-6">
+						<a href="<c:url value='${contextUri}/listCards' />"
 							class="btn btn-primary btn-sm btn-cancel">Cancel</a>
 						<c:choose>
 							<c:when test="${edit}">
@@ -197,8 +207,7 @@
 									class="btn btn-primary btn-sm" />
 							</c:when>
 							<c:otherwise>
-								<input type="submit" value="Add" class="btn btn-primary btn-sm"
-									 />
+								<input type="submit" value="Add" class="btn btn-primary btn-sm" />
 							</c:otherwise>
 						</c:choose>
 					</div>

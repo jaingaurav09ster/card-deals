@@ -16,11 +16,11 @@
 				<c:choose>
 					<c:when test="${edit}">
 						<div class="panel-title">Update JoiningPerk <span class="required">(*required fields)</span></div>
-						<c:url var="actionUrl" value="/admin/updateJoiningPerk/${cardId}" />
+						<c:url var="actionUrl" value="/updateJoiningPerk/${cardId}" />
 					</c:when>
 					<c:otherwise>
 						<div class="panel-title">Add JoiningPerk <span class="required">(*required fields)</span></div>
-						<c:url var="actionUrl" value="/admin/newJoiningPerk/${cardId}" />
+						<c:url var="actionUrl" value="/newJoiningPerk/${cardId}" />
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -90,7 +90,7 @@
 					<div class="form-group">
 					<label class="col-md-4 control-label"></label>
 						<div class="col-md-6">
-							<a href="<c:url value='/admin/listJoiningPerks/${cardId}' />"
+							<a href="<c:url value='/listJoiningPerks/${cardId}' />"
 								class="btn btn-primary btn-sm btn-cancel">Cancel</a>
 							<c:choose>
 								<c:when test="${edit}">

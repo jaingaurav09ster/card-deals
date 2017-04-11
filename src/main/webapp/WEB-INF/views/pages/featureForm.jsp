@@ -16,11 +16,11 @@
 				<c:choose>
 					<c:when test="${edit}">
 						<div class="panel-title">Update Feature <span class="required">(*required fields)</span></div>
-						<c:url var="actionUrl" value="/admin/updateFeature/${cardId}" />
+						<c:url var="actionUrl" value="/updateFeature/${cardId}" />
 					</c:when>
 					<c:otherwise>
 						<div class="panel-title">Add Feature <span class="required">(*required fields)</span></div>
-						<c:url var="actionUrl" value="/admin/newFeature/${cardId}" />
+						<c:url var="actionUrl" value="/newFeature/${cardId}" />
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -90,7 +90,7 @@
 					<div class="form-group">
 					<label class="col-md-4 control-label"></label>
 						<div class="col-md-6">
-							<a href="<c:url value='/admin/listFeatures/${cardId}' />"
+							<a href="<c:url value='/listFeatures/${cardId}' />"
 								class="btn btn-primary btn-sm btn-cancel">Cancel</a>
 							<c:choose>
 								<c:when test="${edit}">

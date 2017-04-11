@@ -1,4 +1,4 @@
-package com.portal.deals.controller.admin;
+package com.portal.deals.controller.bank;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
@@ -38,25 +39,26 @@ import com.portal.deals.model.Card;
 import com.portal.deals.model.CardCategory;
 import com.portal.deals.model.CardType;
 import com.portal.deals.model.Category;
-import com.portal.deals.service.BankService;
+import com.portal.deals.model.UserDetails;
 import com.portal.deals.service.CardCategoryService;
 import com.portal.deals.service.CardManagerService;
 import com.portal.deals.service.CardTypeService;
 import com.portal.deals.service.CategoryService;
+import com.portal.deals.util.Utils;
 
 /**
- * This is the controller class for card CRUD operation. Only ADMIN will have
+ * This is the controller class for card CRUD operation. Only BANK User will have
  * access to this controller
  * 
  * @author Gaurav Jain
  *
  */
 @Controller
-@RequestMapping(value = "/admin")
-public class AdminCardController {
+@Secured("ROLE_BANK")
+public class CardController {
 
 	/** Initializing the Logger */
-	private static final Logger LOG = LoggerFactory.getLogger(AdminCardController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CardController.class);
 
 	/**
 	 * Service class for communicating with DAO layer for CRUD operation for
@@ -86,13 +88,6 @@ public class AdminCardController {
 	@Autowired
 	private CategoryService categoryService;
 
-	/**
-	 * Service class for communicating with DAO layer for CRUD operation for
-	 * CARD entity
-	 */
-	@Autowired
-	private BankService bankService;
-
 	/** The JSP name for add new card page */
 	private static final String CARD_FORM_JSP = "cardForm";
 
@@ -111,6 +106,9 @@ public class AdminCardController {
 	/** The module name */
 	private static final String MODULE = "cardManager";
 
+	/** The module name */
+	private static final String BANK_USER = "bankUser";
+
 	/**
 	 * This method will render the add new card page
 	 * 
@@ -124,6 +122,7 @@ public class AdminCardController {
 		try {
 			/** Adding the blank Card object as model attribute for Form */
 			model.addAttribute("card", new Card());
+			model.addAttribute(BANK_USER, true);
 			model.addAttribute(CommonConstants.PAGE_NAME, CARD_FORM_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 		} catch (Exception ex) {
@@ -159,13 +158,21 @@ public class AdminCardController {
 			if (result.hasErrors()) {
 				model.addAttribute(CommonConstants.PAGE_NAME, CARD_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
+				model.addAttribute(BANK_USER, true);
 				return CARD_FORM_JSP;
 			}
 
 			/** Upload the File */
 			uploadImage(card, request);
 
+			/** Get the logged in user */
+			UserDetails user = Utils.getLoggedInUser();
+			Bank bank = user.getBank();
+			if (bank == null || StringUtils.isEmpty(bank.getId())) {
+				throw new EntityNotFoundException("ErrorAddCard", "Bank not associated with this user");
+			}
 			/** Save the card in the database */
+			card.setBank(bank);
 			cardServiceManager.saveCard(card);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while saving the card", ex);
@@ -174,7 +181,7 @@ public class AdminCardController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/listCards";
+		return "redirect:/listCards";
 	}
 
 	/**
@@ -188,8 +195,15 @@ public class AdminCardController {
 	public String listAllCards(ModelMap model) {
 		LOG.info("Loading the card list page");
 		try {
+
+			/** Get the logged in user */
+			UserDetails user = Utils.getLoggedInUser();
+			Bank bank = user.getBank();
+			if (bank == null || StringUtils.isEmpty(bank.getId())) {
+				throw new EntityNotFoundException("ErrorAddCard", "Bank not associated with this user");
+			}
 			/** Get the list of Cards from the database */
-			List<Card> cards = cardServiceManager.listAllCards();
+			List<Card> cards = cardServiceManager.listAllCardsByBank(bank.getId());
 
 			/**
 			 * Adding the card list to model, to be used for rendering in JSP
@@ -197,6 +211,7 @@ public class AdminCardController {
 			model.addAttribute(CommonConstants.PAGE_NAME, CARD_LIST_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute("cards", cards);
+			model.addAttribute(BANK_USER, true);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading the card listing Page", ex);
 			if (ex instanceof BaseException) {
@@ -234,6 +249,7 @@ public class AdminCardController {
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute("edit", true);
 			model.addAttribute("card", card);
+			model.addAttribute(BANK_USER, true);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while updating the card", ex);
 			if (ex instanceof BaseException) {
@@ -269,6 +285,7 @@ public class AdminCardController {
 			model.addAttribute(CommonConstants.PAGE_NAME, CARD_VIEW_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
 			model.addAttribute("card", card);
+			model.addAttribute(BANK_USER, true);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while updating the card", ex);
 			if (ex instanceof BaseException) {
@@ -298,14 +315,15 @@ public class AdminCardController {
 			if (result.hasErrors()) {
 				model.addAttribute(CommonConstants.PAGE_NAME, UPDATE_CARD_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
-				return "redirect:/admin/updateCard/" + card.getId();
+				model.addAttribute(BANK_USER, true);
+				return "redirect:/updateCard/" + card.getId();
 			}
 
 			/** Upload the File */
 			uploadImage(card, request);
 
 			/** Updating the Card in the database */
-			cardServiceManager.updateCard(card, false);
+			cardServiceManager.updateCard(card, true);
 		} catch (Exception ex) {
 			LOG.error("Exception occured while loading registration Page", ex);
 			if (ex instanceof BaseException) {
@@ -313,7 +331,7 @@ public class AdminCardController {
 				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
 			}
 		}
-		return "redirect:/admin/listCards";
+		return "redirect:/listCards";
 	}
 
 	/**
@@ -339,33 +357,6 @@ public class AdminCardController {
 				card.setImagePath(multipartFile.getOriginalFilename());
 			}
 		}
-	}
-
-	/**
-	 * This method will delete the card from the database, based on the id
-	 * passed
-	 * 
-	 * @param id
-	 *            The id of the card that has to be deleted
-	 * @return the redirect value
-	 */
-	@RequestMapping(value = "/deleteCard/{id}")
-	public String deleteCard(@PathVariable("id") int id) {
-		LOG.info("Deleting the card from database");
-		try {
-			if (LOG.isDebugEnabled()) {
-				LOG.debug("The Card id to be deleted [" + id + "]");
-			}
-			/** Call to database to delete the card */
-			cardServiceManager.deleteCardById(id);
-		} catch (Exception ex) {
-			LOG.error("Exception occured while deleting the card", ex);
-			if (ex instanceof BaseException) {
-				BaseException baseException = (BaseException) ex;
-				throw new GenericException(baseException.getErrCode(), baseException.getErrMsg());
-			}
-		}
-		return "redirect:/admin/listCards";
 	}
 
 	/***
@@ -396,14 +387,6 @@ public class AdminCardController {
 	@ModelAttribute("cardTypes")
 	public List<CardType> initializeCardTypes() {
 		return cardTypeService.listAllCardTypes();
-	}
-
-	/**
-	 * This method will provide Bank list to views
-	 */
-	@ModelAttribute("banks")
-	public List<Bank> initializeBanks() {
-		return bankService.listAllBanks();
 	}
 
 	/**

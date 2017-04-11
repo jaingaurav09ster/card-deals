@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -59,6 +60,13 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(NoHandlerFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public void handleMyException(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String ctx = request.getContextPath();
+		response.sendRedirect(ctx);
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	public void handleAccessDeniedException(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
 		String ctx = request.getContextPath();
 		response.sendRedirect(ctx);
 	}

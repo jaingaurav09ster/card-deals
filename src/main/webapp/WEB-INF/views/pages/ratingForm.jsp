@@ -13,12 +13,16 @@
 			<div class="panel-heading">
 				<c:choose>
 					<c:when test="${edit}">
-						<div class="panel-title">Update Rating <span class="required">(*required fields)</span></div>
-						<c:url var="actionUrl" value="/admin/updateRating/${cardId}" />
+						<div class="panel-title">
+							Update Rating <span class="required">(*required fields)</span>
+						</div>
+						<c:url var="actionUrl" value="/updateRating/${cardId}" />
 					</c:when>
 					<c:otherwise>
-						<div class="panel-title">Add Rating <span class="required">(*required fields)</span></div>
-						<c:url var="actionUrl" value="/admin/newRating/${cardId}" />
+						<div class="panel-title">
+							Add Rating <span class="required">(*required fields)</span>
+						</div>
+						<c:url var="actionUrl" value="/newRating/${cardId}" />
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -59,12 +63,13 @@
 									<form:errors path="comment" class="help-inline" />
 								</div>
 							</div>
-							
+
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="col-md-4 control-label"></label>
 						<div class="col-md-6">
-							<a href="<c:url value='/admin/listRatings/${cardId}' />"
+							<a href="<c:url value='/listRatings/${cardId}' />"
 								class="btn btn-primary btn-sm btn-cancel">Cancel</a>
 							<c:choose>
 								<c:when test="${edit}">
@@ -72,8 +77,7 @@
 										class="btn btn-primary btn-sm" />
 								</c:when>
 								<c:otherwise>
-									<input type="submit" value="Add" class="btn btn-primary btn-sm"
-										 />
+									<input type="submit" value="Add" class="btn btn-primary btn-sm" />
 								</c:otherwise>
 							</c:choose>
 						</div>

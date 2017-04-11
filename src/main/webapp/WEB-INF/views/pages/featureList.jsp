@@ -12,7 +12,7 @@
 						<h3 class="panel-title">List of Features</h3>
 					</div>
 					<div class="col col-md-6 text-right">
-						<a href="<c:url value="/admin/newFeature/${cardId}" />"
+						<a href="<c:url value="/newFeature/${cardId}" />"
 							class="btn btn-sm btn-primary btn-create">Create New</a>
 					</div>
 				</div>
@@ -33,8 +33,8 @@
 								<td>${feature.id}</td>
 								<td>${feature.title}</td>
 								<td align="center"><form
-										action="<c:url value="/admin/deleteFeature/${feature.id}/${cardId}" />">
-										<a href="<c:url value="/admin/updateFeature/${feature.id}/${cardId}" />"
+										action="<c:url value="/deleteFeature/${feature.id}/${cardId}" />">
+										<a href="<c:url value="/updateFeature/${feature.id}/${cardId}" />"
 											class="btn btn-default"><em class="fa fa-pencil"></em></a>
 										<button class='btn btn-danger' type="submit"
 											name="remove_levels" value="delete">

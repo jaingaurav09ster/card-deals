@@ -20,6 +20,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
@@ -44,6 +45,7 @@ import com.portal.deals.converter.RoleToUserProfileConverter;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.portal.deals")
 @EnableTransactionManagement
+@EnableGlobalMethodSecurity(securedEnabled = true)
 @PropertySource(value = { "classpath:database.properties" })
 public class ApplicationConfiguration extends WebMvcConfigurerAdapter {
 
