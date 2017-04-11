@@ -22,7 +22,6 @@
 					id="paginate">
 					<thead>
 						<tr>
-							<th>ID</th>
 							<th>Deal Name</th>
 							<th><em class="fa fa-cog"></em></th>
 						</tr>
@@ -30,7 +29,6 @@
 					<tbody>
 						<c:forEach items="${deals}" var="deal">
 							<tr>
-								<td>${deal.id}</td>
 								<td>${deal.title}</td>
 								<td align="center"><form
 										action="<c:url value="/deleteDeal/${deal.id}/${cardId}" />">
@@ -45,7 +43,7 @@
 						</c:forEach>
 						<c:if test="${fn:length(deals) lt 1}">
 							<tr>
-								<td colspan="3">No Results found</td>
+								<td colspan="2">No Results found</td>
 							</tr>
 						</c:if>
 					</tbody>

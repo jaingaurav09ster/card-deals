@@ -44,6 +44,24 @@
 		<put-attribute name="title" value="Welcome to Card Deals" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
 	</definition>
+	
+		<!-- Home Page -->
+	<definition name="console" extends="base-definition">
+		<put-attribute name="title" value="Administration" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/console.jsp" />
+	</definition>
+	
+		<!-- Home Page -->
+	<definition name="welcome" extends="full-page">
+		<put-attribute name="title" value="Welcome to Card Deals" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/welcome.jsp" />
+	</definition>
+	
+		<!-- Home Page -->
+	<definition name="bank" extends="full-page">
+		<put-attribute name="title" value="Welcome to Card Deals" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/bank.jsp" />
+	</definition>
 
 	<!-- Login Page -->
 	<definition name="login" extends="base-definition">

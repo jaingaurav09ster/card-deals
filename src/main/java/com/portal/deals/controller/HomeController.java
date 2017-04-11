@@ -22,4 +22,34 @@ public class HomeController {
 	public ModelAndView home() {
 		return new ModelAndView("home");
 	}
+
+	/**
+	 * This method will render the logged in ADMIN Home page
+	 * 
+	 * @return The view JSP
+	 */
+	@RequestMapping(value = { "/console" })
+	public ModelAndView console() {
+		return new ModelAndView("console");
+	}
+
+	/**
+	 * This method will render the logged in Home page
+	 * 
+	 * @return The view JSP
+	 */
+	@RequestMapping(value = { "/welcome" })
+	public ModelAndView welcome() {
+		return new ModelAndView("welcome");
+	}
+
+	/**
+	 * This method will render the Bank logged in home page
+	 * 
+	 * @return The view JSP
+	 */
+	@RequestMapping(value = { "/bank" })
+	public ModelAndView bank() {
+		return new ModelAndView("bank");
+	}
 }

@@ -44,8 +44,7 @@
 							<tr>
 								<td class="hidden-xs">${card.id}</td>
 								<td class="hidden-xs" align="center"><img alt="image"
-									src="/deals/resources/upload/card/${card.imagePath}"
-									style="width: 50px; height: auto;"></td>
+									src="/deals/resources/upload/card/${card.imagePath}"></td>
 								<td>${card.title}</td>
 								<td>${card.bank.name}</td>
 								<td>${card.cardType.name}</td>

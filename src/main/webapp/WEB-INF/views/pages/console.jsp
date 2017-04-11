@@ -9,10 +9,10 @@
 			<div class="panel-heading">
 				<div class="row">
 					<div class="col col-md-6">
-						<h3 class="panel-title">Card Category List</h3>
+						<h3 class="panel-title">Administration</h3>
 					</div>
 					<div class="col col-md-6 text-right">
-						<a href="<c:url value="/admin/newCardCategory" />"
+						<a href="<c:url value="/admin/newBank" />"
 							class="btn btn-sm btn-primary btn-create">Create New</a>
 					</div>
 				</div>
@@ -22,20 +22,30 @@
 					id="paginate">
 					<thead>
 						<tr>
-							<th>ID</th>
-							<th>Name</th>
+							<th>Logo</th>
+							<th>Bank Name</th>
+							<th class="hidden-xs">Sector</th>
 							<th><em class="fa fa-cog"></em></th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${cardCategories}" var="cardCategory">
+						<c:forEach items="${banks}" var="bank">
 							<tr>
-								<td>${cardCategory.id}</td>
-								<td>${cardCategory.name}</td>
+								<c:choose>
+									<c:when test="${not empty bank.imagePath}">
+										<td class="hidden-xs" align="center"><img alt="image"
+											src="/deals/resources/upload/bank/${bank.imagePath}"></td>
+									</c:when>
+									<c:otherwise>
+										<td class="hidden-xs" align="center"><img alt="image"
+											src="/deals/resources/upload/default-placeholder.png"></td>
+									</c:otherwise>
+								</c:choose>
+								<td>${bank.name}</td>
+								<td class="hidden-xs">${bank.sector}</td>
 								<td align="center"><form
-										action="<c:url value="/admin/deleteCardCategory/${cardCategory.id}" />">
-										<a
-											href="<c:url value="/admin/updateCardCategory/${cardCategory.id}" />"
+										action="<c:url value="/admin/deleteBank/${bank.id}" />">
+										<a href="<c:url value="/admin/updateBank/${bank.id}" />"
 											class="btn btn-default"><em class="fa fa-pencil"></em></a>
 										<button class='btn btn-danger' type="submit"
 											name="remove_levels" value="delete">
@@ -44,9 +54,9 @@
 									</form></td>
 							</tr>
 						</c:forEach>
-						<c:if test="${fn:length(cardCategories) lt 1}">
+						<c:if test="${fn:length(banks) lt 1}">
 							<tr>
-								<td colspan="3">No Results found</td>
+								<td colspan="4">No Results found</td>
 							</tr>
 						</c:if>
 					</tbody>
@@ -54,7 +64,8 @@
 			</div>
 			<div class="panel-footer">
 				<div class="row">
-					<div class="col col-xs-8" id="navigation"></div>
+					<div class="col col-md-4"></div>
+					<div class="col col-md-8" id="navigation"></div>
 				</div>
 			</div>
 		</div>

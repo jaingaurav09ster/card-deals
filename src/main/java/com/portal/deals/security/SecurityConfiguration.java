@@ -37,6 +37,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	PersistentTokenRepository tokenRepository;
 
+	@Autowired
+	CustomAuthenticationSuccessHandler authenticationHandler;
+
 	/**
 	 * Configuring global security
 	 * 
@@ -58,9 +61,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/admin/**").access("hasRole('ADMIN')").antMatchers("/user/**")
 				.access("hasRole('ADMIN') or hasRole('USER') or hasRole('BANK') or hasRole('AUTHOR')")
 				.antMatchers("/admin/card/**").access("hasRole('BANK')").and().formLogin().loginPage("/login")
-				.loginProcessingUrl("/login").usernameParameter("email").passwordParameter("password").and()
-				.rememberMe().rememberMeParameter("remember-me").tokenRepository(tokenRepository)
-				.tokenValiditySeconds(86400).and().csrf().and().exceptionHandling().accessDeniedPage("/Access_Denied");
+				.successHandler(authenticationHandler).loginProcessingUrl("/login").usernameParameter("email")
+				.passwordParameter("password").and().rememberMe().rememberMeParameter("remember-me")
+				.tokenRepository(tokenRepository).tokenValiditySeconds(86400).and().csrf().and().exceptionHandling()
+				.accessDeniedPage("/Access_Denied");
 	}
 
 	/**

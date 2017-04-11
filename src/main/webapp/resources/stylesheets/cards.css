@@ -266,6 +266,10 @@ section.success {
 
 
 
+
+
+
+
 :not
 
 
@@ -283,7 +287,11 @@ section.success {
 
 
 
+
+
  
+
+
 
 
 
@@ -318,7 +326,11 @@ section.success {
 
 
 
+
+
  
+
+
 
 
 
@@ -370,7 +382,13 @@ padding-left
 
 
 
+
+
+
+
 :
+
+
 
 
 
@@ -404,8 +422,14 @@ padding-left
 
 
 
+
+
 14
 px
+
+
+
+
 
 
 
@@ -472,6 +496,10 @@ border-left
 
 
 
+
+
+
+
 :
 
 
@@ -489,7 +517,11 @@ border-left
 
 
 
+
+
  
+
+
 
 
 
@@ -524,7 +556,11 @@ px
 
 
 
+
+
  
+
+
 
 
 
@@ -558,6 +594,8 @@ solid
 
 
 
+
+
  
 
 
@@ -575,7 +613,13 @@ solid
 
 
 
+
+
 #eeeeee
+
+
+
+
 
 
 
@@ -1481,4 +1525,9 @@ p.smallFont {
 
 .fixed-table-container thead th .both {
 	background-image: none;
+}
+
+.panel-table .panel-body .table-bordered>tbody>tr>td>img {
+	width: 50px;
+	height: auto;
 }
