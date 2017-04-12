@@ -1,140 +1,32 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<div class="carousel fade-carousel slide" data-ride="carousel"
-	data-interval="4000" id="bs-carousel">
-	<!-- Overlay -->
-	<div class="overlay"></div>
+<div class="row">
+	<jsp:include page="manageCardNav.jsp" />
+	<div class="col-sm-8 col-md-8 render-content">
+		<h4>
+			Hi
+			<sec:authentication property="principal.firstName" />
+			, Welcome to the Portal
+		</h4>
 
-	<!-- Indicators -->
-	<ol class="carousel-indicators">
-		<li data-target="#bs-carousel" data-slide-to="0" class="active"></li>
-		<li data-target="#bs-carousel" data-slide-to="1"></li>
-		<li data-target="#bs-carousel" data-slide-to="2"></li>
-	</ol>
-
-	<!-- Wrapper for slides -->
-	<div class="carousel-inner">
-		<div class="item slides active">
-			<div class="slide-1"></div>
-			<div class="hero">
-				<hgroup>
-					<h1>We are creative</h1>
-					<h3>Get the best deals on your cards</h3>
-				</hgroup>
-				<button class="btn btn-hero btn-lg" role="button">See all
-					features</button>
-			</div>
-		</div>
-		<div class="item slides">
-			<div class="slide-2"></div>
-			<div class="hero">
-				<hgroup>
-					<h1>We are smart</h1>
-					<h3>Formulate the best personalize offers for you</h3>
-				</hgroup>
-				<button class="btn btn-hero btn-lg" role="button">See all
-					features</button>
-			</div>
-		</div>
-		<div class="item slides">
-			<div class="slide-3"></div>
-			<div class="hero">
-				<hgroup>
-					<h1>We are amazing</h1>
-					<h3>We are amazed if we amaze you</h3>
-				</hgroup>
-				<button class="btn btn-hero btn-lg" role="button">See all
-					features</button>
-			</div>
-		</div>
+		<h4>Manage Cards</h4>
+		<p>Manage Cards provide a interface to manage the cards owned by
+			you.</p>
+		<ul>
+			<li>List of all existing cards can be accessed</li>
+		</ul>
+		<ul>
+			<li>A new card can be created</li>
+		</ul>
+		<ul>
+			<li>Existing card can be updated</li>
+		</ul>
+		<ul>
+			<li>Card properties can be added and updated. Card deals, fees, features, ratings etc. can be managed from here</li>
+		</ul>
 	</div>
 </div>
-<div class="container">
-	<div class="row">
-		<div class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-			<div class="intro-text">
-				<div class="input-group input-group-lg">
-					<input type="text" class="form-control typeahead tt-query"
-						autocomplete="off" placeholder="Search cards..."> <span
-						class="input-group-btn">
-						<button class="btn btn-secondary" type="button">Go!</button>
-					</span>
-				</div>
-				<hr class="star-light">
-				<span class="skills">Deals - Discounts - Freebies</span>
-			</div>
-		</div>
-	</div>
-</div>
-
-<section id="portfolio">
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-2 portfolio-item">
-				<a href="#portfolioModal1" class="portfolio-link"
-					data-toggle="modal">
-					<div class="caption">
-						<div class="caption-content">
-							<i class="fa fa-search-plus fa-3x"></i>
-						</div>
-					</div> <img src="resources/images/portfolio/cabin.png"
-					class="img-responsive" alt="">
-				</a>
-			</div>
-			<div class="col-sm-2 portfolio-item">
-				<a href="#portfolioModal2" class="portfolio-link"
-					data-toggle="modal">
-					<div class="caption">
-						<div class="caption-content">
-							<i class="fa fa-search-plus fa-3x"></i>
-						</div>
-					</div> <img src="resources/images/portfolio/cake.png"
-					class="img-responsive" alt="">
-				</a>
-			</div>
-			<div class="col-sm-2 portfolio-item">
-				<a href="#portfolioModal3" class="portfolio-link"
-					data-toggle="modal">
-					<div class="caption">
-						<div class="caption-content">
-							<i class="fa fa-search-plus fa-3x"></i>
-						</div>
-					</div> <img src="resources/images/portfolio/circus.png"
-					class="img-responsive" alt="">
-				</a>
-			</div>
-			<div class="col-sm-2 portfolio-item">
-				<a href="#portfolioModal1" class="portfolio-link"
-					data-toggle="modal">
-					<div class="caption">
-						<div class="caption-content">
-							<i class="fa fa-search-plus fa-3x"></i>
-						</div>
-					</div> <img src="resources/images/portfolio/cabin.png"
-					class="img-responsive" alt="">
-				</a>
-			</div>
-			<div class="col-sm-2 portfolio-item">
-				<a href="#portfolioModal2" class="portfolio-link"
-					data-toggle="modal">
-					<div class="caption">
-						<div class="caption-content">
-							<i class="fa fa-search-plus fa-3x"></i>
-						</div>
-					</div> <img src="resources/images/portfolio/cake.png"
-					class="img-responsive" alt="">
-				</a>
-			</div>
-			<div class="col-sm-2 portfolio-item">
-				<a href="#portfolioModal3" class="portfolio-link"
-					data-toggle="modal">
-					<div class="caption">
-						<div class="caption-content">
-							<i class="fa fa-search-plus fa-3x"></i>
-						</div>
-					</div> <img src="resources/images/portfolio/circus.png"
-					class="img-responsive" alt="">
-				</a>
-			</div>
-		</div>
-	</div>
-</section>

@@ -1,40 +1,31 @@
 (function($) {
 	"use strict"; // Start of use strict
 
-	var cards = new Bloodhound({
-		datumTokenizer : Bloodhound.tokenizers.whitespace,
-		queryTokenizer : Bloodhound.tokenizers.whitespace,
-		remote : {
-			url : 'searchCards/%QUERY',
-			wildcard : '%QUERY'
-		}
-	});
-	$('.typeahead').typeahead(null, {
-		name : 'cards',
-		display : 'title',
-		source : cards,
-		limit : 10
-	});
-
-	$('#characterLeft').text('140 characters left');
-	$('#message').keydown(function() {
-		var max = 140;
-		var len = $(this).val().length;
-		if (len >= max) {
-			$('#characterLeft').text('You have reached the limit');
-			$('#characterLeft').addClass('red');
-			$('#btnSubmit').addClass('disabled');
-		} else {
-			var ch = max - len;
-			$('#characterLeft').text(ch + ' characters left');
-			$('#btnSubmit').removeClass('disabled');
-			$('#characterLeft').removeClass('red');
-		}
-	});
-
 	$(document)
 			.ready(
 					function() {
+						var cards = new Bloodhound({
+							datumTokenizer : Bloodhound.tokenizers.whitespace,
+							queryTokenizer : Bloodhound.tokenizers.whitespace,
+							remote : {
+								url : 'searchCards/%QUERY',
+								wildcard : '%QUERY'
+							}
+						});
+						$('.typeahead')
+								.typeahead(
+										null,
+										{
+											name : 'cards',
+											display : 'title',
+											source : cards,
+											limit : 6,
+											templates : {
+												suggestion : Handlebars
+														.compile('<div class="row typeahead-row"><div class="col-md-2"><img src="/deals/resources/upload/card/{{imagePath}}">'
+																+ '</div><div class="col-md-10"><div class="row"><strong>{{title}}</strong></div><div class="row">{{description}}</div></div></div>')
+											}
+										});
 
 						$('#registrationForm, #editProfileForm, #newUserForm')
 								.bootstrapValidator(
@@ -289,12 +280,10 @@
 			$('#' + $('#pageName').val()).addClass('active');
 		}
 	});
-	
+
 	function toggleIcon(e) {
-	    $(e.target)
-	        .prev('.panel-heading')
-	        .find(".more-less")
-	        .toggleClass('glyphicon-plus glyphicon-minus');
+		$(e.target).prev('.panel-heading').find(".more-less").toggleClass(
+				'glyphicon-plus glyphicon-minus');
 	}
 	$('.panel-group').on('hidden.bs.collapse', toggleIcon);
 	$('.panel-group').on('shown.bs.collapse', toggleIcon);

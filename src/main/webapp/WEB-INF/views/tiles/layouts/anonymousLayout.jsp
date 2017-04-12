@@ -7,14 +7,14 @@
 <html lang="en">
 
 <head>
-<title>${content.pageTitle}</title>
+<title><tiles:getAsString name="title" /></title>
 <tiles:insertAttribute name="head" />
 </head>
 
 <body>
 	<div class="container-full">
 		<tiles:insertAttribute name="navbar" />
-		<div class="container mainContent jumbotron">
+		<div class="mainContent jumbotron background-wrapper">
 			<tiles:insertAttribute name="body" />
 		</div>
 		<tiles:insertAttribute name="footer" />

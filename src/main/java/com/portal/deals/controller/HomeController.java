@@ -1,5 +1,6 @@
 package com.portal.deals.controller;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +29,7 @@ public class HomeController {
 	 * 
 	 * @return The view JSP
 	 */
+	@Secured("ROLE_ADMIN")
 	@RequestMapping(value = { "/console" })
 	public ModelAndView console() {
 		return new ModelAndView("console");
@@ -38,6 +40,7 @@ public class HomeController {
 	 * 
 	 * @return The view JSP
 	 */
+	@Secured("ROLE_USER")
 	@RequestMapping(value = { "/welcome" })
 	public ModelAndView welcome() {
 		return new ModelAndView("welcome");
@@ -48,6 +51,7 @@ public class HomeController {
 	 * 
 	 * @return The view JSP
 	 */
+	@Secured("ROLE_BANK")
 	@RequestMapping(value = { "/bank" })
 	public ModelAndView bank() {
 		return new ModelAndView("bank");

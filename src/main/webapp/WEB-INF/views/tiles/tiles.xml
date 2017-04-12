@@ -27,8 +27,8 @@
 			value="/WEB-INF/views/tiles/template/footer.jsp" />
 	</definition>
 
-	<definition name="content-layout"
-		template="/WEB-INF/views/tiles/layouts/contentLayout.jsp">
+	<definition name="anonymous-layout"
+		template="/WEB-INF/views/tiles/layouts/anonymousLayout.jsp">
 		<put-attribute name="title" value="" />
 		<put-attribute name="head"
 			value="/WEB-INF/views/tiles/template/head.jsp" />
@@ -44,52 +44,33 @@
 		<put-attribute name="title" value="Welcome to Card Deals" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
 	</definition>
-	
-		<!-- Home Page -->
+
+	<!-- ADMIN Home Page -->
 	<definition name="console" extends="base-definition">
 		<put-attribute name="title" value="Administration" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/console.jsp" />
 	</definition>
-	
-		<!-- Home Page -->
+
+	<!-- Authenticated User Home Page -->
 	<definition name="welcome" extends="full-page">
 		<put-attribute name="title" value="Welcome to Card Deals" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/welcome.jsp" />
 	</definition>
-	
-		<!-- Home Page -->
-	<definition name="bank" extends="full-page">
+
+	<!-- Bank Home Page -->
+	<definition name="bank" extends="base-definition">
 		<put-attribute name="title" value="Welcome to Card Deals" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/bank.jsp" />
 	</definition>
 
 	<!-- Login Page -->
-	<definition name="login" extends="base-definition">
+	<definition name="login" extends="anonymous-layout">
 		<put-attribute name="title" value="Login to your account" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/login.jsp" />
 	</definition>
 
-	<!-- Add Card Page -->
-	<definition name="cardForm" extends="base-definition">
-		<put-attribute name="title" value="Add/Update Card" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/cardForm.jsp" />
-	</definition>
-
-	<!-- Card List Page -->
-	<definition name="cardList" extends="base-definition">
-		<put-attribute name="title" value="List of Cards" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/cardList.jsp" />
-	</definition>
-
-	<!-- Access Denied Page -->
-	<definition name="accessDenied" extends="base-definition">
-		<put-attribute name="title" value="Access Denied" />
-		<put-attribute name="body"
-			value="/WEB-INF/views/pages/accessDenied.jsp" />
-	</definition>
-
 	<!-- User Registration Page -->
-	<definition name="registration" extends="base-definition">
+	<definition name="registration" extends="anonymous-layout">
 		<put-attribute name="title" value="Create Account" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/registration.jsp" />
@@ -108,21 +89,9 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/editProfileSuccess.jsp" />
 	</definition>
-
-	<!-- User List Page -->
-	<definition name="userList" extends="base-definition">
-		<put-attribute name="title" value="List of Users" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/userList.jsp" />
-	</definition>
-
-	<!-- User Add Page -->
-	<definition name="userForm" extends="base-definition">
-		<put-attribute name="title" value="Add/Update User" />
-		<put-attribute name="body" value="/WEB-INF/views/pages/userForm.jsp" />
-	</definition>
-
-	<!-- User Registration Page -->
-	<definition name="editProfile" extends="base-definition">
+	
+	<!-- User Edit Profile Page -->
+	<definition name="editProfile" extends="anonymous-layout">
 		<put-attribute name="title" value="Edit Profile" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/editProfile.jsp" />
@@ -143,7 +112,7 @@
 	</definition>
 
 	<!-- Forgot Password Page -->
-	<definition name="forgotPassword" extends="base-definition">
+	<definition name="forgotPassword" extends="anonymous-layout">
 		<put-attribute name="title" value="Forgot Password" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/forgotPassword.jsp" />
@@ -155,7 +124,7 @@
 			value="/WEB-INF/views/pages/forgotPasswordSuccess.jsp" />
 	</definition>
 
-	<definition name="resetPassword" extends="base-definition">
+	<definition name="resetPassword" extends="anonymous-layout">
 		<put-attribute name="title" value="Reset Password" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/resetPassword.jsp" />
@@ -177,6 +146,37 @@
 		<put-attribute name="title" value="Error" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/generic_error.jsp" />
+	</definition>
+
+	<!-- Access Denied Page -->
+	<definition name="accessDenied" extends="base-definition">
+		<put-attribute name="title" value="Access Denied" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/accessDenied.jsp" />
+	</definition>
+
+	<!-- Add Card Page -->
+	<definition name="cardForm" extends="base-definition">
+		<put-attribute name="title" value="Add/Update Card" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/cardForm.jsp" />
+	</definition>
+
+	<!-- Card List Page -->
+	<definition name="cardList" extends="base-definition">
+		<put-attribute name="title" value="List of Cards" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/cardList.jsp" />
+	</definition>
+
+	<!-- User List Page -->
+	<definition name="userList" extends="base-definition">
+		<put-attribute name="title" value="List of Users" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/userList.jsp" />
+	</definition>
+
+	<!-- User Add Page -->
+	<definition name="userForm" extends="base-definition">
+		<put-attribute name="title" value="Add/Update User" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/userForm.jsp" />
 	</definition>
 
 	<!-- Add Card Type Page -->
@@ -385,7 +385,7 @@
 	</definition>
 
 	<!-- Content List Page -->
-	<definition name="contentRender" extends="content-layout">
+	<definition name="contentRender" extends="base-definition">
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/contentRender.jsp" />
 	</definition>

@@ -2,12 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="row">
 	<div id="loginbox"
-		class="mainbox col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 form">
+		class="mainbox col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 form">
 		<div class="panel panel-default">
-			<div class="panel-heading">
-				<div class="panel-title">Login into your account</div>
-			</div>
 			<div class="panel-body">
+				<p align="center">Login into your account</p>
 				<c:if test="${param.error != null}">
 					<div id="login-alert" class="alert alert-danger">Invalid
 						username and password.</div>

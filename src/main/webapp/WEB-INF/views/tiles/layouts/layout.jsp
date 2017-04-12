@@ -7,7 +7,14 @@
 <html lang="en">
 
 <head>
-<title><tiles:getAsString name="title" /></title>
+<c:choose>
+	<c:when test="${not empty content.pageTitle}">
+		<title>${content.pageTitle}</title>
+	</c:when>
+	<c:otherwise>
+		<title><tiles:getAsString name="title" /></title>
+	</c:otherwise>
+</c:choose>
 <tiles:insertAttribute name="head" />
 </head>
 

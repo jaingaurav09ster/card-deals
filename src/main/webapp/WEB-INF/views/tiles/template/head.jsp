@@ -50,6 +50,7 @@
 <script src="/deals/resources/vendor/bootstrap/js/bootstrapValidator.js"></script>
 <script src="/deals/resources/vendor/bootstrap/js/bootstrap-table.js"></script>
 <script src="/deals/resources/javascripts/typeahead.bundle.js"></script>
+<script src="/deals/resources/javascripts/handlebars-v4.0.5.js"></script>
 <script src="/deals/resources/vendor/jquery/jquery.paginate.js"></script> 	
 <script src="/deals/resources/vendor/nProgress/js/nprogress.js"></script>
 <script src="/deals/resources/javascripts/cards.js"></script>

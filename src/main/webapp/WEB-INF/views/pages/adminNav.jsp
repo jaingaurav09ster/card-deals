@@ -4,13 +4,40 @@
 <input type="hidden" value="${module}" id="module">
 <input type="hidden" value="${pageName}" id="pageName">
 
-<div class="col-sm-4 col-md-4 sidebar">
+<div class="col-sm-4 col-md-4 sidebar admin-nav">
+
 	<div class="nav-side-menu">
-		<div class="brand">Master Data Manager</div>
+	<div class="brand">Administration</div>
 		<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse"
-			data-target="#menu-content"></i>
+			data-target="#menu-content2"></i>
 		<div class="menu-list">
-			<ul id="menu-content" class="menu-content collapse out">
+			<ul id="menu-content2" class="menu-content collapse out">
+				<li data-toggle="collapse" data-target="#userManager"
+					class="collapsed" id="li-userManager"><a href="#"><i
+						class="fa fa-user fa-lg"></i> User Manager <span class="arrow"></span></a>
+				</li>
+				<ul class="sub-menu collapse" id="userManager">
+					<li id="updateUserForm" style="display: none;"><a href="#">Update
+							User</a></li>
+					<li id="userForm"><a href="<c:url value="/admin/newUser" />">New
+							User</a></li>
+					<li id="userList"><a href="<c:url value="/admin/listUsers" />">User
+							List</a></li>
+				</ul>
+				<li data-toggle="collapse" data-target="#cardManager"
+					class="collapsed" id="li-cardManager"><a href="#"><i
+						class="fa fa-credit-card fa-lg"></i> Card Manager <span
+						class="arrow"></span></a></li>
+				<ul class="sub-menu collapse" id="cardManager">
+					<li id="cardForm"><a
+						href="<c:url value="${contextUri}/newCard" />">New Card</a></li>
+					<li id="cardList"><a
+						href="<c:url value="${contextUri}/listCards" />">Card List</a></li>
+					<li id="updateCardForm" style="display: none;"><a href="#">Update
+							Card</a></li>
+					<li id="cardView" style="display: none;"><a href="#">View
+							Card</a></li>
+				</ul>
 				<li data-toggle="collapse" data-target="#bankManager"
 					class="collapsed" id="li-bankManager"><a href="#"><i
 						class="fa fa-bank fa-lg"></i> Bank Manager <span class="arrow"></span></a>
@@ -41,8 +68,8 @@
 						class="fa fa-cc-visa fa-lg"></i> Card Category Manager <span
 						class="arrow"></span></a></li>
 				<ul class="sub-menu collapse" id="cardCategoryManager">
-					<li id="updateCardCategoryForm" style="display: none;"><a href="#">Update
-							Card Category</a></li>
+					<li id="updateCardCategoryForm" style="display: none;"><a
+						href="#">Update Card Category</a></li>
 					<li id="cardCategoryForm"><a
 						href="<c:url value="/admin/newCardCategory" />">New Card
 							Category</a></li>
@@ -63,44 +90,46 @@
 					<li id="cardTypeList"><a
 						href="<c:url value="/admin/listCardTypes" />">Card Type List</a></li>
 				</ul>
-				
+
 				<li data-toggle="collapse" data-target="#offerTypeManager"
 					class="collapsed" id="li-offerTypeManager"><a href="#"><i
 						class="fa fa-gift fa-lg"></i> Offer Type Manager <span
 						class="arrow"></span></a></li>
 				<ul class="sub-menu collapse" id="offerTypeManager">
-					<li id="updateOfferTypeForm" style="display: none;"><a href="#">Update
-							Offer Type</a></li>
+					<li id="updateOfferTypeForm" style="display: none;"><a
+						href="#">Update Offer Type</a></li>
 					<li id="offerTypeForm"><a
 						href="<c:url value="/admin/newOfferType" />">New Offer Type</a></li>
 					<li id="offerTypeList"><a
 						href="<c:url value="/admin/listOfferTypes" />">Offer Type List</a></li>
 				</ul>
-				
+
 				<li data-toggle="collapse" data-target="#offerUnitManager"
 					class="collapsed" id="li-offerUnitManager"><a href="#"><i
 						class="fa fa-calculator fa-lg"></i> Offer Unit Manager <span
 						class="arrow"></span></a></li>
 				<ul class="sub-menu collapse" id="offerUnitManager">
-					<li id="updateofferUnitForm" style="display: none;"><a href="#">Update
-							Card Type</a></li>
+					<li id="updateofferUnitForm" style="display: none;"><a
+						href="#">Update Card Type</a></li>
 					<li id="offerUnitForm"><a
-						href="<c:url value="/admin/newOfferUnit" />">New Offer Unit Type</a></li>
+						href="<c:url value="/admin/newOfferUnit" />">New Offer Unit
+							Type</a></li>
 					<li id="offerUnitList"><a
-						href="<c:url value="/admin/listOfferUnits" />">Offer Unit Type List</a></li>
+						href="<c:url value="/admin/listOfferUnits" />">Offer Unit Type
+							List</a></li>
 				</ul>
-				
+
 				<li data-toggle="collapse" data-target="#contentManager"
 					class="collapsed" id="li-contentManager"><a href="#"><i
-						class="fa  fa-newspaper-o fa-lg"></i> Content Manager <span class="arrow"></span></a>
-				</li>
+						class="fa  fa-newspaper-o fa-lg"></i> Content Manager <span
+						class="arrow"></span></a></li>
 				<ul class="sub-menu collapse" id="contentManager">
 					<li id="updateContentForm" style="display: none;"><a href="#">Update
 							Content</a></li>
-					<li id="contentForm"><a href="<c:url value="/admin/newContent" />">New
-							Content</a></li>
-					<li id="contentList"><a href="<c:url value="/admin/listContents" />">Content
-							List</a></li>
+					<li id="contentForm"><a
+						href="<c:url value="/admin/newContent" />">New Content</a></li>
+					<li id="contentList"><a
+						href="<c:url value="/admin/listContents" />">Content List</a></li>
 				</ul>
 			</ul>
 		</div>

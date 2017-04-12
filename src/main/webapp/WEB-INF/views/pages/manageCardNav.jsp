@@ -1,13 +1,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <input type="hidden" value="${module}" id="module">
 <input type="hidden" value="${pageName}" id="pageName">
 
 <c:set var="contextUri" value="" scope="page" />
-<c:if test="${empty bankUser}">
+<sec:authorize access="hasRole('ADMIN')">
 	<c:set var="contextUri" value="/admin" scope="page" />
-</c:if>
+</sec:authorize>
 
 <div class="col-sm-4 col-sm-4 col-small-4 sidebar">
 	<div class="nav-side-menu">
@@ -21,10 +23,10 @@
 						class="fa fa-credit-card fa-lg"></i> Card Manager <span
 						class="arrow"></span></a></li>
 				<ul class="sub-menu collapse" id="cardManager">
-					<li id="cardForm"><a href="<c:url value="${contextUri}/newCard" />">New
-							Card</a></li>
-					<li id="cardList"><a href="<c:url value="${contextUri}/listCards" />">Card
-							List</a></li>
+					<li id="cardForm"><a
+						href="<c:url value="${contextUri}/newCard" />">New Card</a></li>
+					<li id="cardList"><a
+						href="<c:url value="${contextUri}/listCards" />">Card List</a></li>
 					<li id="updateCardForm" style="display: none;"><a href="#">Update
 							Card</a></li>
 					<li id="cardView" style="display: none;"><a href="#">View

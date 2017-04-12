@@ -39,11 +39,11 @@ public class User extends AbstractEntity {
 	private String password;
 
 	@NotEmpty
-	@Column(name = "FIRST_NAME", nullable = false)
+	@Column(name = "FIRST_NAME", nullable = true)
 	private String firstName;
 
 	@NotEmpty
-	@Column(name = "LAST_NAME", nullable = false)
+	@Column(name = "LAST_NAME", nullable = true)
 	private String lastName;
 
 	@NotEmpty
@@ -57,7 +57,7 @@ public class User extends AbstractEntity {
 
 	@NotEmpty
 	@Pattern(regexp = "(^$|[0-9]{10})")
-	@Column(name = "MOBILE", nullable = false)
+	@Column(name = "MOBILE", nullable = true)
 	private String mobile;
 
 	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
