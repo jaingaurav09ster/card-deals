@@ -38,10 +38,15 @@ public class CardDetailsDAOImpl extends AbstractDao<Integer, Card> implements Ca
 	}
 
 	@Override
-	public List<Card> searchCard(String query) {
-		String namedQuery = "from Card c where c.title like '%" + query + "%'";
-		List<Card> list = getSession().createQuery(namedQuery).list();
-		return (List<Card>) list;
+	public List<Object[]> searchCard(String namedQuery, int begin, int limit) {
+		List<Object[]> list = getSession().createQuery(namedQuery).setFirstResult(begin).setMaxResults(limit).list();
+		return (List<Object[]>) list;
+	}
+
+	@Override
+	public List<Object> getCardCountForBanks() {
+		List<Object> list = getSession().createQuery("SELECT c.bank.id, COUNT(c.bank.id) FROM Card c group by c.bank.id").list();
+		return (List<Object>) list;
 	}
 
 	@Override

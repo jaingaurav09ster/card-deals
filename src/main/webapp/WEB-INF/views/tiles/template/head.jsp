@@ -26,7 +26,7 @@
 <link rel="stylesheet"
 	href="/deals/resources/vendor/bootstrap/css/bootstrap-table.css"
 	type="text/css">
-<link href="/deals/resources/stylesheets/cards.css" rel="stylesheet">
+<link href="/deals/resources/stylesheets/style.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
 <link
@@ -53,4 +53,5 @@
 <script src="/deals/resources/javascripts/handlebars-v4.0.5.js"></script>
 <script src="/deals/resources/vendor/jquery/jquery.paginate.js"></script> 	
 <script src="/deals/resources/vendor/nProgress/js/nprogress.js"></script>
-<script src="/deals/resources/javascripts/cards.js"></script>
+<script src="/deals/resources/javascripts/angular.min.js"></script>
+<script src="/deals/resources/javascripts/script.js"></script>

@@ -16,6 +16,8 @@ import javax.persistence.Transient;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "BANK")
 public class Bank extends AbstractEntity {
@@ -37,9 +39,11 @@ public class Bank extends AbstractEntity {
 	@Column(name = "DESCRIPTION", nullable = true)
 	private String description;
 
+	@JsonBackReference
 	@OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
 	private Set<Card> cardSet;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "bank", fetch = FetchType.LAZY)
 	private Set<User> userSet;
 	

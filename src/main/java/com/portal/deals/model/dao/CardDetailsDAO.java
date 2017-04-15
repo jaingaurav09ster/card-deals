@@ -21,7 +21,7 @@ public interface CardDetailsDAO {
 	 *            Query String
 	 * @return List of Card Entity
 	 */
-	List<Card> searchCard(String query);
+	List<Object[]> searchCard(String query, int begin, int limit);
 
 	/**
 	 * This method will return list of all the Card entity from the database
@@ -93,4 +93,6 @@ public interface CardDetailsDAO {
 	 * @return
 	 */
 	List<Card> listAllCardsByBank(Integer bankId);
+
+	List<Object> getCardCountForBanks();
 }

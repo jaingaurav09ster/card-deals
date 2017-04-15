@@ -6,7 +6,7 @@ import com.portal.deals.model.Card;
 
 public interface CardManagerService {
 
-	List<Card> searchCard(String query);
+	List<Object[]> searchCard(String query, int begin, int end);
 
 	List<Card> listAllCards();
 
@@ -25,4 +25,6 @@ public interface CardManagerService {
 	Card getCardWithDetailsById(Integer id);
 
 	List<Card> listAllCardsByBank(Integer bankId);
+	
+	List<Object> getCardCountForBanks();
 }

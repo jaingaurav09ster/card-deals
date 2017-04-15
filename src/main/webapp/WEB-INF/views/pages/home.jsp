@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="carousel fade-carousel slide" data-ride="carousel"
-	data-interval="4000" id="bs-carousel">
+	data-interval="8000" id="bs-carousel">
 	<ol class="carousel-indicators">
 		<li data-target="#bs-carousel" data-slide-to="0" class="active"></li>
 		<li data-target="#bs-carousel" data-slide-to="1"></li>

@@ -28,17 +28,22 @@
 					<a class="navbar-brand" href="<c:url value="${homePage}" />">Card
 						Deals</a>
 				</div>
-				<div class="col-sm-9 col-md-9 hidden-xs">
-					<div class="input-group nav-searchbar">
-						<input type="text" class="form-control typeahead tt-query"
-							autocomplete="off" placeholder="Search cards...">
-						<div class="input-group-btn">
-							<button class="btn btn-default" type="submit">
-								<i class="glyphicon glyphicon-search"></i>
-							</button>
+				<form role="form" action="<c:url value="/searchCards" />"
+					id="searchForm">
+					<div class="col-sm-9 col-md-9 hidden-xs nav-searchbar">
+						<div class="input-group searchbar">
+							<input type="text" class="form-control typeahead tt-query"
+								autocomplete="off" name="searchQuery" id="searchQuery"
+								placeholder="Get the best deals on your card, enter the card name.....">
+							<input type="hidden" name="query" id="query" value="" />
+							<div class="input-group-btn">
+								<button class="btn btn-default" type="submit">
+									<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</div>
 						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="row">
@@ -79,9 +84,9 @@
 									</ul></li>
 							</sec:authorize>
 							<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i>
-									Hi <sec:authentication property="principal.firstName" /> <b
-									class="caret"></b></a>
+								data-toggle="dropdown"> Hi <sec:authentication
+										property="principal.firstName" />&nbsp;&nbsp;&nbsp; <i
+									class="glyphicon glyphicon-user"></i><b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><a href="#">${pageContext.request.userPrincipal.name}</a></li>
 									<li class="divider"></li>
@@ -93,8 +98,8 @@
 						</sec:authorize>
 						<sec:authorize access="isAnonymous()">
 							<li class="dropdown"><a href="#" class="dropdown-toggle"
-								data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i><b
-									class="caret"></b></a>
+								data-toggle="dropdown">Sign In&nbsp;&nbsp;&nbsp; <i
+									class="glyphicon glyphicon-user"></i><b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li><a href="<c:url value="/login" />">Login</a></li>
 									<li class="divider"></li>

@@ -18,8 +18,8 @@ public class CardManagerServiceImpl implements CardManagerService {
 	private CardDetailsDAO cardDao;
 
 	@Override
-	public List<Card> searchCard(String query) {
-		return cardDao.searchCard(query);
+	public List<Object[]> searchCard(String query, int begin, int limit) {
+		return cardDao.searchCard(query, begin, limit);
 	}
 
 	@Override
@@ -79,5 +79,10 @@ public class CardManagerServiceImpl implements CardManagerService {
 	@Override
 	public List<Card> listAllCardsByBank(Integer bankId) {
 		return cardDao.listAllCardsByBank(bankId);
+	}
+
+	@Override
+	public List<Object> getCardCountForBanks() {
+		return cardDao.getCardCountForBanks();
 	}
 }

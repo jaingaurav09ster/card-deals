@@ -91,7 +91,7 @@
 	</definition>
 	
 	<!-- User Edit Profile Page -->
-	<definition name="editProfile" extends="anonymous-layout">
+	<definition name="editProfile" extends="base-definition">
 		<put-attribute name="title" value="Edit Profile" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/editProfile.jsp" />
@@ -117,7 +117,12 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/forgotPassword.jsp" />
 	</definition>
-
+	
+	<definition name="searchPage" extends="full-page">
+		<put-attribute name="title" value="Search Results" />
+		<put-attribute name="body" value="/WEB-INF/views/pages/searchPage.jsp" />
+	</definition>
+	
 	<definition name="forgotPasswordSuccess" extends="base-definition">
 		<put-attribute name="title" value="Forgot Password" />
 		<put-attribute name="body"

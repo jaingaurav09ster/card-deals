@@ -25,6 +25,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "CARD")
@@ -59,22 +60,21 @@ public class Card extends AbstractEntity {
 	@Column(name = "RANK", nullable = true)
 	private String rank;
 
-	@JsonIgnore
+	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CARD_CATEGORY_ID")
 	private CardCategory cardCategory;
 
-	@JsonIgnore
+	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CARD_TYPE_ID")
 	private CardType cardType;
 
-	@JsonIgnore
+	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "BANK_ID")
 	private Bank bank;
 
-	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "CARD_CATEGORY_MAP", joinColumns = { @JoinColumn(name = "CARD_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "CATEGORY_ID") })

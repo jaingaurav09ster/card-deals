@@ -14,6 +14,8 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "CARD_CATEGORY")
 public class CardCategory extends AbstractEntity {
@@ -32,6 +34,7 @@ public class CardCategory extends AbstractEntity {
 	@Column(name = "DESCRIPTION", nullable = true)
 	private String description;
 
+	@JsonBackReference
 	@OneToMany(mappedBy = "cardCategory", fetch = FetchType.LAZY)
 	private Set<Card> cardSet;
 
