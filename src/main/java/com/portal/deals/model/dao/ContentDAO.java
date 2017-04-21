@@ -67,4 +67,5 @@ public interface ContentDAO {
 	 * @return CONTENT Category entity
 	 */
 	List<Content> getContentByUrlMapping(String mapping);
+
 }

@@ -43,6 +43,7 @@ public class Deal extends AbstractEntity {
 	@Column(name = "MAX_VALUE", nullable = true)
 	private String maxValue;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "OFFER_TYPE_ID")
 	private OfferType offerType;
@@ -53,18 +54,21 @@ public class Deal extends AbstractEntity {
 	@Column(name = "VALUE_UNIT")
 	private String valueUnit;
 
-	@Column(name = "DESCRIPTION", nullable = true)
+	@Column(name = "DESCRIPTION", columnDefinition = "TEXT", nullable = true)
 	private String description;
 
 	@Column(name = "RANK", nullable = true)
 	private Integer rank;
 
+	@NotNull
 	@Column(name = "START_DATE", nullable = true)
 	private Date startDate;
 
+	@NotNull
 	@Column(name = "END_DATE", nullable = true)
 	private Date endDate;
 
+	@NotNull
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "DEAL_CATEGORY_MAP", joinColumns = { @JoinColumn(name = "DEAL_ID") }, inverseJoinColumns = {

@@ -39,9 +39,6 @@ public class JoiningPerk extends AbstractEntity {
 	@Column(name = "DESCRIPTION", nullable = true)
 	private String description;
 
-	@Column(name = "RANK", nullable = true)
-	private Integer rank;
-
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = true)
 	private Card card;
@@ -84,21 +81,6 @@ public class JoiningPerk extends AbstractEntity {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	/**
-	 * @return the rank
-	 */
-	public Integer getRank() {
-		return rank;
-	}
-
-	/**
-	 * @param rank
-	 *            the rank to set
-	 */
-	public void setRank(Integer rank) {
-		this.rank = rank;
 	}
 
 	/**

@@ -28,7 +28,7 @@ public class Rating extends AbstractEntity {
 	@Column(name = "RATING", nullable = false)
 	private Integer rating;
 
-	@Column(name = "COMMENT", nullable = true)
+	@Column(name = "COMMENT", columnDefinition = "TEXT", nullable = true)
 	private String comment;
 
 	@ManyToOne(fetch = FetchType.EAGER)

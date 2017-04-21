@@ -1,6 +1,9 @@
 package com.portal.deals.model.dao.impl;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
@@ -38,15 +41,56 @@ public class CardDetailsDAOImpl extends AbstractDao<Integer, Card> implements Ca
 	}
 
 	@Override
-	public List<Object[]> searchCard(String namedQuery, int begin, int limit) {
-		List<Object[]> list = getSession().createQuery(namedQuery).setFirstResult(begin).setMaxResults(limit).list();
-		return (List<Object[]>) list;
+	public List<Object> searchCard(String namedQuery, int begin, int limit) {
+		List<Object> list = getSession().createQuery(namedQuery).setFirstResult(begin).setMaxResults(limit).list();
+		return (List<Object>) list;
 	}
 
 	@Override
-	public List<Object> getCardCountForBanks() {
-		List<Object> list = getSession().createQuery("SELECT c.bank.id, COUNT(c.bank.id) FROM Card c group by c.bank.id").list();
-		return (List<Object>) list;
+	public int getTotalCount(String namedQuery) {
+		Long count = (Long) getSession().createQuery(namedQuery).uniqueResult();
+		return count.intValue();
+	}
+
+	@Override
+	public Map<Integer, Long> getCountByBank() {
+		List<Object> list = getSession()
+				.createQuery("SELECT c.bank.id, COUNT(c.bank.id) FROM Card c group by c.bank.id").list();
+		Map<Integer, Long> statusMap = new HashMap<Integer, Long>();
+		Iterator<Object> it = list.iterator();
+		while (it.hasNext()) {
+			Object[] obj = (Object[]) it.next();
+			statusMap.put((Integer) obj[0], (Long) obj[1]);
+		}
+		return statusMap;
+	}
+
+	@Override
+	public Map<Integer, Long> getCountByCategory() {
+		List<Object> list = getSession()
+				.createQuery("SELECT cat.id, COUNT(cat.id) FROM Card c join c.categories cat group by cat.id").list();
+		Map<Integer, Long> statusMap = new HashMap<Integer, Long>();
+		Iterator<Object> it = list.iterator();
+		while (it.hasNext()) {
+			Object[] obj = (Object[]) it.next();
+			statusMap.put((Integer) obj[0], (Long) obj[1]);
+		}
+		return statusMap;
+	}
+
+	@Override
+	public Map<Integer, Long> getCountByCardCategory() {
+		List<Object> list = getSession()
+				.createQuery(
+						"SELECT c.cardCategory.id, COUNT(c.cardCategory.id) FROM Card c group by c.cardCategory.id")
+				.list();
+		Map<Integer, Long> statusMap = new HashMap<Integer, Long>();
+		Iterator<Object> it = list.iterator();
+		while (it.hasNext()) {
+			Object[] obj = (Object[]) it.next();
+			statusMap.put((Integer) obj[0], (Long) obj[1]);
+		}
+		return statusMap;
 	}
 
 	@Override

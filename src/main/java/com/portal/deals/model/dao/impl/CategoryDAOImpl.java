@@ -57,6 +57,7 @@ public class CategoryDAOImpl extends AbstractDao<Integer, Category> implements C
 	public List<Category> listAllRootCategories() {
 		Criteria criteria = getSession().createCriteria(Category.class);
 		criteria.add(Restrictions.isNull("category.id"));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return getEntitiesByCriteria(criteria);
 	}
 }

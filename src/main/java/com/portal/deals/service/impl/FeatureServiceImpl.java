@@ -43,7 +43,6 @@ public class FeatureServiceImpl implements FeatureService {
 		if (entity != null) {
 			entity.setDescription(feature.getDescription());
 			entity.setTitle(feature.getTitle());
-			entity.setRank(feature.getRank());
 			entity.setCategories(feature.getCategories());
 		}
 	}

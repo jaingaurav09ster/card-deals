@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
@@ -255,6 +256,10 @@ public class BankController {
 			}
 			/** Call to database to delete the bank */
 			service.deleteBankById(id);
+
+		} catch (DataIntegrityViolationException ex) {
+			LOG.error("Exception occured while deleting the bank", ex);
+			return "redirect:/admin/listBanks?err=dberr";
 		} catch (Exception ex) {
 			LOG.error("Exception occured while deleting the bank", ex);
 			if (ex instanceof BaseException) {

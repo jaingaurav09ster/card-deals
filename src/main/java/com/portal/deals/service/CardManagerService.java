@@ -1,17 +1,19 @@
 package com.portal.deals.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.portal.deals.model.Card;
+import com.portal.deals.model.SearchCardResponse;
 
 public interface CardManagerService {
 
-	List<Object[]> searchCard(String query, int begin, int end);
+	SearchCardResponse searchCard(Map<String, String> criterias);
 
 	List<Card> listAllCards();
 
 	Card getCardById(Integer id);
-	
+
 	String getCardName(Integer id);
 
 	void deleteCardById(Integer id);
@@ -25,6 +27,11 @@ public interface CardManagerService {
 	Card getCardWithDetailsById(Integer id);
 
 	List<Card> listAllCardsByBank(Integer bankId);
-	
-	List<Object> getCardCountForBanks();
+
+	Map<Integer, Long> getCountByCategory();
+
+	Map<Integer, Long> getCountByCardCategory();
+
+	Map<Integer, Long> getCountByBank();
+
 }

@@ -44,6 +44,7 @@ public class ContentServiceImpl implements ContentService {
 			entity.setPageContent(content.getPageContent());
 			entity.setPageTags(content.getPageTags());
 			entity.setPageTitle(content.getPageTitle());
+			entity.setUrlMapping(content.getUrlMapping());
 		}
 	}
 

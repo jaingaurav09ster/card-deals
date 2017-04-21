@@ -3,6 +3,7 @@ package com.portal.deals.controller;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +14,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -92,6 +96,10 @@ public class DealController {
 	/** The module name */
 	private static final String MODULE = "dealManager";
 
+	/** Getting resource bundle for reading messages from properties file */
+	@Autowired
+	MessageSource messageSource;
+
 	/**
 	 * This method will render the add new deal page
 	 * 
@@ -136,7 +144,7 @@ public class DealController {
 	public String addDeal(@PathVariable("id") int cardId, @Valid Deal deal, BindingResult result, ModelMap model,
 			HttpServletRequest request) {
 		LOG.info("Saving the Deal to the database");
-
+		initializeCollections(deal, result);
 		try {
 			/**
 			 * If there is any validation error, then reload the Deal form page
@@ -254,6 +262,7 @@ public class DealController {
 	public String updateDeal(@PathVariable("cardId") int cardId, @Valid Deal deal, BindingResult result, ModelMap model,
 			HttpServletRequest request) {
 		LOG.info("Updating the deal details");
+		initializeCollections(deal, result);
 		try {
 			/** Reload the update deal page in case of any error */
 			if (result.hasErrors()) {
@@ -285,7 +294,7 @@ public class DealController {
 	 * @return the redirect value
 	 */
 	@RequestMapping(value = "/deleteDeal/{id}/{cardId}")
-	public String deleteCard(@PathVariable("id") int id, @PathVariable("cardId") int cardId) {
+	public String deleteDeal(@PathVariable("id") int id, @PathVariable("cardId") int cardId) {
 		LOG.info("Deleting the deal from database");
 		try {
 			if (LOG.isDebugEnabled()) {
@@ -349,4 +358,18 @@ public class DealController {
 		});
 	}
 
+	private void initializeCollections(Deal deal, BindingResult result) {
+		if (StringUtils.isEmpty(deal.getOfferType().getId())) {
+			deal.setOfferType(null);
+			FieldError error = new FieldError("deal", "offerType",
+					messageSource.getMessage("not.null.offerType", null, Locale.getDefault()));
+			result.addError(error);
+		}
+		if (deal.getCategories().size() == 0) {
+			deal.setCategories(null);
+			FieldError error = new FieldError("deal", "categories",
+					messageSource.getMessage("not.null.categories", null, Locale.getDefault()));
+			result.addError(error);
+		}
+	}
 }

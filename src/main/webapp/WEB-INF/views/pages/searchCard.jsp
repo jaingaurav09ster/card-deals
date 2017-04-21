@@ -5,11 +5,14 @@
 	<input type="hidden" value='${banks}' id="bankList"> <input
 		type="hidden" value='${categories}' id="categoryList"> <input
 		type="hidden" value='${cardCategories}' id="cardCategoryList">
-	<input type="hidden" value='${title}' id="titleArray">
+	<input type="hidden" value='${title}' id="titleArray"> <input
+		type="hidden" value='${pageIndex}' id="pageIndex">
 	<div class="container">
 		<div class="search-heading col-md-9 col-md-offset-3">
 			<div class="col-md-9 col-md-9">
-				<div class="heading"><strong>Credit Cards Menu</strong> - {{results.length}} Cards</div>
+				<div class="heading">
+					<strong>Credit Cards Menu</strong> - {{results.count}} Cards
+				</div>
 			</div>
 			<div class="col-md-3">
 				<select ng-init="item = sortOptions[0]"
@@ -22,13 +25,15 @@
 				<div class="sky-form">
 					<h1>Banks</h1>
 					<div class="row1 scroll-pane">
-						<input type="text" class="form-control" ng-model="searchBank">
+						<input type="text" class="form-control" ng-model="searchBank"
+							placeholder="Search">
 						<div class="col col-4">
-							<label class="checkbox"
+							<label class="checkbox" ng-class="{disabled:!bank.count}"
 								ng-repeat="bank in bankFilters | filter:searchBank"> <input
 								type="checkbox" id="bank{{bank.id}}-check"
-								ng-model="bank.isChecked"
-								ng-click="filter(bank.name,bank.id, bank.displayName, $event)"><i></i>{{bank.displayName}}
+								ng-model="bank.isChecked" ng-disabled="!bank.count"
+								ng-click="filter(bank.name,bank.id, bank.displayName, $event)"><i></i>{{bank.displayName}}&nbsp;<span
+								ng-show="bank.count">({{bank.count}})</span>
 							</label>
 						</div>
 					</div>
@@ -36,13 +41,15 @@
 				<div class="sky-form">
 					<h1>Categories</h1>
 					<div class="row1 scroll-pane">
-						<input type="text" class="form-control" ng-model="searchCategory">
+						<input type="text" class="form-control" ng-model="searchCategory"
+							placeholder="Search">
 						<div class="col col-4">
 							<label class="checkbox"
 								ng-repeat="category in categoryFilters | filter:searchCategory">
 								<input type="checkbox" id="category{{category.id}}-check"
 								ng-model="category.isChecked"
-								ng-click="filter(category.name,category.id, category.displayName, $event)"><i></i>{{category.displayName}}
+								ng-click="filter(category.name,category.id, category.displayName, $event)"><i></i>{{category.displayName}}&nbsp;<span
+								ng-show="category.count">({{category.count}})</span>
 							</label>
 						</div>
 					</div>
@@ -51,14 +58,15 @@
 					<h1>Card Type</h1>
 					<div class="row1 scroll-pane">
 						<input type="text" class="form-control"
-							ng-model="searchCardCategory">
+							ng-model="searchCardCategory" placeholder="Search">
 						<div class="col col-4">
 							<label class="checkbox"
 								ng-repeat="cardCategory in cardCategoryFilters | filter:searchCardCategory">
 								<input type="checkbox"
 								id="cardCategory{{cardCategory.id}}-check"
 								ng-model="cardCategory.isChecked"
-								ng-click="filter(cardCategory.name,cardCategory.id, cardCategory.displayName, $event)"><i></i>{{cardCategory.displayName}}
+								ng-click="filter(cardCategory.name,cardCategory.id, cardCategory.displayName, $event)"><i></i>{{cardCategory.displayName}}&nbsp;<span
+								ng-show="cardCategory.count">({{cardCategory.count}})</span>
 							</label>
 						</div>
 					</div>
@@ -99,11 +107,9 @@
 							ng-click="removeAll()"> Clear All</a></span></li>
 				</ul>
 			</div>
-			<div class="product-block">
-				<div class="no-results col-md-12" ng-show="!results.length">No
-					results found for your search! Please try again with different
-					search options.</div>
-				<div class="col-md-4 col-sm-6" ng-repeat="card in results">
+			<div class="col-md-12 search-container">
+				<div class="col-md-4 col-sm-6 search-item"
+					ng-repeat="card in results.cards">
 					<div class="thumbnail text-center">
 						<img ng-src="/deals/resources/upload/card/{{card.imagePath}}"
 							alt="Card" class="img-responsive">
@@ -125,7 +131,22 @@
 						</div>
 					</div>
 				</div>
+				<div class="no-results col-md-12" ng-show="!results.cards.length">No
+					results found for your search! Please try again with different
+					search options.</div>
+			</div>
+			<div class="row" ng-show="(results.count/limit)>1">
+				<div class="col col-md-12">
+					<ul class="pagination  pull-right">
+						<li><a href="#" ng-click="paginate(pageNumber-1)">«</a></li>
+						<li><a href="#" ng-class="{selected:n==pageNumber}"
+							ng-repeat="n in [] | range:(results.count/limit)+1"
+							ng-click="paginate(n)">{{n+1}}</a></li>
+						<li><a href="#" ng-click="paginate(pageNumber+1)">»</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<div id="loader"></div>

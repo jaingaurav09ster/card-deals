@@ -22,7 +22,7 @@
 </div>
 
 <script>
-	$('button[name="remove_levels"]').on('click', function(e) {
+	$('table.table').on('click', 'button[name="remove_levels"]',function(e) {
 		var $form = $(this).closest('form');
 		var $anchor = $(this);
 		e.preventDefault();

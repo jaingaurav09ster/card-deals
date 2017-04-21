@@ -168,6 +168,7 @@ public class AdminUserController {
 				result.addError(error);
 				model.addAttribute(CommonConstants.PAGE_NAME, USER_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
+				model.addAttribute(CommonConstants.HAS_ERROR, true);
 				return USER_FORM_JSP;
 			}
 

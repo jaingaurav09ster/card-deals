@@ -25,7 +25,7 @@ public class OfferUnit extends AbstractEntity {
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-	@Column(name = "DESCRIPTION", nullable = true)
+	@Column(name = "DESCRIPTION", columnDefinition = "TEXT", nullable = true)
 	private String description;
 
 	/**

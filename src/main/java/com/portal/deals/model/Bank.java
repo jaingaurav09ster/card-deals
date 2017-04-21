@@ -36,7 +36,7 @@ public class Bank extends AbstractEntity {
 	@Column(name = "SECTOR", nullable = true)
 	private String sector;
 
-	@Column(name = "DESCRIPTION", nullable = true)
+	@Column(name = "DESCRIPTION", columnDefinition = "TEXT", nullable = true)
 	private String description;
 
 	@JsonBackReference

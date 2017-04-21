@@ -13,7 +13,7 @@
 			</c:if>
 		</div>
 		<div class="panel-footer" align='center'>
-			<a href="<c:url value='/' />" class="btn btn-primary btn-sm">Continue</a>
+			<a href="<c:url value='/' />" class="btn btn-primary btn-md">Continue</a>
 		</div>
 	</div>
 </div>

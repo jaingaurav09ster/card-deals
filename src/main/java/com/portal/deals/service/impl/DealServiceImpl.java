@@ -50,6 +50,8 @@ public class DealServiceImpl implements DealService {
 			entity.setOfferType(deal.getOfferType());
 			entity.setValueUnit(deal.getValueUnit());
 			entity.setMaxValueUnit(deal.getMaxValueUnit());
+			entity.setEndDate(deal.getEndDate());
+			entity.setStartDate(deal.getStartDate());
 		}
 	}
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -16,12 +17,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,8 +50,8 @@ import com.portal.deals.service.CategoryService;
 import com.portal.deals.util.Utils;
 
 /**
- * This is the controller class for card CRUD operation. Only BANK User will have
- * access to this controller
+ * This is the controller class for card CRUD operation. Only BANK User will
+ * have access to this controller
  * 
  * @author Gaurav Jain
  *
@@ -89,13 +92,13 @@ public class CardController {
 	private CategoryService categoryService;
 
 	/** The JSP name for add new card page */
-	private static final String CARD_FORM_JSP = "cardForm";
+	private static final String CARD_FORM_JSP = "cardBankForm";
 
 	/** The JSP name for add view card page */
-	private static final String CARD_VIEW_JSP = "cardView";
+	private static final String CARD_VIEW_JSP = "cardBankView";
 
 	/** The JSP name for card list page */
-	private static final String CARD_LIST_JSP = "cardList";
+	private static final String CARD_LIST_JSP = "cardBankList";
 
 	/** Path where image will be uploaded */
 	private static String UPLOAD_LOCATION = "/resources/upload/card";
@@ -108,6 +111,10 @@ public class CardController {
 
 	/** The module name */
 	private static final String BANK_USER = "bankUser";
+
+	/** Getting resource bundle for reading messages from properties file */
+	@Autowired
+	MessageSource messageSource;
 
 	/**
 	 * This method will render the add new card page
@@ -150,6 +157,7 @@ public class CardController {
 	public String addCard(@Valid Card card, BindingResult result, ModelMap model, HttpServletRequest request) {
 		LOG.info("Saving the card to the database");
 
+		initializeCollections(card, result);
 		try {
 			/**
 			 * If there is any validation error, then reload the card form page
@@ -310,6 +318,8 @@ public class CardController {
 	@RequestMapping(value = "/updateCard", method = RequestMethod.POST)
 	public String updateCard(@Valid Card card, BindingResult result, ModelMap model, HttpServletRequest request) {
 		LOG.info("Updating the card details");
+
+		initializeCollections(card, result);
 		try {
 			/** Reload the update card page in case of any error */
 			if (result.hasErrors()) {
@@ -403,6 +413,24 @@ public class CardController {
 	@ModelAttribute("categories")
 	public List<Category> initializeCategories() {
 		return categoryService.listAllRootCategories();
+	}
+
+	private void initializeCollections(Card card, BindingResult result) {
+		if (StringUtils.isEmpty(card.getCardCategory().getId())) {
+			card.setCardCategory(null);
+			FieldError error = new FieldError("card", "cardCategory",
+					messageSource.getMessage("not.null.cardCategory", null, Locale.getDefault()));
+			result.addError(error);
+		}
+		if (StringUtils.isEmpty(card.getCardType().getId())) {
+			card.setCardType(null);
+			FieldError error = new FieldError("card", "cardType",
+					messageSource.getMessage("not.null.cardType", null, Locale.getDefault()));
+			result.addError(error);
+		}
+		if (card.getCategories().size() == 0) {
+			card.setCategories(null);
+		}
 	}
 
 }

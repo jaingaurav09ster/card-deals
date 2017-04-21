@@ -22,7 +22,7 @@
 				<form:form method="POST" modelAttribute="user" id="registrationForm">
 					<form:input type="hidden" path="id" id="id" />
 					<div>
-						<div class="form-group firstName">
+						<div class="form-group firstColumn">
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-user"></i></span>
@@ -34,7 +34,7 @@
 							</div>
 						</div>
 
-						<div class="form-group lastName">
+						<div class="form-group lastColumn">
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="glyphicon glyphicon-user"></i></span>
@@ -83,8 +83,8 @@
 					</div>
 					<div class="form-group button-group" align="center">
 						<a href="<c:url value='/login' />"
-							class="btn btn-primary btn-sm btn-cancel">Cancel</a> <input
-							type="submit" value="Register" class="btn btn-primary btn-sm" />
+							class="btn btn-primary btn-md btn-cancel">Cancel</a> <input
+							type="submit" value="Register" class="btn btn-primary btn-md" />
 					</div>
 				</form:form>
 			</div>

@@ -42,10 +42,9 @@ public class Card extends AbstractEntity {
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-	@Column(name = "CARD_DESC", nullable = true)
+	@Column(name = "CARD_DESC", columnDefinition = "TEXT", nullable = true)
 	private String description;
 
-	@NotNull
 	@Column(name = "LAUNCH_DATE", nullable = true)
 	private Date launchDate;
 
@@ -60,16 +59,19 @@ public class Card extends AbstractEntity {
 	@Column(name = "RANK", nullable = true)
 	private String rank;
 
+	@NotNull
 	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CARD_CATEGORY_ID")
 	private CardCategory cardCategory;
 
+	@NotNull
 	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CARD_TYPE_ID")
 	private CardType cardType;
 
+	@NotNull
 	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "BANK_ID")

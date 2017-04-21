@@ -19,10 +19,10 @@
 			<c:choose>
 				<c:when test="${tokenState ne null && tokenState eq 'expired'}">
 					<a href="<c:url value='/reGenerateToken?email=${email}' />"
-						class="btn btn-primary btn-sm">Re-generate</a>
+						class="btn btn-primary btn-md">Re-generate</a>
 				</c:when>
 				<c:otherwise>
-					<a href="<c:url value='/' />" class="btn btn-primary btn-sm">Continue</a>
+					<a href="<c:url value='/' />" class="btn btn-primary btn-md">Continue</a>
 				</c:otherwise>
 			</c:choose>
 		</div>

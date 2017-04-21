@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -66,6 +67,9 @@ public class CategoryController {
 
 	/** The Parent Id */
 	private static final String PARENT_ID = "parentId";
+
+	/** The Parent Id */
+	private static final String PARENT_NAME = "parentName";
 
 	/** The root category */
 	private static final String ROOT_CATEGORY = "rootCategories";
@@ -256,6 +260,9 @@ public class CategoryController {
 			}
 			/** Call to database to delete the Category */
 			service.deleteCategoryById(id);
+		} catch (DataIntegrityViolationException ex) {
+			LOG.error("Exception occured while deleting the bank", ex);
+			return "redirect:/admin/listCategories?err=dberr";
 		} catch (Exception ex) {
 			LOG.error("Exception occured while deleting the  Category", ex);
 			if (ex instanceof BaseException) {
@@ -327,7 +334,7 @@ public class CategoryController {
 				model.addAttribute(CommonConstants.PAGE_NAME, CHILD_CATEGORY_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				model.addAttribute(PARENT_ID, parentId);
-				return CATEGORY_FORM_JSP;
+				return CHILD_CATEGORY_FORM_JSP;
 			}
 			if (parentCategory == null) {
 				throw new EntityNotFoundException("ErrorAddDeal", "Parent Category not found");
@@ -368,6 +375,7 @@ public class CategoryController {
 			 * JSP
 			 */
 			model.addAttribute(PARENT_ID, parentId);
+			model.addAttribute(PARENT_NAME, parentCategory.getName());
 			model.addAttribute("categories", parentCategory.getCategories());
 			model.addAttribute(CommonConstants.PAGE_NAME, CHILD_CATEGORY_LIST_JSP);
 			model.addAttribute(CommonConstants.MODULE, MODULE);
@@ -391,7 +399,8 @@ public class CategoryController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/updateChildCategory/{id}/{parentId}")
-	public String updateChildCategory(@PathVariable(PARENT_ID) int parentId, @PathVariable("id") int id, ModelMap model) {
+	public String updateChildCategory(@PathVariable(PARENT_ID) int parentId, @PathVariable("id") int id,
+			ModelMap model) {
 		LOG.info("Loading update  Category page");
 
 		try {
@@ -470,14 +479,27 @@ public class CategoryController {
 	 * @return the redirect value
 	 */
 	@RequestMapping(value = "/deleteChildCategory/{id}/{parentId}")
-	public String deleteCard(@PathVariable(PARENT_ID) int parentId, @PathVariable("id") int id) {
+	public String deleteChildCategory(@PathVariable(PARENT_ID) int parentId, @PathVariable("id") int id) {
 		LOG.info("Deleting the  Category from database");
 		try {
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("The Category id to be deleted [" + id + "]");
 			}
 			/** Call to database to delete the Category */
-			service.deleteCategoryById(id);
+			Category parent = service.getCategoryById(parentId);
+			if (parent == null) {
+				throw new EntityNotFoundException("Error", "Entity not found");
+			}
+			Category child = service.getCategoryById(id);
+			if (child == null) {
+				throw new EntityNotFoundException("Error", "Entity not found");
+			}
+
+			parent.getCategories().remove(child);
+			service.deleteCategory(child);
+		} catch (DataIntegrityViolationException ex) {
+			LOG.error("Exception occured while deleting the bank", ex);
+			return "redirect:/admin/listChildCategories/" + parentId + "?err=dberr";
 		} catch (Exception ex) {
 			LOG.error("Exception occured while deleting the  Category", ex);
 			if (ex instanceof BaseException) {

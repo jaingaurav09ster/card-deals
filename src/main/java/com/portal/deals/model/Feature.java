@@ -36,11 +36,8 @@ public class Feature extends AbstractEntity {
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-	@Column(name = "DESCRIPTION", nullable = true)
+	@Column(name = "DESCRIPTION", columnDefinition = "TEXT", nullable = true)
 	private String description;
-
-	@Column(name = "RANK", nullable = true)
-	private Integer rank;
 
 	@NotNull
 	@Transient
@@ -84,21 +81,6 @@ public class Feature extends AbstractEntity {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	/**
-	 * @return the rank
-	 */
-	public Integer getRank() {
-		return rank;
-	}
-
-	/**
-	 * @param rank
-	 *            the rank to set
-	 */
-	public void setRank(Integer rank) {
-		this.rank = rank;
 	}
 
 	/**

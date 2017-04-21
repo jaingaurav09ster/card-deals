@@ -29,7 +29,7 @@ public class OfferType extends AbstractEntity {
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-	@Column(name = "DESCRIPTION", nullable = true)
+	@Column(name = "DESCRIPTION", columnDefinition = "TEXT", nullable = true)
 	private String description;
 	
 	@OneToMany(mappedBy = "offerType", fetch = FetchType.LAZY)

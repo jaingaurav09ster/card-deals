@@ -39,10 +39,9 @@ public class User extends AbstractEntity {
 	private String password;
 
 	@NotEmpty
-	@Column(name = "FIRST_NAME", nullable = true)
+	@Column(name = "FIRST_NAME", nullable = false)
 	private String firstName;
 
-	@NotEmpty
 	@Column(name = "LAST_NAME", nullable = true)
 	private String lastName;
 
@@ -55,7 +54,6 @@ public class User extends AbstractEntity {
 	@JoinColumn(name = "BANK_ID")
 	private Bank bank;
 
-	@NotEmpty
 	@Pattern(regexp = "(^$|[0-9]{10})")
 	@Column(name = "MOBILE", nullable = true)
 	private String mobile;

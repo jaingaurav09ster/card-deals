@@ -36,7 +36,7 @@ public class Reward extends AbstractEntity {
 	@Column(name = "TITLE", nullable = false)
 	private String title;
 
-	@Column(name = "DESCRIPTION", nullable = true)
+	@Column(name = "DESCRIPTION", columnDefinition = "TEXT", nullable = true)
 	private String description;
 
 	@JsonIgnore
@@ -44,9 +44,6 @@ public class Reward extends AbstractEntity {
 	@JoinTable(name = "REWARD_CATEGORY_MAP", joinColumns = { @JoinColumn(name = "REWARD_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "CATEGORY_ID") })
 	private Set<Category> categories;
-
-	@Column(name = "RANK", nullable = true)
-	private Integer rank;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = true)
@@ -84,21 +81,6 @@ public class Reward extends AbstractEntity {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	/**
-	 * @return the rank
-	 */
-	public Integer getRank() {
-		return rank;
-	}
-
-	/**
-	 * @param rank
-	 *            the rank to set
-	 */
-	public void setRank(Integer rank) {
-		this.rank = rank;
 	}
 
 	/**

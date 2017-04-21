@@ -43,7 +43,6 @@ public class JoiningPerkServiceImpl implements JoiningPerkService {
 		if (entity != null) {
 			entity.setDescription(joiningPerk.getDescription());
 			entity.setTitle(joiningPerk.getTitle());
-			entity.setRank(joiningPerk.getRank());
 			entity.setCategories(joiningPerk.getCategories());
 		}
 	}

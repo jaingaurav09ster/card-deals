@@ -36,7 +36,7 @@ public class Category extends AbstractEntity {
 	@Column(name = "NAME", nullable = false)
 	private String name;
 
-	@Column(name = "DESCRIPTION", nullable = true)
+	@Column(name = "DESCRIPTION", columnDefinition = "TEXT", nullable = true)
 	private String description;
 
 	public Category(Integer id) {

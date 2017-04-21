@@ -1,6 +1,7 @@
 package com.portal.deals.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.portal.deals.model.Card;
 
@@ -21,7 +22,7 @@ public interface CardDetailsDAO {
 	 *            Query String
 	 * @return List of Card Entity
 	 */
-	List<Object[]> searchCard(String query, int begin, int limit);
+	List<Object> searchCard(String query, int begin, int limit);
 
 	/**
 	 * This method will return list of all the Card entity from the database
@@ -94,5 +95,11 @@ public interface CardDetailsDAO {
 	 */
 	List<Card> listAllCardsByBank(Integer bankId);
 
-	List<Object> getCardCountForBanks();
+	Map<Integer, Long> getCountByCategory();
+
+	Map<Integer, Long> getCountByCardCategory();
+
+	Map<Integer, Long> getCountByBank();
+
+	int getTotalCount(String namedQuery);
 }

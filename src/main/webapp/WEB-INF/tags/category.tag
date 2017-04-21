@@ -33,9 +33,9 @@
 				</c:when>
 				<c:otherwise>
 					<li data-toggle="collapse" data-target="#${childCategory.name}"
-						class="collapsed" id="li-${childCategory.name}"
+						class="collapsed" id="li-${childCategory.id}"
 						style="padding-left:${level*25}px"><a
-						href="#">
+						href="<c:url value="/admin/listChildCategories/${childCategory.id}" />">
 							${childCategory.name} </a></li>
 				</c:otherwise>
 			</c:choose>

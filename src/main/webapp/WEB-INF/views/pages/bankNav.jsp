@@ -11,25 +11,40 @@
 	<c:set var="contextUri" value="/admin" scope="page" />
 </sec:authorize>
 
-<div class="col-sm-4 col-sm-4 col-small-4 sidebar">
+<div class="col-sm-3 col-md-3 sidebar">
 	<div class="nav-side-menu">
 		<div class="brand">Card Manager</div>
 		<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse"
 			data-target="#menu-content"></i>
 		<div class="menu-list">
 			<ul id="menu-content" class="menu-content collapse out">
+				<div class="profile-box hidden-xs">
+					<div class="profile clearfix">
+						<div class="profile_pic">
+							<img src="/deals/resources/images/profile-placeholder.jpg"
+								alt="..." class="img-circle profile_img">
+						</div>
+						<div class="profile_info">
+							<p>Welcome</p>
+							<p>
+								<strong><sec:authentication
+										property="principal.firstName" /></strong>
+							</p>
+						</div>
+					</div>
+				</div>
 				<li data-toggle="collapse" data-target="#cardManager"
 					class="collapsed" id="li-cardManager"><a href="#"><i
 						class="fa fa-credit-card fa-lg"></i> Card Manager <span
 						class="arrow"></span></a></li>
 				<ul class="sub-menu collapse" id="cardManager">
-					<li id="cardForm"><a
+					<li id="cardBankForm"><a
 						href="<c:url value="${contextUri}/newCard" />">New Card</a></li>
-					<li id="cardList"><a
+					<li id="cardBankList"><a
 						href="<c:url value="${contextUri}/listCards" />">Card List</a></li>
 					<li id="updateCardForm" style="display: none;"><a href="#">Update
 							Card</a></li>
-					<li id="cardView" style="display: none;"><a href="#">View
+					<li id="cardBankView" style="display: none;"><a href="#">View
 							Card</a></li>
 				</ul>
 			</ul>

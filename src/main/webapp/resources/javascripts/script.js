@@ -9,7 +9,10 @@
 							queryTokenizer : Bloodhound.tokenizers.whitespace,
 							remote : {
 								url : 'searchCardsAjax?query=title:%QUERY',
-								wildcard : '%QUERY'
+								wildcard : '%QUERY',
+								filter : function(cards) {
+									return cards.cards;
+								}
 							}
 						});
 						$('.typeahead')
@@ -69,16 +72,6 @@
 														}
 													}
 												},
-												lastName : {
-													validators : {
-														stringLength : {
-															min : 2,
-														},
-														notEmpty : {
-															message : 'Please enter last name'
-														}
-													}
-												},
 												email : {
 													validators : {
 														notEmpty : {
@@ -97,17 +90,6 @@
 														stringLength : {
 															min : 4,
 															message : 'Password should be atleast 4 digits'
-														}
-													}
-												},
-												mobile : {
-													validators : {
-														notEmpty : {
-															message : 'Please enter phone number'
-														},
-														phone : {
-															country : 'US',
-															message : 'Please supply a vaild phone number with area code'
 														}
 													}
 												}
@@ -329,6 +311,27 @@
 		return searchQuery;
 	}
 
+	var addAttribute = function(name, value) {
+		if (searchQuery.indexOf(name + ":") !== -1) {
+			var index = searchQuery.indexOf(name + ":");
+			index = index + 1 + name.length;
+			var rem = searchQuery.slice(index);
+			if (rem.indexOf("::") !== -1) {
+				searchQuery = [ searchQuery.slice(0, index), value,
+						rem.slice(rem.indexOf("::")) ].join('');
+			} else {
+				searchQuery = [ searchQuery.slice(0, index), value ].join('');
+			}
+		} else {
+			if (searchQuery.match("query=$")) {
+				searchQuery = searchQuery + name + ":" + value;
+			} else {
+				searchQuery = searchQuery + "::" + name + ":" + value;
+			}
+		}
+		return searchQuery;
+	}
+
 	var addFilterLabel = function(name, value, displayName) {
 		var scope = angular.element($("#controller")).scope();
 		scope.filterLabels.push({
@@ -399,7 +402,7 @@
 		return searchQuery;
 	}
 
-	angular
+	var searchApp = angular
 			.module('searchApp', [])
 			.controller(
 					'searchCtrl',
@@ -407,6 +410,9 @@
 							'$scope',
 							'$http',
 							function($scope, $http) {
+								$scope.limit = 12;
+								$scope.pageNumber = $('#pageIndex').val();
+
 								$scope.bankFilters = $.parseJSON($('#bankList')
 										.val());
 								$scope.categoryFilters = $.parseJSON($(
@@ -475,12 +481,16 @@
 								} ];
 								$scope.filter = function(name, value,
 										displayName, event) {
+									$('#loader').show();
+									searchQuery = addAttribute('pageIndex', 0);
+									$scope.pageNumber = 0;
 									if (event.target.checked) {
 										searchQuery = addFilter(name, value);
 										$http
 												.get(searchQuery)
 												.then(
 														function(response) {
+															$('#loader').hide();
 															$scope.results = response.data;
 															var url = searchQuery
 																	.replace(
@@ -506,6 +516,7 @@
 												.get(searchQuery)
 												.then(
 														function(response) {
+															$('#loader').hide();
 															$scope.results = response.data;
 															var url = searchQuery
 																	.replace(
@@ -527,7 +538,9 @@
 								}
 
 								$scope.removeAll = function() {
-
+									$('#loader').show();
+									searchQuery = addAttribute('pageIndex', 0);
+									$scope.pageNumber = 0;
 									angular
 											.forEach(
 													$scope.filterLabels,
@@ -546,6 +559,7 @@
 													})
 									$http.get(searchQuery).then(
 											function(response) {
+												$('#loader').hide();
 												$scope.results = response.data;
 												var url = searchQuery.replace(
 														'Ajax', '');
@@ -557,23 +571,42 @@
 								}
 
 								$scope.sort = function() {
+									$('#loader').show();
+									searchQuery = addAttribute('pageIndex', 0);
+									$scope.pageNumber = 0;
 									if ($scope.item.name == 'Bank') {
-										if (searchQuery == '') {
-											searchQuery = searchQuery
-													+ "?orderBy=bank.name&order=desc";
-										} else {
-											searchQuery = searchQuery
-													+ "&orderBy=bank.name&order=desc";
-										}
+										searchQuery = addAttribute('order',
+												'asc');
+										searchQuery = addAttribute('orderBy',
+												'bank.name');
 									} else if ($scope.item.name == 'New') {
-										if (searchQuery == '') {
-											searchQuery = searchQuery = searchQuery
-													+ "?orderBy=c.lastModifiedDate&order=desc";
-										} else {
-											searchQuery = searchQuery = searchQuery
-													+ "&orderBy=c.lastModifiedDate&order=desc";
-										}
+										searchQuery = addAttribute('order',
+												'desc');
+										searchQuery = addAttribute('orderBy',
+												'lastModifiedDate');
 									}
+									$http.get(searchQuery).then(
+											function(response) {
+												$('#loader').hide();
+												$scope.results = response.data;
+												var url = searchQuery.replace(
+														'Ajax', '');
+												url = url.replace(/:/g, '%3A');
+												window.history.pushState(
+														'page', null, url);
+											});
+								}
+
+								$scope.paginate = function(pageIndex) {
+									if (pageIndex < 0
+											|| pageIndex > ($scope.results.count / $scope.limit)) {
+										return;
+									}
+									$scope.pageNumber = pageIndex;
+									searchQuery = addAttribute('pageIndex',
+											pageIndex);
+									searchQuery = addAttribute('limit',
+											$scope.limit);
 									$http.get(searchQuery).then(
 											function(response) {
 												$scope.results = response.data;
@@ -582,10 +615,19 @@
 												url = url.replace(/:/g, '%3A');
 												window.history.pushState(
 														'page', null, url);
-												$scope.filterLabels = [];
 											});
 								}
-
 							} ]);
+
+	searchApp.filter('range', function() {
+		return function(input, total) {
+			total = parseInt(total);
+
+			for (var i = 0; i < total; i++) {
+				input.push(i);
+			}
+			return input;
+		};
+	});
 
 })(jQuery); // End of use strict

@@ -22,12 +22,12 @@ public class AbstractEntity implements Serializable {
 
 	/** The last modified date. */
 	@UpdateTimestamp
-	@Column(name = "LAST_MOD_DT", nullable = false, insertable = false)
+	@Column(name = "LAST_MOD_DT")
 	private Timestamp lastModifiedDate;
 
 	/** The last modified date. */
 	@CreationTimestamp
-	@Column(name = "CREATION_DT", nullable = false, insertable = false)
+	@Column(name = "CREATION_DT")
 	private Timestamp creationDate;
 
 	/**
@@ -40,28 +40,9 @@ public class AbstractEntity implements Serializable {
 	}
 
 	/**
-	 * Sets the last modified date.
-	 * 
-	 * @param lastModifiedDate
-	 *            the new last modified date
-	 */
-	public void setLastModifiedDate(Timestamp lastModifiedDate) {
-		this.lastModifiedDate = lastModifiedDate;
-	}
-
-	/**
 	 * @return the creationDate
 	 */
 	public Timestamp getCreationDate() {
 		return creationDate;
 	}
-
-	/**
-	 * @param creationDate
-	 *            the creationDate to set
-	 */
-	public void setCreationDate(Timestamp creationDate) {
-		this.creationDate = creationDate;
-	}
-
 }

@@ -43,7 +43,6 @@ public class RewardServiceImpl implements RewardService {
 		if (entity != null) {
 			entity.setDescription(reward.getDescription());
 			entity.setTitle(reward.getTitle());
-			entity.setRank(reward.getRank());
 			entity.setCategories(reward.getCategories());
 		}
 	}

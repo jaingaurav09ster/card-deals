@@ -2,11 +2,29 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div class="row col-md-5 col-sm-8 col-sm-offset-2 col-md-offset-3 custyle form">
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+
+<c:set var="cancelUrl" scope="page">
+	<c:url value='/' />
+</c:set>
+<sec:authorize access="hasRole('ADMIN')">
+	<c:set var="cancelUrl" scope="page">
+		<c:url value='/console' />
+	</c:set>
+</sec:authorize>
+<sec:authorize access="hasRole('BANK')">
+	<c:set var="cancelUrl" scope="page">
+		<c:url value='/bank' />
+	</c:set>
+</sec:authorize>
+
+<div class="col-sm-9 col-md-9 main-content">
+	<h3>
+		My Profile
+	</h3>
+	<hr>
 	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="panel-title">Edit Profile</div>
-		</div>
 		<div class="panel-body">
 			<c:if test="${not empty error}">
 				<div class="alert alert-danger col-sm-12">${error}</div>
@@ -17,7 +35,7 @@
 			<form:form method="POST" modelAttribute="user" id="editProfileForm">
 				<form:input type="hidden" path="id" id="id" />
 				<div>
-					<div class="form-group firstName">
+					<div class="form-group firstColumn">
 						<div class="input-group">
 							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-user"></i></span>
@@ -29,7 +47,7 @@
 						</div>
 					</div>
 
-					<div class="form-group lastName">
+					<div class="form-group lastColumn">
 						<div class="input-group">
 							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-user"></i></span>
@@ -78,9 +96,8 @@
 					</div>
 				</div>
 				<div class="form-group button-group">
-					<a href="<c:url value='/' />"
-						class="btn btn-primary btn-sm btn-cancel">Cancel</a> <input
-						type="submit" value="Update" class="btn btn-primary btn-sm" />
+					<a href="${cancelUrl}" class="btn btn-primary btn-md btn-cancel">Cancel</a>
+					<input type="submit" value="Update" class="btn btn-primary btn-md" />
 				</div>
 			</form:form>
 		</div>

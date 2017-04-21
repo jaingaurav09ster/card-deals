@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -16,11 +17,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -111,6 +114,10 @@ public class AdminCardController {
 	/** The module name */
 	private static final String MODULE = "cardManager";
 
+	/** Getting resource bundle for reading messages from properties file */
+	@Autowired
+	MessageSource messageSource;
+
 	/**
 	 * This method will render the add new card page
 	 * 
@@ -151,6 +158,7 @@ public class AdminCardController {
 	public String addCard(@Valid Card card, BindingResult result, ModelMap model, HttpServletRequest request) {
 		LOG.info("Saving the card to the database");
 
+		initializeCollections(card, result);
 		try {
 			/**
 			 * If there is any validation error, then reload the card form page
@@ -175,6 +183,30 @@ public class AdminCardController {
 			}
 		}
 		return "redirect:/admin/listCards";
+	}
+
+	private void initializeCollections(Card card, BindingResult result) {
+		if (StringUtils.isEmpty(card.getBank().getId())) {
+			card.setBank(null);
+			FieldError error = new FieldError("card", "bank",
+					messageSource.getMessage("not.null.bank", null, Locale.getDefault()));
+			result.addError(error);
+		}
+		if (StringUtils.isEmpty(card.getCardCategory().getId())) {
+			card.setCardCategory(null);
+			FieldError error = new FieldError("card", "cardCategory",
+					messageSource.getMessage("not.null.cardCategory", null, Locale.getDefault()));
+			result.addError(error);
+		}
+		if (StringUtils.isEmpty(card.getCardType().getId())) {
+			card.setCardType(null);
+			FieldError error = new FieldError("card", "cardType",
+					messageSource.getMessage("not.null.cardType", null, Locale.getDefault()));
+			result.addError(error);
+		}
+		if (card.getCategories().size() == 0) {
+			card.setCategories(null);
+		}
 	}
 
 	/**
@@ -293,6 +325,8 @@ public class AdminCardController {
 	@RequestMapping(value = "/updateCard", method = RequestMethod.POST)
 	public String updateCard(@Valid Card card, BindingResult result, ModelMap model, HttpServletRequest request) {
 		LOG.info("Updating the card details");
+
+		initializeCollections(card, result);
 		try {
 			/** Reload the update card page in case of any error */
 			if (result.hasErrors()) {

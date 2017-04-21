@@ -46,9 +46,9 @@
 					</div>
 					<div class="form-group button-group" align="center">
 						<a href="<c:url value='/login' />"
-							class="btn btn-primary btn-sm btn-cancel">Cancel</a> <input
+							class="btn btn-primary btn-md btn-cancel">Cancel</a> <input
 							type="submit" value="Reset Password"
-							class="btn btn-primary btn-sm" />
+							class="btn btn-primary btn-md" />
 					</div>
 				</form:form>
 			</div>

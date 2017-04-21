@@ -1,6 +1,7 @@
 package com.portal.deals.controller.admin;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -8,9 +9,11 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,6 +57,10 @@ public class ContentController {
 
 	/** The module name */
 	private static final String MODULE = "contentManager";
+
+	/** Getting resource bundle for reading messages from properties file */
+	@Autowired
+	MessageSource messageSource;
 
 	/**
 	 * This method will render the add new content page
@@ -99,10 +106,20 @@ public class ContentController {
 
 		try {
 			/**
-			 * If there is any validation error, then reload the Content form page
-			 * with relevant errors
+			 * If there is any validation error, then reload the Content form
+			 * page with relevant errors
 			 */
 			if (result.hasErrors()) {
+				model.addAttribute(CommonConstants.PAGE_NAME, CONTENT_FORM_JSP);
+				model.addAttribute(CommonConstants.MODULE, MODULE);
+				return CONTENT_FORM_JSP;
+			}
+
+			/** Checking if the email id entered is unique */
+			if (service.getContentByUrlMapping(content.getUrlMapping()) != null) {
+				FieldError error = new FieldError("content", "urlMapping",
+						messageSource.getMessage("non.unique.url.mapping", null, Locale.getDefault()));
+				result.addError(error);
 				model.addAttribute(CommonConstants.PAGE_NAME, CONTENT_FORM_JSP);
 				model.addAttribute(CommonConstants.MODULE, MODULE);
 				return CONTENT_FORM_JSP;
@@ -199,7 +216,8 @@ public class ContentController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/updateContent", method = RequestMethod.POST)
-	public String updateContent(@Valid Content content, BindingResult result, ModelMap model, HttpServletRequest request) {
+	public String updateContent(@Valid Content content, BindingResult result, ModelMap model,
+			HttpServletRequest request) {
 		LOG.info("Updating the content details");
 		try {
 			/** Reload the update content page in case of any error */
