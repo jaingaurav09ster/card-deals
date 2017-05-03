@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "DEAL")
@@ -44,12 +44,21 @@ public class Deal extends AbstractEntity {
 	private String maxValue;
 
 	@NotNull
+	@JsonManagedReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "OFFER_TYPE_ID")
 	private OfferType offerType;
 
+	@JsonManagedReference
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "MERCHANT_ID")
+	private Merchant merchant;
+
 	@Column(name = "MAX_VALUE_UNIT")
 	private String maxValueUnit;
+
+	@Column(name = "COUPON_CODE")
+	private String couponCode;
 
 	@Column(name = "VALUE_UNIT")
 	private String valueUnit;
@@ -69,7 +78,6 @@ public class Deal extends AbstractEntity {
 	private Date endDate;
 
 	@NotNull
-	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "DEAL_CATEGORY_MAP", joinColumns = { @JoinColumn(name = "DEAL_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "CATEGORY_ID") })
@@ -284,7 +292,8 @@ public class Deal extends AbstractEntity {
 	}
 
 	/**
-	 * @param maxValueUnit the maxValueUnit to set
+	 * @param maxValueUnit
+	 *            the maxValueUnit to set
 	 */
 	public void setMaxValueUnit(String maxValueUnit) {
 		this.maxValueUnit = maxValueUnit;
@@ -298,10 +307,41 @@ public class Deal extends AbstractEntity {
 	}
 
 	/**
-	 * @param valueUnit the valueUnit to set
+	 * @param valueUnit
+	 *            the valueUnit to set
 	 */
 	public void setValueUnit(String valueUnit) {
 		this.valueUnit = valueUnit;
+	}
+
+	/**
+	 * @return the couponCode
+	 */
+	public String getCouponCode() {
+		return couponCode;
+	}
+
+	/**
+	 * @param couponCode
+	 *            the couponCode to set
+	 */
+	public void setCouponCode(String couponCode) {
+		this.couponCode = couponCode;
+	}
+
+	/**
+	 * @return the merchant
+	 */
+	public Merchant getMerchant() {
+		return merchant;
+	}
+
+	/**
+	 * @param merchant
+	 *            the merchant to set
+	 */
+	public void setMerchant(Merchant merchant) {
+		this.merchant = merchant;
 	}
 
 }

@@ -35,11 +35,13 @@ import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.Card;
 import com.portal.deals.model.Category;
 import com.portal.deals.model.Deal;
+import com.portal.deals.model.Merchant;
 import com.portal.deals.model.OfferType;
 import com.portal.deals.model.OfferUnit;
 import com.portal.deals.service.CardManagerService;
 import com.portal.deals.service.CategoryService;
 import com.portal.deals.service.DealService;
+import com.portal.deals.service.MerchantService;
 import com.portal.deals.service.OfferTypeService;
 import com.portal.deals.service.OfferUnitService;
 
@@ -80,6 +82,9 @@ public class DealController {
 
 	@Autowired
 	private OfferTypeService offerTypeService;
+
+	@Autowired
+	private MerchantService merchantService;
 
 	@Autowired
 	private OfferUnitService offerUnitService;
@@ -331,6 +336,14 @@ public class DealController {
 	/**
 	 * This method will provide Category list to views
 	 */
+	@ModelAttribute("merchants")
+	public List<Merchant> initializeMerchants() {
+		return merchantService.listAllMerchants();
+	}
+
+	/**
+	 * This method will provide Category list to views
+	 */
 	@ModelAttribute("offerUnits")
 	public List<OfferUnit> initializeOfferUnits() {
 		return offerUnitService.listAllOfferUnits();
@@ -370,6 +383,9 @@ public class DealController {
 			FieldError error = new FieldError("deal", "categories",
 					messageSource.getMessage("not.null.categories", null, Locale.getDefault()));
 			result.addError(error);
+		}
+		if(StringUtils.isEmpty(deal.getMerchant().getId())){
+			deal.setMerchant(null);
 		}
 	}
 }

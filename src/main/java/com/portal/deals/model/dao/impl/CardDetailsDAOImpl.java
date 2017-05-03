@@ -134,4 +134,11 @@ public class CardDetailsDAOImpl extends AbstractDao<Integer, Card> implements Ca
 				.setInteger("id", id).uniqueResult();
 		return name;
 	}
+
+	@Override
+	public List<Card> listAllCardsByTitle(String title) {
+		List<Card> list = getSession().createQuery("select c from Card c where c.title like '%" + title + "%'")
+				.list();
+		return list;
+	}
 }

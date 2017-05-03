@@ -5,15 +5,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="category"%>
 
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <link
-	href="/deals/resources/vendor/bootstrap/datepicker/css/bootstrap-datepicker.min.css"
+	href="${contextPath}/resources/vendor/bootstrap/datepicker/css/bootstrap-datepicker.min.css"
 	rel="stylesheet" type="text/css">
 <link
-	href="/deals/resources/vendor/bootstrap/datepicker/css/bootstrap-datepicker3.min.css"
+	href="${contextPath}/resources/vendor/bootstrap/datepicker/css/bootstrap-datepicker3.min.css"
 	rel="stylesheet" type="text/css">
 <script
-	src="/deals/resources/vendor/bootstrap/datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="/deals/resources/vendor/ckeditor/ckeditor.js"></script>
+	src="${contextPath}/resources/vendor/bootstrap/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="${contextPath}/resources/vendor/ckeditor/ckeditor.js"></script>
 
 <c:set var="contextUri" value="" scope="page" />
 <c:if test="${empty bankUser}">

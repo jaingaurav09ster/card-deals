@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -49,6 +50,7 @@ public class Feature extends AbstractEntity {
 			@JoinColumn(name = "CATEGORY_ID") })
 	private Set<Category> categories;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CARD_ID", referencedColumnName = "CARD_ID", nullable = true)
 	private Card card;

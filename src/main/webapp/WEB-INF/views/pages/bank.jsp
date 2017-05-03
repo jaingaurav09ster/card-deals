@@ -28,7 +28,7 @@
 				<li>Existing card can be updated</li>
 			</ul>
 			<ul>
-				<li>Card properties can be added and updated. Card deals, fees,
+				<li>Card properties can be added and updated. Trump Card, fees,
 					features, ratings etc. can be managed from here</li>
 			</ul>
 

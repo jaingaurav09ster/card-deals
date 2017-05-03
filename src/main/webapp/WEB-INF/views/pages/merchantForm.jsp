@@ -12,16 +12,17 @@
 	<c:choose>
 		<c:when test="${edit}">
 			<h3>
-				Update Bank Information<span class="required">&nbsp;(*required
+				Update Merchant Information<span class="required">&nbsp;(*required
 					fields)</span>
 			</h3>
-			<c:url var="actionUrl" value="/admin/updateBank" />
+			<c:url var="actionUrl" value="/admin/updateMerchant" />
 		</c:when>
 		<c:otherwise>
 			<h3>
-				Add New Bank<span class="required">&nbsp;(*required fields)</span>
+				Add New Merchant<span class="required">&nbsp;(*required
+					fields)</span>
 			</h3>
-			<c:url var="actionUrl" value="/admin/newBank" />
+			<c:url var="actionUrl" value="/admin/newMerchant" />
 		</c:otherwise>
 	</c:choose>
 
@@ -35,13 +36,14 @@
 				<div class="alert alert-danger col-sm-12">${msg}</div>
 			</c:if>
 			<form:form enctype="multipart/form-data" method="POST"
-				modelAttribute="bank" id="bankForm" action="${actionUrl}"
+				modelAttribute="merchant" id="merchantForm" action="${actionUrl}"
 				cssClass="form-horizontal">
 				<form:input type="hidden" path="id" id="id" />
 				<div>
 					<div class="form-group">
-						<label for="name" class="control-label col-md-3">Bank Name<span
-							class="asteriskField">*</span></label>
+						<label for="name" class="control-label col-md-3">Merchant
+							Name<span class="asteriskField">*</span>
+						</label>
 						<div class="col-md-6">
 							<form:input type="text" path="name" id="name"
 								class="form-control" />
@@ -77,19 +79,6 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="sector" class="control-label col-md-3">Sector</label>
-						<div class="col-md-6">
-							<form:select class="form-control" path="sector" id="sector">
-								<form:option value="">Please Select</form:option>
-								<form:options items="${sectors}" itemValue="name"
-									itemLabel="name" />
-							</form:select>
-							<div class="has-error">
-								<form:errors path="sector" class="help-inline" />
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
 						<label for="description" class="control-label col-md-3">Description</label>
 						<div class="col-md-8">
 							<div class="input-group">
@@ -105,7 +94,7 @@
 				<div class="form-group">
 					<label class="col-md-3 control-label"></label>
 					<div class="col-md-6">
-						<a href="<c:url value='/admin/listBanks' />"
+						<a href="<c:url value='/admin/listMerchants' />"
 							class="btn btn-primary btn-md btn-cancel">Cancel</a>
 						<c:choose>
 							<c:when test="${edit}">

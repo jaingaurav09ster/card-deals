@@ -1,25 +1,23 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<%
-	String query = request.getParameter("query") == null ? "" : request.getParameter("query");
-%>
-
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <div ng-app="searchApp" ng-controller="searchCtrl" id="controller"
-	ng-init="init('searchCardsAjax?query=<%=query %>')">
-	<input type="hidden" value='${banks}' id="bankList"> <input
+	ng-init="init('searchDealsAjax?query=${query}')">
+	<input type="hidden" value='${banks}' id="bankList"><input
+		type="hidden" value='${merchants}' id="merchantList"><input
+		type="hidden" value='${cards}' id="cardList"> <input
 		type="hidden" value='${categories}' id="categoryList"> <input
 		type="hidden" value='${cardCategories}' id="cardCategoryList">
-	<input type="hidden" value='${title}' id="titleArray"> <input
-		type="hidden" value='${pageIndex}' id="pageIndex"> <input
-		type="hidden" value="searchCardsAjax?query=" id="searchQuery">
+	<input type="hidden" value='${pageIndex}' id="pageIndex"> <input
+		type="hidden" value="searchDealsAjax?query=" id="searchQuery">
 	<div class="container">
 		<div class="search-heading col-md-9 col-md-offset-3">
 			<div class="col-md-9 col-md-9">
 				<div class="heading">
-					<strong>Credit Cards Menu</strong> - {{results.count}} Cards
+					<strong>Deals matching your criteria</strong> - {{results.count}}
+					Deals
 				</div>
 			</div>
 			<div class="col-md-3">
@@ -30,6 +28,22 @@
 		</div>
 		<div class="col-md-3 prdt-right">
 			<div class="w_sidebar">
+				<div class="sky-form">
+					<h1>Cards</h1>
+					<div class="row1 scroll-pane">
+						<input type="text" class="form-control" ng-model="searchCard"
+							placeholder="Search">
+						<div class="col col-4">
+							<label class="checkbox" ng-class="{disabled:!card.count}"
+								ng-repeat="card in cardFilters | filter:searchCard"> <input
+								type="checkbox" id="card{{card.id}}-check"
+								ng-model="card.isChecked"
+								ng-click="filter(card.name,card.id, card.displayName, $event)"><i></i>{{card.displayName}}&nbsp;<span
+								ng-show="card.count">({{card.count}})</span>
+							</label>
+						</div>
+					</div>
+				</div>
 				<div class="sky-form">
 					<h1>Banks</h1>
 					<div class="row1 scroll-pane">
@@ -42,6 +56,22 @@
 								ng-model="bank.isChecked" ng-disabled="!bank.count"
 								ng-click="filter(bank.name,bank.id, bank.displayName, $event)"><i></i>{{bank.displayName}}&nbsp;<span
 								ng-show="bank.count">({{bank.count}})</span>
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="sky-form">
+					<h1>Merchants</h1>
+					<div class="row1 scroll-pane">
+						<input type="text" class="form-control" ng-model="searchMerchant"
+							placeholder="Search">
+						<div class="col col-4">
+							<label class="checkbox" ng-class="{disabled:!merchant.count}"
+								ng-repeat="merchant in merchantFilters | filter:searchMerchant">
+								<input type="checkbox" id="merchant{{merchant.id}}-check"
+								ng-model="merchant.isChecked" ng-disabled="!merchant.count"
+								ng-click="filter(merchant.name,merchant.id, merchant.displayName, $event)"><i></i>{{merchant.displayName}}&nbsp;<span
+								ng-show="merchant.count">({{merchant.count}})</span>
 							</label>
 						</div>
 					</div>
@@ -99,35 +129,41 @@
 				</ul>
 			</div>
 			<div class="col-md-12 search-container">
-				<div class="col-md-4 col-sm-6 search-item"
-					ng-repeat="card in results.cards">
+				<div class="col-md-12 col-sm-12 search-item row deals"
+					ng-repeat="deal in results.deals">
 					<div class="col-item">
-						<div class="photo">
-							<img
-								ng-src="${contextPath}/resources/upload/card/{{card.imagePath}}"
-								class="img-responsive" alt="{{card.title}}" />
+						<div class="merchant">
+							<div class="row">
+								<div class="col-sm-6 col-xs-6">
+									<img
+										ng-src="${contextPath}/resources/upload/merchant/{{deal.merchant.imagePath}}"
+										class="img-responsive" alt="{{deal.title}}" />
+								</div>
+								<div class="col-sm-6 col-xs-6">
+									<img
+										ng-src="${contextPath}/resources/upload/bank/{{deal.card.bank.imagePath}}"
+										class="img-responsive" alt="{{deal.title}}" />
+								</div>
+							</div>
 						</div>
 						<div class="info">
-							<h5 class="text-center">{{card.title}}</h5>
-							<ul>
-								<li ng-repeat="feature in card.features | limitTo:2">{{feature.title}}</li>
-							</ul>
+							<h4>{{deal.title}}</h4>
+							<h5>{{deal.description}}</h5>
+							<h5>
+								Applicable on <strong>{{deal.card.title}}</strong>
+							</h5>
 						</div>
 						<div class="links">
-							<p class="btn-add">
-								<i class="fa fa-info-circle"></i><a href='#' class="hidden-sm">Information</a>
-							</p>
+							<p class="btn-add">Valid Till {{deal.endDate}}</p>
 							<p class="btn-details">
-								<i class="fa fa-gift"></i><a
-									href="<c:url value="/searchDeals?query=card:{{card.id}}" />"
-									class="hidden-sm">Get Deals</a>
+								Coupon Code: <i ng-if="deal.couponCode"><strong>{{deal.couponCode}}</strong></i><i
+									ng-if="!deal.couponCode">Not Required</i>
 							</p>
-
 						</div>
 						<div class="clearfix"></div>
 					</div>
 				</div>
-				<div class="no-results col-md-12" ng-show="!results.cards.length">No
+				<div class="no-results col-md-12" ng-show="!results.deals.length">No
 					results found for your search! Please try again with different
 					search options.</div>
 			</div>

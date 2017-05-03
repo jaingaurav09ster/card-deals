@@ -27,6 +27,8 @@ public interface CardManagerService {
 	Card getCardWithDetailsById(Integer id);
 
 	List<Card> listAllCardsByBank(Integer bankId);
+	
+	List<Card> listAllCardsByTitle(String title);
 
 	Map<Integer, Long> getCountByCategory();
 

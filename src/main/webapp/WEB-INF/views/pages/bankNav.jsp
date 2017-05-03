@@ -6,6 +6,8 @@
 <input type="hidden" value="${module}" id="module">
 <input type="hidden" value="${pageName}" id="pageName">
 
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <c:set var="contextUri" value="" scope="page" />
 <sec:authorize access="hasRole('ADMIN')">
 	<c:set var="contextUri" value="/admin" scope="page" />
@@ -21,7 +23,7 @@
 				<div class="profile-box hidden-xs">
 					<div class="profile clearfix">
 						<div class="profile_pic">
-							<img src="/deals/resources/images/profile-placeholder.jpg"
+							<img src="${contextPath}/resources/images/profile-placeholder.jpg"
 								alt="..." class="img-circle profile_img">
 						</div>
 						<div class="profile_info">

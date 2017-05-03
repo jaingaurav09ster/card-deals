@@ -4,17 +4,19 @@
 	$(document)
 			.ready(
 					function() {
-						var cards = new Bloodhound({
-							datumTokenizer : Bloodhound.tokenizers.whitespace,
-							queryTokenizer : Bloodhound.tokenizers.whitespace,
-							remote : {
-								url : 'searchCardsAjax?query=title:%QUERY',
-								wildcard : '%QUERY',
-								filter : function(cards) {
-									return cards.cards;
-								}
-							}
-						});
+						var cards = new Bloodhound(
+								{
+									datumTokenizer : Bloodhound.tokenizers.whitespace,
+									queryTokenizer : Bloodhound.tokenizers.whitespace,
+									remote : {
+										url : contextPath
+												+ '/searchCardsAjax?query=title:%QUERY',
+										wildcard : '%QUERY',
+										filter : function(cards) {
+											return cards.cards;
+										}
+									}
+								});
 						$('.typeahead')
 								.on(
 										'typeahead:selected',
@@ -36,8 +38,10 @@
 											limit : 6,
 											templates : {
 												suggestion : Handlebars
-														.compile('<div class="row typeahead-row"><div class="col-md-2 col-sm-3"><img src="/deals/resources/upload/card/{{imagePath}}">'
-																+ '</div><div class="col-md-10 col-sm-9"><div class="row"><strong>{{title}}</strong></div><div class="row">{{description}}</div></div></div>')
+														.compile('<div class="row typeahead-row"><div class="col-md-3 col-sm-3"><img class="img-responsive" src="'
+																+ contextPath
+																+ '/resources/upload/card/{{imagePath}}">'
+																+ '</div><div class="col-md-9 col-sm-9"><div class="row"><strong>{{title}}</strong></div><div class="row">{{description}}</div></div></div>')
 											}
 										});
 						$("#searchForm")
@@ -293,7 +297,7 @@
 	$('.panel-group').on('hidden.bs.collapse', toggleIcon);
 	$('.panel-group').on('shown.bs.collapse', toggleIcon);
 
-	var searchQuery = "searchCardsAjax?query=";
+	var searchQuery = '';
 
 	var addFilter = function(name, value) {
 		if (searchQuery.indexOf(name + ":") !== -1) {
@@ -410,18 +414,30 @@
 							'$scope',
 							'$http',
 							function($scope, $http) {
+								$scope.cardFilters = [];
+								$scope.titleFilters = [];
+								$scope.merchantFilters = [];
 								$scope.limit = 12;
 								$scope.pageNumber = $('#pageIndex').val();
 
 								$scope.bankFilters = $.parseJSON($('#bankList')
 										.val());
+								if ($('#cardList').val() != null) {
+									$scope.cardFilters = $.parseJSON($(
+											'#cardList').val());
+								}
+								if ($('#merchantList').val() != null) {
+									$scope.merchantFilters = $.parseJSON($(
+											'#merchantList').val());
+								}
 								$scope.categoryFilters = $.parseJSON($(
 										'#categoryList').val());
 								$scope.cardCategoryFilters = $.parseJSON($(
 										'#cardCategoryList').val());
-								$scope.titleFilters = $.parseJSON($(
-										'#titleArray').val());
-
+								if ($('#titleArray').val() != null) {
+									$scope.titleFilters = $.parseJSON($(
+											'#titleArray').val());
+								}
 								$scope.filterLabels = [];
 								angular.forEach($scope.bankFilters, function(
 										value, index) {
@@ -433,6 +449,26 @@
 										});
 									}
 								})
+								angular.forEach($scope.cardFilters, function(
+										value, index) {
+									if (value.isChecked) {
+										$scope.filterLabels.push({
+											'name' : value.displayName,
+											'id' : value.id,
+											'value' : value.name
+										});
+									}
+								})
+								angular.forEach($scope.merchantFilters,
+										function(value, index) {
+											if (value.isChecked) {
+												$scope.filterLabels.push({
+													'name' : value.displayName,
+													'id' : value.id,
+													'value' : value.name
+												});
+											}
+										})
 								angular.forEach($scope.categoryFilters,
 										function(value, index) {
 											if (value.isChecked) {
@@ -461,9 +497,9 @@
 										'value' : value.name
 									});
 								})
-								$scope.init = function(name) {
-									if (name != null && name != 'null') {
-										searchQuery = searchQuery + name;
+								$scope.init = function(query) {
+									if (query != null && query != 'null') {
+										searchQuery = query;
 									}
 									$http.get(searchQuery).then(
 											function(response) {
@@ -629,5 +665,27 @@
 			return input;
 		};
 	});
+
+	var homePage = angular
+			.module('homePage', [])
+			.controller(
+					'homePage',
+					[
+							'$scope',
+							'$http',
+							function($scope, $http) {
+								$scope.init = function() {
+									var cardSearchQuery = "searchCardsAjax?query=limit:8::orderBy:rank::order:asc";
+									var dealSearchQuery = "searchDealsAjax?query=limit:8::orderBy:rank::order:asc";
+									$http.get(cardSearchQuery).then(
+											function(response) {
+												$scope.cards = response.data;
+											});
+									$http.get(dealSearchQuery).then(
+											function(response) {
+												$scope.deals = response.data;
+											});
+								};
+							} ]);
 
 })(jQuery); // End of use strict

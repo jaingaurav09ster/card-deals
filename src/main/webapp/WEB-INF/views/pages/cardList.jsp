@@ -3,6 +3,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <c:set var="contextUri" value="" scope="page" />
 <c:if test="${empty bankUser}">
 	<c:set var="contextUri" value="/admin" scope="page" />
@@ -40,7 +42,7 @@
 					<c:forEach items="${cards}" var="card">
 						<tr>
 							<td class="hidden-xs" align="center"><img alt="image"
-								src="/deals/resources/upload/card/${card.imagePath}"></td>
+								src="${contextPath}/resources/upload/card/${card.imagePath}"></td>
 							<td>${card.title}</td>
 							<td>${card.bank.name}</td>
 							<td>${card.cardType.name}</td>

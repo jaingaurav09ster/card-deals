@@ -3444,7 +3444,7 @@ if (typeof jQuery === 'undefined') {
             country: 'country'
         },
 
-        // http://www.swift.com/dsp/resources/documents/IBAN_Registry.pdf
+        // http://www.swift.com/dspresources/documents/IBAN_Registry.pdf
         // http://en.wikipedia.org/wiki/International_Bank_Account_Number#IBAN_formats_by_country
         REGEX: {
             AD: 'AD[0-9]{2}[0-9]{4}[0-9]{4}[A-Z0-9]{12}',                       // Andorra

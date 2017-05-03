@@ -5,15 +5,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="category"%>
 
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <link
-	href="/deals/resources/vendor/bootstrap/datepicker/css/bootstrap-datepicker.min.css"
+	href="${contextPath}/resources/vendor/bootstrap/datepicker/css/bootstrap-datepicker.min.css"
 	rel="stylesheet" type="text/css">
 <link
-	href="/deals/resources/vendor/bootstrap/datepicker/css/bootstrap-datepicker3.min.css"
+	href="${contextPath}/resources/vendor/bootstrap/datepicker/css/bootstrap-datepicker3.min.css"
 	rel="stylesheet" type="text/css">
 <script
-	src="/deals/resources/vendor/bootstrap/datepicker/js/bootstrap-datepicker.min.js"></script>
-<script src="/deals/resources/vendor/ckeditor/ckeditor.js"></script>
+	src="${contextPath}/resources/vendor/bootstrap/datepicker/js/bootstrap-datepicker.min.js"></script>
+<script src="${contextPath}/resources/vendor/ckeditor/ckeditor.js"></script>
 
 <c:set var="level" value="-1" scope="page" />
 <div class="col-sm-9 col-md-9 main-content">
@@ -161,6 +163,31 @@
 							</form:select>
 							<div class="has-error">
 								<form:errors path="maxValueUnit" class="help-inline" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="couponCode" class="control-label col-md-3">Coupon
+							Code</label>
+						<div class="col-md-6">
+							<form:input type="text" path="couponCode" id="couponCode"
+								class="form-control" />
+							<div class="has-error">
+								<form:errors path="couponCode" class="help-inline" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="merchant" class="control-label col-md-3">Merchant</label>
+						<div class="col-md-6">
+							<form:select class="form-control" path="merchant.id"
+								id="merchant">
+								<form:option value="">Please Select</form:option>
+								<form:options items="${merchants}" itemValue="Id"
+									itemLabel="name" />
+							</form:select>
+							<div class="has-error">
+								<form:errors path="merchant" class="help-inline" />
 							</div>
 						</div>
 					</div>

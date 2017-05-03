@@ -2,6 +2,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <div class="col-sm-9 col-md-9 accordion main-content">
 	<h3>View Card</h3>
 	<hr>
@@ -22,7 +25,7 @@
 				<div class="panel-body">
 					<div class="col-xs-12 col-sm-4 text-center image-box">
 						<figure>
-							<img src="/deals/resources/upload/card/${card.imagePath}"
+							<img src="${contextPath}/resources/upload/card/${card.imagePath}"
 								alt="Card" class="img-responsive">
 						</figure>
 					</div>

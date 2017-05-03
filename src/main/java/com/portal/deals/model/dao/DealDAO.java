@@ -1,6 +1,7 @@
 package com.portal.deals.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.portal.deals.model.Deal;
 
@@ -66,4 +67,27 @@ public interface DealDAO {
 	 *            deal id
 	 */
 	void deleteDealById(Integer id);
+
+	int getTotalCount(String namedQuery);
+
+	/**
+	 * This method will get the DEAL entity list from the database, based on the
+	 * query search parameter.
+	 * 
+	 * @param query
+	 *            Query String
+	 * @return List of Card Entity
+	 */
+	List<Object> searchDeal(String query, int begin, int limit);
+	
+	Map<Integer, Long> getCountByCategory();
+
+	Map<Integer, Long> getCountByCardCategory();
+
+	Map<Integer, Long> getCountByBank();
+	
+	Map<Integer, Long> getCountByMerchant();
+	
+	Map<Integer, Long> getCountByCards();
+
 }

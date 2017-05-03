@@ -17,13 +17,13 @@
 
 	<!-- Home Page -->
 	<definition name="home" extends="full-page">
-		<put-attribute name="title" value="Welcome to Card Deals" />
+		<put-attribute name="title" value="Welcome to Trump Card" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/home.jsp" />
 	</definition>
 
 	<!-- Authenticated User Home Page -->
 	<definition name="welcome" extends="full-page">
-		<put-attribute name="title" value="Welcome to Card Deals" />
+		<put-attribute name="title" value="Welcome to Trump Card" />
 		<put-attribute name="body" value="/WEB-INF/views/pages/welcome.jsp" />
 	</definition>
 
@@ -31,6 +31,12 @@
 		<put-attribute name="title" value="Search Results" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/pages/searchCard.jsp" />
+	</definition>
+
+	<definition name="searchDeal" extends="full-page">
+		<put-attribute name="title" value="Search Results" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/pages/searchDeal.jsp" />
 	</definition>
 
 	<definition name="anonymous-layout"
@@ -177,9 +183,8 @@
 
 	<!-- Bank Home Page -->
 	<definition name="bank" extends="twoColumn-layout">
-		<put-attribute name="title" value="Welcome to Card Deals" />
-		<put-attribute name="sidebar"
-			value="/WEB-INF/views/pages/bankNav.jsp" />
+		<put-attribute name="title" value="Welcome to Trump Card" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/pages/bankNav.jsp" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/bank.jsp" />
 	</definition>
 
@@ -275,6 +280,22 @@
 		<put-attribute name="title" value="List of Banks" />
 		<put-attribute name="sidebar" value="/WEB-INF/views/pages/adminNav.jsp" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/bankList.jsp" />
+	</definition>
+
+	<!-- Add Merchant Page -->
+	<definition name="merchantForm" extends="twoColumn-layout">
+		<put-attribute name="title" value="Add/Update Merchant" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/pages/adminNav.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/merchantForm.jsp" />
+	</definition>
+
+	<!-- Merchant List Page -->
+	<definition name="merchantList" extends="twoColumn-layout">
+		<put-attribute name="title" value="List of Merchants" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/pages/adminNav.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/merchantList.jsp" />
 	</definition>
 
 	<!-- Add Card Page -->
@@ -476,8 +497,8 @@
 		<put-attribute name="sidebar" value="/WEB-INF/views/pages/bankNav.jsp" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/cardView.jsp" />
 	</definition>
-	
-		<!-- Add Card Page -->
+
+	<!-- Add Card Page -->
 	<definition name="cardBankForm" extends="twoColumn-layout">
 		<put-attribute name="title" value="Add/Update Card" />
 		<put-attribute name="sidebar" value="/WEB-INF/views/pages/bankNav.jsp" />
@@ -490,7 +511,7 @@
 		<put-attribute name="sidebar" value="/WEB-INF/views/pages/bankNav.jsp" />
 		<put-attribute name="content" value="/WEB-INF/views/pages/cardList.jsp" />
 	</definition>
-	
+
 	<!-- ADMIN Edit Profile Page -->
 	<definition name="editProfileAdmin" extends="twoColumn-layout">
 		<put-attribute name="title" value="Edit Profile" />

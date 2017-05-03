@@ -22,7 +22,7 @@
 						<p>Deals</p>
 					</div>
 					<div class="footer-col col-md-3">
-						<h4>About CARD DEALS</h4>
+						<h4>About Trump Card</h4>
 						<p>This is a portal for every deal available on your cards</p>
 					</div>
 				</div>

@@ -1,4 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <div class="carousel fade-carousel slide" data-ride="carousel"
 	data-interval="4000" id="bs-carousel">
 	<!-- Overlay -->
@@ -76,7 +80,7 @@
 						<div class="caption-content">
 							<i class="fa fa-search-plus fa-3x"></i>
 						</div>
-					</div> <img src="resources/images/portfolio/cabin.png"
+					</div> <img src="${contextPath}/resources/images/portfolio/cabin.png"
 					class="img-responsive" alt="">
 				</a>
 			</div>
@@ -87,7 +91,7 @@
 						<div class="caption-content">
 							<i class="fa fa-search-plus fa-3x"></i>
 						</div>
-					</div> <img src="resources/images/portfolio/cake.png"
+					</div> <img src="${contextPath}/resources/images/portfolio/cake.png"
 					class="img-responsive" alt="">
 				</a>
 			</div>
@@ -98,7 +102,7 @@
 						<div class="caption-content">
 							<i class="fa fa-search-plus fa-3x"></i>
 						</div>
-					</div> <img src="resources/images/portfolio/circus.png"
+					</div> <img src="${contextPath}/resources/images/portfolio/circus.png"
 					class="img-responsive" alt="">
 				</a>
 			</div>
@@ -109,7 +113,7 @@
 						<div class="caption-content">
 							<i class="fa fa-search-plus fa-3x"></i>
 						</div>
-					</div> <img src="resources/images/portfolio/cabin.png"
+					</div> <img src="${contextPath}/resources/images/portfolio/cabin.png"
 					class="img-responsive" alt="">
 				</a>
 			</div>
@@ -120,7 +124,7 @@
 						<div class="caption-content">
 							<i class="fa fa-search-plus fa-3x"></i>
 						</div>
-					</div> <img src="resources/images/portfolio/cake.png"
+					</div> <img src="${contextPath}/resources/images/portfolio/cake.png"
 					class="img-responsive" alt="">
 				</a>
 			</div>
@@ -131,7 +135,7 @@
 						<div class="caption-content">
 							<i class="fa fa-search-plus fa-3x"></i>
 						</div>
-					</div> <img src="resources/images/portfolio/circus.png"
+					</div> <img src="${contextPath}/resources/images/portfolio/circus.png"
 					class="img-responsive" alt="">
 				</a>
 			</div>

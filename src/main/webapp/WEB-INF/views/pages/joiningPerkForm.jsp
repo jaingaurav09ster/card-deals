@@ -5,7 +5,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="category"%>
 
-<script src="/deals/resources/vendor/ckeditor/ckeditor.js"></script>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
+<script src="${contextPath}/resources/vendor/ckeditor/ckeditor.js"></script>
 
 <c:set var="level" value="-1" scope="page" />
 <div class="col-sm-9 col-md-9 main-content">

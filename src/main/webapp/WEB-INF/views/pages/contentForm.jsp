@@ -4,12 +4,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <style>
 #cke_1_contents {
 	height: 300px ! important;
 }
 </style>
-<script src="/deals/resources/vendor/ckeditor/ckeditor.js"></script>
+<script src="${contextPath}/resources/vendor/ckeditor/ckeditor.js"></script>
 <div class="col-sm-9 col-md-9 main-content">
 	<c:choose>
 		<c:when test="${edit}">

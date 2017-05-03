@@ -14,7 +14,7 @@
 <body>
 	<div class="container-full">
 		<tiles:insertAttribute name="navbar" />
-		<div class="mainContent jumbotron background-wrapper">
+		<div class="container-fluid  jumbotron background-wrapper">
 			<tiles:insertAttribute name="body" />
 		</div>
 		<tiles:insertAttribute name="footer" />

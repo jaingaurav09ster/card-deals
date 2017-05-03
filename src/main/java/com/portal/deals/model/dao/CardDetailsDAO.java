@@ -102,4 +102,6 @@ public interface CardDetailsDAO {
 	Map<Integer, Long> getCountByBank();
 
 	int getTotalCount(String namedQuery);
+
+	List<Card> listAllCardsByTitle(String title);
 }

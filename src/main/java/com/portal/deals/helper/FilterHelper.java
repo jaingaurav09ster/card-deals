@@ -18,11 +18,15 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.portal.deals.model.Bank;
+import com.portal.deals.model.Card;
 import com.portal.deals.model.CardCategory;
 import com.portal.deals.model.Category;
+import com.portal.deals.model.Merchant;
 import com.portal.deals.service.BankService;
 import com.portal.deals.service.CardCategoryService;
+import com.portal.deals.service.CardManagerService;
 import com.portal.deals.service.CategoryService;
+import com.portal.deals.service.MerchantService;
 
 /**
  * This is the controller class for doing CARD search
@@ -44,6 +48,20 @@ public class FilterHelper {
 	private BankService bankService;
 
 	/**
+	 * Service class for communicating with DAO layer for Merchant specific DB
+	 * operations
+	 */
+	@Autowired
+	private MerchantService merchantService;
+
+	/**
+	 * Service class for communicating with DAO layer for Card specific DB
+	 * operations
+	 */
+	@Autowired
+	private CardManagerService cardService;
+
+	/**
 	 * Service class for communicating with DAO layer for Card Category specific
 	 * DB operations
 	 */
@@ -62,6 +80,8 @@ public class FilterHelper {
 	private static final String COUNT = "count";
 	private static final String DISPLAY_NAME = "displayName";
 	private static final String BANK = "bank";
+	private static final String CARD = "card";
+	private static final String MERCHANT = "merchant";
 	private static final String CARD_CATEGORY = "cardCategory";
 	private static final String CATEGORY = "category";
 	private static final String TITLE = "title";
@@ -106,14 +126,97 @@ public class FilterHelper {
 			Map<Integer, Long> bankCount) {
 		ArrayNode childNodes = factory.arrayNode();
 		List<JsonNode> expected = new ArrayList<JsonNode>();
-		String selectedBanks = criterias.get(BANK);
+		String selectedBankIds = criterias.get(BANK);
+		List<Integer> selectedBanks = new ArrayList<>();
+		if (!StringUtils.isEmpty(selectedBankIds)) {
+			String[] bankIds = selectedBankIds.split(",");
+			for (String id : bankIds) {
+				selectedBanks.add(Integer.valueOf(id));
+			}
+		}
 		for (Bank bank : bankService.listAllBanks()) {
 			JsonNode element = factory.objectNode();
 			((ObjectNode) element).put(ID, bank.getId());
 			((ObjectNode) element).put(NAME, BANK);
 			((ObjectNode) element).put(COUNT, bankCount.get(bank.getId()));
 			((ObjectNode) element).put(DISPLAY_NAME, bank.getName());
-			if (selectedBanks != null && selectedBanks.contains(bank.getId().toString())) {
+			if (selectedBanks != null && selectedBanks.contains(bank.getId())) {
+				((ObjectNode) element).put(IS_CHECKED, true);
+			} else {
+				((ObjectNode) element).put(IS_CHECKED, false);
+			}
+			expected.add(element);
+		}
+		sortCollection(childNodes, expected);
+		return childNodes.toString();
+	}
+
+	/**
+	 * This method will create the JSON for Bank list
+	 * 
+	 * @param criterias
+	 * @param factory
+	 * @param bankCount
+	 * @return
+	 */
+	public String getCardListJSON(Map<String, String> criterias, final JsonNodeFactory factory,
+			Map<Integer, Long> cardCount) {
+		ArrayNode childNodes = factory.arrayNode();
+		List<JsonNode> expected = new ArrayList<JsonNode>();
+
+		List<Integer> selectedCards = new ArrayList<>();
+		String selectedCardIds = criterias.get(CARD);
+		if (!StringUtils.isEmpty(selectedCardIds)) {
+			String[] cardIds = selectedCardIds.split(",");
+			for (String id : cardIds) {
+				selectedCards.add(Integer.valueOf(id));
+			}
+		}
+		for (Card card : cardService.listAllCards()) {
+			JsonNode element = factory.objectNode();
+			((ObjectNode) element).put(ID, card.getId());
+			((ObjectNode) element).put(NAME, CARD);
+			((ObjectNode) element).put(COUNT, cardCount.get(card.getId()));
+			((ObjectNode) element).put(DISPLAY_NAME, card.getTitle());
+			if (selectedCards != null && selectedCards.contains(card.getId())) {
+				((ObjectNode) element).put(IS_CHECKED, true);
+			} else {
+				((ObjectNode) element).put(IS_CHECKED, false);
+			}
+			expected.add(element);
+		}
+		sortCollection(childNodes, expected);
+		return childNodes.toString();
+	}
+
+	/**
+	 * This method will create the JSON for Bank list
+	 * 
+	 * @param criterias
+	 * @param factory
+	 * @param bankCount
+	 * @return
+	 */
+	public String getMerchantListJSON(Map<String, String> criterias, final JsonNodeFactory factory,
+			Map<Integer, Long> merchantCount) {
+		ArrayNode childNodes = factory.arrayNode();
+		List<JsonNode> expected = new ArrayList<JsonNode>();
+		String selectedMerchantIds = criterias.get(MERCHANT);
+		List<Integer> selectedMerchants = new ArrayList<>();
+		if (!StringUtils.isEmpty(selectedMerchantIds)) {
+			String[] merchantIds = selectedMerchantIds.split(",");
+			for (String id : merchantIds) {
+				selectedMerchants.add(Integer.valueOf(id));
+			}
+		}
+
+		for (Merchant merchant : merchantService.listAllMerchants()) {
+			JsonNode element = factory.objectNode();
+			((ObjectNode) element).put(ID, merchant.getId());
+			((ObjectNode) element).put(NAME, MERCHANT);
+			((ObjectNode) element).put(COUNT, merchantCount.get(merchant.getId()));
+			((ObjectNode) element).put(DISPLAY_NAME, merchant.getName());
+			if (selectedMerchants != null && selectedMerchants.contains(merchant.getId())) {
 				((ObjectNode) element).put(IS_CHECKED, true);
 			} else {
 				((ObjectNode) element).put(IS_CHECKED, false);
@@ -169,14 +272,22 @@ public class FilterHelper {
 			Map<Integer, Long> cardCategoryCount) {
 		ArrayNode childNodes = factory.arrayNode();
 		List<JsonNode> expected = new ArrayList<JsonNode>();
-		String selectedCardCategories = criterias.get(CARD_CATEGORY);
+		String selectedCardCategoryIds = criterias.get(CARD_CATEGORY);
+		List<Integer> selectedCardCategories = new ArrayList<>();
+		if (!StringUtils.isEmpty(selectedCardCategoryIds)) {
+			String[] cardCategoryIds = selectedCardCategoryIds.split(",");
+			for (String id : cardCategoryIds) {
+				selectedCardCategories.add(Integer.valueOf(id));
+			}
+		}
+
 		for (CardCategory cardCategory : cardCategoryService.listAllCardCategories()) {
 			JsonNode element = factory.objectNode();
 			((ObjectNode) element).put(ID, cardCategory.getId());
 			((ObjectNode) element).put(NAME, CARD_CATEGORY);
 			((ObjectNode) element).put(COUNT, cardCategoryCount.get(cardCategory.getId()));
 			((ObjectNode) element).put(DISPLAY_NAME, cardCategory.getName());
-			if (selectedCardCategories != null && selectedCardCategories.contains(cardCategory.getId().toString())) {
+			if (selectedCardCategories != null && selectedCardCategories.contains(cardCategory.getId())) {
 				((ObjectNode) element).put(IS_CHECKED, true);
 			} else {
 				((ObjectNode) element).put(IS_CHECKED, false);
@@ -199,14 +310,23 @@ public class FilterHelper {
 			Map<Integer, Long> categoryCount) {
 		ArrayNode childNodes = factory.arrayNode();
 		List<JsonNode> expected = new ArrayList<JsonNode>();
-		String selectedCategory = criterias.get(CATEGORY);
+		String selectedCategoryIds = criterias.get(CATEGORY);
+
+		List<Integer> selectedCategory = new ArrayList<>();
+		if (!StringUtils.isEmpty(selectedCategoryIds)) {
+			String[] categoryIds = selectedCategoryIds.split(",");
+			for (String id : categoryIds) {
+				selectedCategory.add(Integer.valueOf(id));
+			}
+		}
+
 		for (Category category : categoryService.listAllCategories()) {
 			JsonNode element = factory.objectNode();
 			((ObjectNode) element).put(ID, category.getId());
 			((ObjectNode) element).put(NAME, CATEGORY);
 			((ObjectNode) element).put(COUNT, categoryCount.get(category.getId()));
 			((ObjectNode) element).put(DISPLAY_NAME, category.getName());
-			if (selectedCategory != null && selectedCategory.contains(category.getId().toString())) {
+			if (selectedCategory != null && selectedCategory.contains(category.getId())) {
 				((ObjectNode) element).put(IS_CHECKED, true);
 			} else {
 				((ObjectNode) element).put(IS_CHECKED, false);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.portal.deals.form.CommonConstants;
 import com.portal.deals.model.Card;
 import com.portal.deals.model.SearchCardResponse;
 import com.portal.deals.model.dao.CardDetailsDAO;
@@ -21,16 +22,6 @@ public class CardManagerServiceImpl implements CardManagerService {
 	@Autowired
 	private CardDetailsDAO cardDao;
 
-	private static final String PAGE_INDEX = "pageIndex";
-	private static final String LIMIT = "limit";
-	private static final String ORDER = "order";
-	private static final String ORDER_BY = "orderBy";
-	private static final String WHERE = "where";
-	private static final String BANK = "bank";
-	private static final String CARD_CATEGORY = "cardCategory";
-	private static final String CATEGORY = "category";
-	private static final String TITLE = "title";
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public SearchCardResponse searchCard(Map<String, String> criterias) {
@@ -41,11 +32,11 @@ public class CardManagerServiceImpl implements CardManagerService {
 		/** Calculate limit and begin index */
 		int pageIndex = 0;
 		int limit = 12;
-		if (!StringUtils.isEmpty(criterias.get(PAGE_INDEX))) {
-			pageIndex = Integer.parseInt(criterias.get(PAGE_INDEX));
+		if (!StringUtils.isEmpty(criterias.get(CommonConstants.PAGE_INDEX))) {
+			pageIndex = Integer.parseInt(criterias.get(CommonConstants.PAGE_INDEX));
 		}
-		if (!StringUtils.isEmpty(criterias.get(LIMIT))) {
-			limit = Integer.parseInt(criterias.get(LIMIT));
+		if (!StringUtils.isEmpty(criterias.get(CommonConstants.LIMIT))) {
+			limit = Integer.parseInt(criterias.get(CommonConstants.LIMIT));
 		}
 		int begin = ((pageIndex) * limit);
 
@@ -66,12 +57,12 @@ public class CardManagerServiceImpl implements CardManagerService {
 			}
 		}
 		String queryForCount = null;
-		if (query.contains("c, cat")) {
-			queryForCount = query.replace("c, cat", "count(*)");
-		} else if (query.indexOf(WHERE) == -1) {
+		if (query.contains("distinct c")) {
+			queryForCount = query.replace("distinct c", "count(distinct c)");
+		} else if (query.indexOf(CommonConstants.WHERE) == -1) {
 			queryForCount = "select count(*) " + query;
 		} else {
-			queryForCount = "select count(*) from Card c " + query.substring(query.indexOf(WHERE));
+			queryForCount = "select count(*) from Card c " + query.substring(query.indexOf(CommonConstants.WHERE));
 		}
 		/** Get the cards total count */
 		int count = cardDao.getTotalCount(queryForCount);
@@ -165,13 +156,13 @@ public class CardManagerServiceImpl implements CardManagerService {
 	private String createQueryString(Map<String, String> criterias) {
 		StringBuffer queryString = null;
 
-		String bankValue = criterias.get(BANK);
-		String categoryValue = criterias.get(CATEGORY);
-		String cardCategoryValue = criterias.get(CARD_CATEGORY);
-		String titleValue = criterias.get(TITLE);
+		String bankValue = criterias.get(CommonConstants.BANK);
+		String categoryValue = criterias.get(CommonConstants.CATEGORY);
+		String cardCategoryValue = criterias.get(CommonConstants.CARD_CATEGORY);
+		String titleValue = criterias.get(CommonConstants.TITLE);
 
 		if (!StringUtils.isEmpty(categoryValue)) {
-			queryString = new StringBuffer("select c, cat from Card c join c.categories cat ");
+			queryString = new StringBuffer("select distinct c from Card c join c.categories cat ");
 			if (!queryString.toString().contains("where")) {
 				queryString.append("where cat.id in (" + categoryValue + ")");
 			} else {
@@ -203,8 +194,8 @@ public class CardManagerServiceImpl implements CardManagerService {
 			}
 		}
 
-		String order = criterias.get(ORDER);
-		String orderBy = criterias.get(ORDER_BY);
+		String order = criterias.get(CommonConstants.ORDER);
+		String orderBy = criterias.get(CommonConstants.ORDER_BY);
 		if (!StringUtils.isEmpty(orderBy) && !StringUtils.isEmpty(order)) {
 			if (order.equalsIgnoreCase("desc")) {
 				queryString.append(" order by " + orderBy + " desc");
@@ -215,6 +206,11 @@ public class CardManagerServiceImpl implements CardManagerService {
 			queryString.append(" order by c.lastModifiedDate desc");
 		}
 		return queryString.toString();
+	}
+
+	@Override
+	public List<Card> listAllCardsByTitle(String title) {
+		return cardDao.listAllCardsByTitle(title);
 	}
 
 }

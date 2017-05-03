@@ -86,8 +86,8 @@ public class Card extends AbstractEntity {
 	@OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	private Set<JoiningPerk> joiningPerks;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "card", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@JsonManagedReference
+	@OneToMany(mappedBy = "card", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	private Set<Feature> features;
 
 	@JsonIgnore
