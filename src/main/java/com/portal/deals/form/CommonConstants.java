@@ -21,6 +21,7 @@ public class CommonConstants {
 	public static final String ORDER_BY = "orderBy";
 	public static final String WHERE = "where";
 	public static final String BANK = "bank";
+	public static final String CARD_TYPE = "cardType";
 	public static final String CARD_CATEGORY = "cardCategory";
 	public static final String MERCHANT = "merchant";
 	public static final String CARD = "card";

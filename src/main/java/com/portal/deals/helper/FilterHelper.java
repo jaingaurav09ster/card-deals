@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,11 +21,14 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.portal.deals.model.Bank;
 import com.portal.deals.model.Card;
 import com.portal.deals.model.CardCategory;
+import com.portal.deals.model.CardType;
 import com.portal.deals.model.Category;
 import com.portal.deals.model.Merchant;
+import com.portal.deals.model.NavElement;
 import com.portal.deals.service.BankService;
 import com.portal.deals.service.CardCategoryService;
 import com.portal.deals.service.CardManagerService;
+import com.portal.deals.service.CardTypeService;
 import com.portal.deals.service.CategoryService;
 import com.portal.deals.service.MerchantService;
 
@@ -69,6 +73,13 @@ public class FilterHelper {
 	private CardCategoryService cardCategoryService;
 
 	/**
+	 * Service class for communicating with DAO layer for Card Category specific
+	 * DB operations
+	 */
+	@Autowired
+	private CardTypeService cardTypeService;
+
+	/**
 	 * Service class for communicating with DAO layer for Category specific DB
 	 * operations
 	 */
@@ -81,6 +92,7 @@ public class FilterHelper {
 	private static final String DISPLAY_NAME = "displayName";
 	private static final String BANK = "bank";
 	private static final String CARD = "card";
+	private static final String CARD_TYPE = "cardType";
 	private static final String MERCHANT = "merchant";
 	private static final String CARD_CATEGORY = "cardCategory";
 	private static final String CATEGORY = "category";
@@ -354,6 +366,169 @@ public class FilterHelper {
 			((ObjectNode) element).put(DISPLAY_NAME, title);
 			childNodes.add(element);
 		}
+		return childNodes.toString();
+	}
+
+	public Map<String, List<NavElement>> getNavigation() {
+		Map<String, List<NavElement>> navElements = new LinkedHashMap<>();
+
+		List<Card> cards = cardService.listAllCards();
+		getCardNavElement(navElements, cards);
+
+		List<Bank> banks = bankService.listAllBanks();
+		getBankNavElement(navElements, banks);
+
+		List<Merchant> merchants = merchantService.listAllMerchants();
+		getMerchantNavElement(navElements, merchants);
+
+		List<Category> categories = categoryService.listAllCategories();
+		getCategoryNavElement(navElements, categories);
+
+		List<CardCategory> cardCategories = cardCategoryService.listAllCardCategories();
+		getCardCategoryNavElement(navElements, cardCategories);
+
+		List<CardType> cardTypes = cardTypeService.listAllCardTypes();
+		getCardTypeNavElement(navElements, cardTypes);
+
+		return navElements;
+	}
+
+	private void getMerchantNavElement(Map<String, List<NavElement>> navelements, List<Merchant> merchants) {
+		if (merchants != null && merchants.size() > 0) {
+			List<NavElement> merchantList = new ArrayList<>();
+			int counter = 0;
+			for (Merchant merchant : merchants) {
+				if (counter >= 7)
+					break;
+				NavElement element = new NavElement();
+				element.setDisplayName(merchant.getName());
+				element.setId(merchant.getId().toString());
+				element.setName(MERCHANT);
+				merchantList.add(element);
+				counter++;
+			}
+			navelements.put(MERCHANT, merchantList);
+		}
+	}
+
+	private void getBankNavElement(Map<String, List<NavElement>> navelements, List<Bank> banks) {
+		if (banks != null && banks.size() > 0) {
+			List<NavElement> bankList = new ArrayList<>();
+			int counter = 0;
+			for (Bank bank : banks) {
+				if (counter >= 7)
+					break;
+				NavElement element = new NavElement();
+				element.setDisplayName(bank.getName());
+				element.setId(bank.getId().toString());
+				element.setName(BANK);
+				bankList.add(element);
+				counter++;
+			}
+			navelements.put(BANK, bankList);
+		}
+	}
+
+	private void getCategoryNavElement(Map<String, List<NavElement>> navelements, List<Category> categories) {
+		if (categories != null && categories.size() > 0) {
+			List<NavElement> categoryList = new ArrayList<>();
+			int counter = 0;
+			for (Category category : categories) {
+				if (counter >= 7)
+					break;
+				NavElement element = new NavElement();
+				element.setDisplayName(category.getName());
+				element.setId(category.getId().toString());
+				element.setName(CATEGORY);
+				categoryList.add(element);
+				counter++;
+			}
+			navelements.put(CATEGORY, categoryList);
+		}
+	}
+
+	private void getCardCategoryNavElement(Map<String, List<NavElement>> navelements,
+			List<CardCategory> cardCategories) {
+		if (cardCategories != null && cardCategories.size() > 0) {
+			List<NavElement> cardCategoryList = new ArrayList<>();
+			int counter = 0;
+			for (CardCategory cardCategory : cardCategories) {
+				if (counter >= 7)
+					break;
+				NavElement element = new NavElement();
+				element.setDisplayName(cardCategory.getName());
+				element.setId(cardCategory.getId().toString());
+				element.setName(CARD_CATEGORY);
+				cardCategoryList.add(element);
+				counter++;
+			}
+			navelements.put(CARD_CATEGORY, cardCategoryList);
+		}
+	}
+
+	private void getCardNavElement(Map<String, List<NavElement>> navelements, List<Card> cards) {
+		if (cards != null && cards.size() > 0) {
+			List<NavElement> cardList = new ArrayList<>();
+			int counter = 0;
+			for (Card card : cards) {
+				if (counter >= 7)
+					break;
+				NavElement element = new NavElement();
+				element.setDisplayName(card.getTitle());
+				element.setId(card.getId().toString());
+				element.setName(CARD);
+				cardList.add(element);
+				counter++;
+			}
+			navelements.put(CARD, cardList);
+		}
+	}
+
+	private void getCardTypeNavElement(Map<String, List<NavElement>> navelements, List<CardType> cardTypes) {
+		if (cardTypes != null && cardTypes.size() > 0) {
+			List<NavElement> cardTypeList = new ArrayList<>();
+			int counter = 0;
+			for (CardType cardType : cardTypes) {
+				if (counter >= 7)
+					break;
+				NavElement element = new NavElement();
+				element.setDisplayName(cardType.getName());
+				element.setId(cardType.getId().toString());
+				element.setName(CARD_TYPE);
+				cardTypeList.add(element);
+				counter++;
+			}
+			navelements.put(CARD_TYPE, cardTypeList);
+		}
+	}
+
+	public Object getCardTypeListJSON(Map<String, String> criterias, JsonNodeFactory factory,
+			Map<Integer, Long> cardTypeCount) {
+		ArrayNode childNodes = factory.arrayNode();
+		List<JsonNode> expected = new ArrayList<JsonNode>();
+		String selectedCardTypeIds = criterias.get(CARD_TYPE);
+		List<Integer> selectedCardTypes = new ArrayList<>();
+		if (!StringUtils.isEmpty(selectedCardTypeIds)) {
+			String[] cardTypeIds = selectedCardTypeIds.split(",");
+			for (String id : cardTypeIds) {
+				selectedCardTypes.add(Integer.valueOf(id));
+			}
+		}
+
+		for (CardType cardType : cardTypeService.listAllCardTypes()) {
+			JsonNode element = factory.objectNode();
+			((ObjectNode) element).put(ID, cardType.getId());
+			((ObjectNode) element).put(NAME, CARD_TYPE);
+			((ObjectNode) element).put(COUNT, cardTypeCount.get(cardType.getId()));
+			((ObjectNode) element).put(DISPLAY_NAME, cardType.getName());
+			if (selectedCardTypes != null && selectedCardTypes.contains(cardType.getId())) {
+				((ObjectNode) element).put(IS_CHECKED, true);
+			} else {
+				((ObjectNode) element).put(IS_CHECKED, false);
+			}
+			expected.add(element);
+		}
+		sortCollection(childNodes, expected);
 		return childNodes.toString();
 	}
 }

@@ -137,8 +137,30 @@ public class CardDetailsDAOImpl extends AbstractDao<Integer, Card> implements Ca
 
 	@Override
 	public List<Card> listAllCardsByTitle(String title) {
-		List<Card> list = getSession().createQuery("select c from Card c where c.title like '%" + title + "%'")
-				.list();
+		List<Card> list = getSession().createQuery("select c from Card c where c.title like '%" + title + "%'").list();
 		return list;
+	}
+
+	@Override
+	public Map<Integer, Long> getCountByCardType() {
+		List<Object> list = getSession()
+				.createQuery("SELECT c.cardType.id, COUNT(c.cardType.id) FROM Card c group by c.cardType.id").list();
+		Map<Integer, Long> statusMap = new HashMap<Integer, Long>();
+		Iterator<Object> it = list.iterator();
+		while (it.hasNext()) {
+			Object[] obj = (Object[]) it.next();
+			statusMap.put((Integer) obj[0], (Long) obj[1]);
+		}
+		return statusMap;
+	}
+
+	@Override
+	public Card getCardByTitle(String title) {
+		List<Card> cards = (List<Card>) getSession().createQuery("select card from Card card where card.title = :title")
+				.setString("title", title).list();
+		if (cards != null && cards.size() > 0) {
+			return cards.get(0);
+		}
+		return null;
 	}
 }

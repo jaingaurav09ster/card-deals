@@ -110,10 +110,19 @@
 	</definition>
 
 	<!-- User Edit Profile Page -->
-	<definition name="editProfile" extends="base-definition">
+	<definition name="editProfile" extends="twoColumn-layout">
 		<put-attribute name="title" value="Edit Profile" />
-		<put-attribute name="body"
+		<put-attribute name="sidebar" value="/WEB-INF/views/pages/userNav.jsp" />
+		<put-attribute name="content"
 			value="/WEB-INF/views/pages/editProfile.jsp" />
+	</definition>
+
+	<!-- User Edit Profile Page -->
+	<definition name="addUserCard" extends="twoColumn-layout">
+		<put-attribute name="title" value="Manage Cards" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/pages/userNav.jsp" />
+		<put-attribute name="content"
+			value="/WEB-INF/views/pages/addUserCard.jsp" />
 	</definition>
 
 	<!-- User Invalid token Page -->

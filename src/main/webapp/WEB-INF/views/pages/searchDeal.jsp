@@ -3,8 +3,8 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<div ng-app="searchApp" ng-controller="searchCtrl" id="controller"
-	ng-init="init('searchDealsAjax?query=${query}')">
+<div ng-app="searchApp" ng-controller="searchCtrl" id="searchApp"
+	ng-init="init('${contextPath}/searchDealsAjax?query=${query}')">
 	<input type="hidden" value='${banks}' id="bankList"><input
 		type="hidden" value='${merchants}' id="merchantList"><input
 		type="hidden" value='${cards}' id="cardList"> <input
@@ -129,7 +129,7 @@
 				</ul>
 			</div>
 			<div class="col-md-12 search-container">
-				<div class="col-md-12 col-sm-12 search-item row deals"
+				<div class="col-md-12 col-sm-12 search-item deals"
 					ng-repeat="deal in results.deals">
 					<div class="col-item">
 						<div class="merchant">
@@ -181,4 +181,4 @@
 		</div>
 	</div>
 </div>
-<div id="loader"></div>
+<div class="loader-wrap"><div id="loader"></div></div>

@@ -104,4 +104,8 @@ public interface CardDetailsDAO {
 	int getTotalCount(String namedQuery);
 
 	List<Card> listAllCardsByTitle(String title);
+
+	Map<Integer, Long> getCountByCardType();
+
+	Card getCardByTitle(String title);
 }

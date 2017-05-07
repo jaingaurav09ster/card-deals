@@ -7,9 +7,10 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<div ng-app="searchApp" ng-controller="searchCtrl" id="controller"
-	ng-init="init('searchCardsAjax?query=<%=query %>')">
-	<input type="hidden" value='${banks}' id="bankList"> <input
+<div ng-app="searchApp" ng-controller="searchCtrl" id="searchApp"
+	ng-init="init('${contextPath}/searchCardsAjax?query=<%=query%>')">
+	<input type="hidden" value='${banks}' id="bankList"><input
+		type="hidden" value='${cardTypes}' id="cardTypeList"> <input
 		type="hidden" value='${categories}' id="categoryList"> <input
 		type="hidden" value='${cardCategories}' id="cardCategoryList">
 	<input type="hidden" value='${title}' id="titleArray"> <input
@@ -19,7 +20,8 @@
 		<div class="search-heading col-md-9 col-md-offset-3">
 			<div class="col-md-9 col-md-9">
 				<div class="heading">
-					<strong>Credit Cards Menu</strong> - {{results.count}} Cards
+					<strong>Cards matching your criteria</strong> - {{results.count}}
+					Cards
 				</div>
 			</div>
 			<div class="col-md-3">
@@ -64,6 +66,22 @@
 				</div>
 				<div class="sky-form">
 					<h1>Card Type</h1>
+					<div class="row1 scroll-pane">
+						<input type="text" class="form-control" ng-model="searchCardType"
+							placeholder="Search">
+						<div class="col col-4">
+							<label class="checkbox" ng-class="{disabled:!cardType.count}"
+								ng-repeat="cardType in cardTypeFilters | filter:searchCardType">
+								<input type="checkbox" id="cardType{{cardType.id}}-check"
+								ng-model="cardType.isChecked" ng-disabled="!cardType.count"
+								ng-click="filter(cardType.name,cardType.id, cardType.displayName, $event)"><i></i>{{cardType.displayName}}&nbsp;<span
+								ng-show="cardType.count">({{cardType.count}})</span>
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="sky-form">
+					<h1>Card Category</h1>
 					<div class="row1 scroll-pane">
 						<input type="text" class="form-control"
 							ng-model="searchCardCategory" placeholder="Search">

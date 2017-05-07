@@ -50,9 +50,14 @@
 			</div>
 		</div>
 	</div>
+	<a class="left carousel-control" href="#bs-carousel"
+		data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span></a><a
+		class="right carousel-control" href="#bs-carousel"
+		data-slide="next"><span class="glyphicon glyphicon-chevron-right">
+	</span></a>
 </div>
-<div ng-app="homePage" ng-controller="homePage" id="controller"
-	ng-init="init()">
+<div ng-app="homePageApp" ng-controller="homePageController"
+	id="homePage" ng-init="init()">
 	<div class="cards-container">
 		<div class="container">
 			<div class="row top-margin">
@@ -96,7 +101,7 @@
 										</p>
 										<p class="btn-details">
 											<i class="fa fa-gift"></i><a
-												href="<c:url value="/searchDeals?query=card:{{card.id}}" />"
+												href="<c:url value="/searchDeals?query=card%3A{{card.id}}" />"
 												class="hidden-sm">Get Deals</a>
 										</p>
 
@@ -129,7 +134,7 @@
 										</p>
 										<p class="btn-details">
 											<i class="fa fa-gift"></i><a
-												href="<c:url value="/searchDeals?query=card:{{card.id}}" />"
+												href="<c:url value="/searchDeals?query=card%3A{{card.id}}" />"
 												class="hidden-sm">Get Deals</a>
 										</p>
 									</div>
@@ -144,7 +149,7 @@
 	</div>
 	<div class="deals-container">
 		<div class="container">
-			<div class="row">
+			<div class="row top-margin">
 				<div class="col-md-8 col-sm-8 col-xs-8">
 					<h3>Best Deals</h3>
 				</div>

@@ -4,6 +4,27 @@
 	$(document)
 			.ready(
 					function() {
+
+						$('#main-nav').affix({
+							offset : {
+								top : $('header').height()
+							}
+						});
+
+						$(".dropdown").hover(
+								function() {
+									$('.dropdown-menu', this).not(
+											'.in .dropdown-menu').stop(true,
+											true).slideDown("400");
+									$(this).toggleClass('open');
+								},
+								function() {
+									$('.dropdown-menu', this).not(
+											'.in .dropdown-menu').stop(true,
+											true).slideUp("400");
+									$(this).toggleClass('open');
+								});
+
 						var cards = new Bloodhound(
 								{
 									datumTokenizer : Bloodhound.tokenizers.whitespace,
@@ -54,6 +75,40 @@
 																		+ $(
 																				'input#searchQuery')
 																				.val());
+											}
+										});
+
+						var cardList = new Bloodhound(
+								{
+									datumTokenizer : Bloodhound.tokenizers.whitespace,
+									queryTokenizer : Bloodhound.tokenizers.whitespace,
+									remote : {
+										url : contextPath
+												+ '/searchCardsAjax?query=title:%QUERY&filter=true',
+										wildcard : '%QUERY',
+										filter : function(cards) {
+											return cards.cards;
+										}
+									}
+								});
+						$('.autocomplete')
+								.on('typeahead:selected', function() {
+
+								})
+								.typeahead(
+										null,
+										{
+											name : 'cards',
+											display : 'title',
+											source : cardList,
+											limit : 6,
+											autoselect : true,
+											templates : {
+												suggestion : Handlebars
+														.compile('<div class="row typeahead-row"><div class="col-md-3 col-sm-3"><img class="img-responsive" src="'
+																+ contextPath
+																+ '/resources/upload/card/{{imagePath}}">'
+																+ '</div><div class="col-md-9 col-sm-9"><div class="row"><strong>{{title}}</strong></div></div></div>')
 											}
 										});
 
@@ -186,24 +241,6 @@
 										}).on('submit', function(e) {
 								});
 
-						$('#bankForm').bootstrapValidator({
-
-							fields : {
-								name : {
-									validators : {
-										notEmpty : {
-											message : 'Please enter bank name'
-										}
-									}
-								}
-							}
-						}).on('submit', function(e) {
-							alert('asd');
-						});
-
-						NProgress.configure({
-							showSpinner : false
-						});
 						NProgress.start();
 						NProgress.set(0.4);
 						// Increment
@@ -337,7 +374,7 @@
 	}
 
 	var addFilterLabel = function(name, value, displayName) {
-		var scope = angular.element($("#controller")).scope();
+		var scope = angular.element($("#searchApp")).scope();
 		scope.filterLabels.push({
 			'name' : displayName,
 			'id' : value,
@@ -346,7 +383,7 @@
 	}
 
 	var removeFilterLabel = function(value, name) {
-		var scope = angular.element($("#controller")).scope();
+		var scope = angular.element($("#searchApp")).scope();
 
 		for (var i = 0; i < scope.filterLabels.length; i++) {
 			if (scope.filterLabels[i].id == value) {
@@ -417,6 +454,7 @@
 								$scope.cardFilters = [];
 								$scope.titleFilters = [];
 								$scope.merchantFilters = [];
+								$scope.cardTypeFilters = [];
 								$scope.limit = 12;
 								$scope.pageNumber = $('#pageIndex').val();
 
@@ -429,6 +467,10 @@
 								if ($('#merchantList').val() != null) {
 									$scope.merchantFilters = $.parseJSON($(
 											'#merchantList').val());
+								}
+								if ($('#cardTypeList').val() != null) {
+									$scope.cardTypeFilters = $.parseJSON($(
+											'#cardTypeList').val());
 								}
 								$scope.categoryFilters = $.parseJSON($(
 										'#categoryList').val());
@@ -489,6 +531,16 @@
 												});
 											}
 										})
+								angular.forEach($scope.cardTypeFilters,
+										function(value, index) {
+											if (value.isChecked) {
+												$scope.filterLabels.push({
+													'name' : value.displayName,
+													'id' : value.id,
+													'value' : value.name
+												});
+											}
+										})
 								angular.forEach($scope.titleFilters, function(
 										value, index) {
 									$scope.filterLabels.push({
@@ -517,7 +569,7 @@
 								} ];
 								$scope.filter = function(name, value,
 										displayName, event) {
-									$('#loader').show();
+									$('.loader-wrap').show();
 									searchQuery = addAttribute('pageIndex', 0);
 									$scope.pageNumber = 0;
 									if (event.target.checked) {
@@ -526,7 +578,7 @@
 												.get(searchQuery)
 												.then(
 														function(response) {
-															$('#loader').hide();
+															$('.loader-wrap').hide();
 															$scope.results = response.data;
 															var url = searchQuery
 																	.replace(
@@ -552,7 +604,7 @@
 												.get(searchQuery)
 												.then(
 														function(response) {
-															$('#loader').hide();
+															$('.loader-wrap').hide();
 															$scope.results = response.data;
 															var url = searchQuery
 																	.replace(
@@ -574,7 +626,7 @@
 								}
 
 								$scope.removeAll = function() {
-									$('#loader').show();
+									$('.loader-wrap').show();
 									searchQuery = addAttribute('pageIndex', 0);
 									$scope.pageNumber = 0;
 									angular
@@ -595,7 +647,7 @@
 													})
 									$http.get(searchQuery).then(
 											function(response) {
-												$('#loader').hide();
+												$('.loader-wrap').hide();
 												$scope.results = response.data;
 												var url = searchQuery.replace(
 														'Ajax', '');
@@ -607,7 +659,7 @@
 								}
 
 								$scope.sort = function() {
-									$('#loader').show();
+									$('.loader-wrap').show();
 									searchQuery = addAttribute('pageIndex', 0);
 									$scope.pageNumber = 0;
 									if ($scope.item.name == 'Bank') {
@@ -623,7 +675,7 @@
 									}
 									$http.get(searchQuery).then(
 											function(response) {
-												$('#loader').hide();
+												$('.loader-wrap').hide();
 												$scope.results = response.data;
 												var url = searchQuery.replace(
 														'Ajax', '');
@@ -666,17 +718,149 @@
 		};
 	});
 
-	var homePage = angular
-			.module('homePage', [])
+	var navBar = angular
+			.module('navBarApp', [])
 			.controller(
-					'homePage',
+					'navBarController',
 					[
 							'$scope',
 							'$http',
 							function($scope, $http) {
 								$scope.init = function() {
-									var cardSearchQuery = "searchCardsAjax?query=limit:8::orderBy:rank::order:asc";
-									var dealSearchQuery = "searchDealsAjax?query=limit:8::orderBy:rank::order:asc";
+									$http
+											.get(
+													contextPath
+															+ "/getNavElements")
+											.then(
+													function(response) {
+														$scope.navElements = response.data;
+														var stores;
+														var storeHTML = '';
+														var banks;
+														var bankHTML = '';
+														var cards;
+														var cardHTML = '';
+														var categoryHTML = '';
+														var categories;
+														angular
+																.forEach(
+																		$scope.navElements,
+																		function(
+																				value,
+																				index) {
+																			if (index == 'merchant') {
+																				stores = value;
+																			} else if (index == 'category') {
+																				categories = value;
+																			} else if (index == 'card') {
+																				cards = value;
+																			} else if (index == 'bank') {
+																				banks = value;
+																			}
+																		})
+														for (var i = 0; i < stores.length; i++) {
+															storeHTML = storeHTML
+																	+ '<p><a href="'
+																	+ contextPath
+																	+ '/searchDeals?query='
+																	+ stores[i].name
+																	+ '%3A'
+																	+ stores[i].id
+																	+ '">'
+																	+ stores[i].displayName
+																	+ '</a>'
+																	+ '</p>';
+															if (i == 4) {
+																break;
+															}
+														}
+														for (var i = 0; i < categories.length; i++) {
+															categoryHTML = categoryHTML
+																	+ '<p><a href="'
+																	+ contextPath
+																	+ '/searchDeals?query='
+																	+ categories[i].name
+																	+ '%3A'
+																	+ categories[i].id
+																	+ '">'
+																	+ categories[i].displayName
+																	+ '</a>'
+																	+ '</p>';
+															if (i == 4) {
+																break;
+															}
+														}
+														for (var i = 0; i < banks.length; i++) {
+															bankHTML = bankHTML
+																	+ '<p><a href="'
+																	+ contextPath
+																	+ '/searchDeals?query='
+																	+ banks[i].name
+																	+ '%3A'
+																	+ banks[i].id
+																	+ '">'
+																	+ banks[i].displayName
+																	+ '</a>'
+																	+ '</p>';
+															if (i == 4) {
+																break;
+															}
+														}
+														for (var i = 0; i < cards.length; i++) {
+															cardHTML = cardHTML
+																	+ '<p><a href="'
+																	+ contextPath
+																	+ '/searchDeals?query='
+																	+ cards[i].name
+																	+ '%3A'
+																	+ cards[i].id
+																	+ '">'
+																	+ cards[i].displayName
+																	+ '</a>'
+																	+ '</p>';
+															if (i == 4) {
+																break;
+															}
+														}
+														$(".footer-store")
+																.html(storeHTML);
+														$(".footer-category")
+																.html(
+																		categoryHTML);
+														$(".footer-card").html(
+																cardHTML);
+														$(".footer-bank").html(
+																bankHTML);
+													});
+								};
+
+								var cardSearchQuery = contextPath
+										+ "/searchCardsAjax?query=limit%3A3%3A%3AorderBy%3Arank%3A%3Aorder%3Aasc";
+								var dealSearchQuery = contextPath
+										+ "/searchDealsAjax?query=limit%3A3%3A%3AorderBy%3Arank%3A%3Aorder%3Aasc";
+								$http.get(cardSearchQuery).then(
+										function(response) {
+											$scope.cards = response.data;
+										});
+								$http.get(dealSearchQuery).then(
+										function(response) {
+											$scope.deals = response.data;
+										});
+							} ]);
+
+	var homePage = angular
+			.module('homePageApp', [])
+			.controller(
+					'homePageController',
+					[
+							'$scope',
+							'$http',
+							function($scope, $http) {
+								$scope.init = function() {
+									var cardSearchQuery = contextPath
+											+ "/searchCardsAjax?query=limit%3A8%3A%3AorderBy%3Arank%3A%3Aorder%3Aasc";
+									var dealSearchQuery = contextPath
+											+ "/searchDealsAjax?query=limit%3A8%3A%3AorderBy%3Arank%3A%3Aorder%3Aasc";
 									$http.get(cardSearchQuery).then(
 											function(response) {
 												$scope.cards = response.data;
@@ -687,5 +871,13 @@
 											});
 								};
 							} ]);
+
+	$('#homePage').ready(function() {
+		angular.bootstrap($('#homePage'), [ 'homePageApp' ]);
+	});
+
+	$('#searchApp').ready(function() {
+		angular.bootstrap($('#searchApp'), [ 'searchApp' ]);
+	});
 
 })(jQuery); // End of use strict

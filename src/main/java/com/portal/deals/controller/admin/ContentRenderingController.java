@@ -46,7 +46,7 @@ public class ContentRenderingController {
 	 * @return The view JSP
 	 */
 	@RequestMapping(value = "/page/{urlMapping}")
-	public String updateContent(@PathVariable("urlMapping") String urlMapping, ModelMap model) {
+	public String renderContent(@PathVariable("urlMapping") String urlMapping, ModelMap model) {
 		LOG.info("Loading update content page");
 
 		try {

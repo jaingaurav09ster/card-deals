@@ -59,7 +59,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		}
 
 		if (isUser) {
-			return "/welcome";
+			return "/home";
 		} else if (isAdmin) {
 			return "/console";
 		} else if (isBank) {

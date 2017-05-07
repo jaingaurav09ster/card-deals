@@ -144,7 +144,12 @@ public class CardManagerServiceImpl implements CardManagerService {
 	public Map<Integer, Long> getCountByBank() {
 		return cardDao.getCountByBank();
 	}
-
+	
+	@Override
+	public Map<Integer, Long> getCountByCardType() {
+		return cardDao.getCountByCardType();
+	}
+	
 	/**
 	 * This method will create Query String
 	 * 
@@ -157,6 +162,7 @@ public class CardManagerServiceImpl implements CardManagerService {
 		StringBuffer queryString = null;
 
 		String bankValue = criterias.get(CommonConstants.BANK);
+		String cardTypeValue = criterias.get(CommonConstants.CARD_TYPE);
 		String categoryValue = criterias.get(CommonConstants.CATEGORY);
 		String cardCategoryValue = criterias.get(CommonConstants.CARD_CATEGORY);
 		String titleValue = criterias.get(CommonConstants.TITLE);
@@ -177,6 +183,13 @@ public class CardManagerServiceImpl implements CardManagerService {
 				queryString.append("where c.bank.id in (" + bankValue + ")");
 			} else {
 				queryString.append(" and c.bank.id in (" + bankValue + ")");
+			}
+		}
+		if (!StringUtils.isEmpty(cardTypeValue)) {
+			if (!queryString.toString().contains("where")) {
+				queryString.append("where c.cardType.id in (" + cardTypeValue + ")");
+			} else {
+				queryString.append(" and c.cardType.id in (" + cardTypeValue + ")");
 			}
 		}
 		if (!StringUtils.isEmpty(titleValue)) {
@@ -211,6 +224,11 @@ public class CardManagerServiceImpl implements CardManagerService {
 	@Override
 	public List<Card> listAllCardsByTitle(String title) {
 		return cardDao.listAllCardsByTitle(title);
+	}
+
+	@Override
+	public Card getCardByTitle(String title) {
+		return cardDao.getCardByTitle(title);
 	}
 
 }

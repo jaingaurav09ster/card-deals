@@ -21,7 +21,7 @@
 
 <div class="col-sm-9 col-md-9 main-content">
 	<h3>
-		My Profile
+		Personal Information
 	</h3>
 	<hr>
 	<div class="panel panel-default">

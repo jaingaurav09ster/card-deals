@@ -72,6 +72,11 @@ public class User extends AbstractEntity {
 	@Column(name = "ENABLED")
 	private boolean enabled;
 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "USER_CARD_MAP", joinColumns = { @JoinColumn(name = "USER_ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "CARD_ID") })
+	private Set<Card> cards;
+
 	public User() {
 		super();
 		this.enabled = false;
@@ -277,6 +282,21 @@ public class User extends AbstractEntity {
 	 */
 	public void setBank(Bank bank) {
 		this.bank = bank;
+	}
+
+	/**
+	 * @return the cards
+	 */
+	public Set<Card> getCards() {
+		return cards;
+	}
+
+	/**
+	 * @param cards
+	 *            the cards to set
+	 */
+	public void setCards(Set<Card> cards) {
+		this.cards = cards;
 	}
 
 }

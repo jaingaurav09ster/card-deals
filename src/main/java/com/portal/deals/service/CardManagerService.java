@@ -13,6 +13,8 @@ public interface CardManagerService {
 	List<Card> listAllCards();
 
 	Card getCardById(Integer id);
+	
+	Card getCardByTitle(String title);
 
 	String getCardName(Integer id);
 
@@ -35,5 +37,7 @@ public interface CardManagerService {
 	Map<Integer, Long> getCountByCardCategory();
 
 	Map<Integer, Long> getCountByBank();
+
+	Map<Integer, Long> getCountByCardType();
 
 }
